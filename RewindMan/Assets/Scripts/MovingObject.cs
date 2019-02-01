@@ -2,71 +2,89 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class MovingObject : MonoBehaviour
+public class MovingObject : RecordedObject
 {
-    new protected Rigidbody rigidbody;
-    protected Record.State state;
-    protected float time = 0f;
-    private Recording recording = new Recording();
 
-    private void Start()
+    public float speed = 10f;
+    public Vector3 distance = new Vector3(10f,0,0);
+    private Vector3 APoint;
+    private Vector3 BPoint;
+    private bool right = true;
+
+    protected override void Start()
     {
-        rigidbody = GetComponent<Rigidbody>();
-        state = Record.State.STILL;
-        time = 0f;
-        recording.Add(new Record(-0.1f, state, transform.position, transform.rotation));
-    }
-    
-    void FixedUpdate()
-    {
-        if (Input.GetKey(KeyCode.Q)) BackWard();
-        else Forward();
+        base.Start();
+        APoint = transform.position;
+        BPoint = transform.position + distance;
+        StateChange(Record.State.RIGHT); // TO BPoint
     }
 
-    void Forward()
+    protected override void ActForWard()
     {
-        rigidbody.isKinematic = false;
-        time += Time.deltaTime;
-        ActForWard();
-        SimulatedCheck();
+        Vector3 go = new Vector3(0, 0, 0);
+        float step = speed * Time.deltaTime;
+        Record.State newState = Record.State.STILL;
+        if (right)
+        {
+            if ((BPoint - transform.position).magnitude > step)
+            {
+                go = distance.normalized * speed * Time.deltaTime;
+                newState = Record.State.RIGHT;
+            } else
+            {
+                go = (BPoint - transform.position);
+                newState = Record.State.LEFT;
+                right = false;
+            }
+        }
+        else
+        {
+            if ((APoint - transform.position).magnitude > step)
+            {
+                go = -distance.normalized * speed * Time.deltaTime;
+                newState = Record.State.LEFT;
+            }
+            else
+            {
+                go = (APoint - transform.position);
+                newState = Record.State.RIGHT;
+                right = true;
+            }
+        }
+        rigidbody.MovePosition(transform.position + go);
+        StateChange(newState);
     }
 
-    void BackWard()
+    protected override void ActBackWard(Record record)
     {
-        rigidbody.isKinematic = true;
-        Record record = recording.Get(time);
+        Vector3 go = new Vector3(0, 0, 0);
+        float step = speed * Time.deltaTime;
         state = record.state;
-        ActBackWard(record);
-        time -= Time.deltaTime;
-        if (time < 0f) time = 0f;
-    }
-    
-    protected void StateChange(Record.State state)
-    {
-        if (state != this.state || state == Record.State.SIMULATED)
+        if (record.state == Record.State.LEFT)
         {
-            recording.Add(new Record(time, state, transform.position, transform.rotation));
+            if ((BPoint - transform.position).magnitude > step)
+            {
+                go = distance.normalized * speed * Time.deltaTime;
+            }
+            else
+            {
+                go = (BPoint - transform.position);
+            }
+            right = false;
         }
-        this.state = state;
-    }
-
-    private void SimulatedCheck()
-    {
-        if (rigidbody.velocity.sqrMagnitude > 0.001f)
+        else if (record.state == Record.State.RIGHT)
         {
-            StateChange(Record.State.SIMULATED);
+            if ((APoint - transform.position).magnitude > step)
+            {
+                go = -distance.normalized * speed * Time.deltaTime;
+            }
+            else
+            {
+                go = (APoint - transform.position);
+            }
+            right = true;
         }
-    }
-
-    protected virtual void ActForWard() { StateChange(Record.State.STILL); }
-
-    protected virtual void ActBackWard(Record record)
-    {
-        if (state == Record.State.SIMULATED || state == Record.State.STILL)
-        {
-            transform.position = record.position;
-            transform.rotation = record.rotation;
-        }
+        rigidbody.MovePosition(transform.position + go);
+        base.ActBackWard(record);
     }
 }

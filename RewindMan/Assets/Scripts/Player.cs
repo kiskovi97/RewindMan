@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Player : MovingObject
+public class Player : RecordedObject
 {
     public float speed = 10f;
 
@@ -9,7 +9,7 @@ public class Player : MovingObject
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            rigidbody.AddForce(new Vector3(0, 3f, 0)*speed, ForceMode.Impulse);
+            rigidbody.AddForce(new Vector3(0, 1.5f, 0)*speed, ForceMode.Impulse);
         } else if (Input.GetKey(KeyCode.A))
         {
             rigidbody.MovePosition(transform.position + new Vector3(-1f, 0, 0) * Time.deltaTime * speed);
