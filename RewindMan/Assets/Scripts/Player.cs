@@ -4,10 +4,13 @@ using System.Collections;
 public class Player : RecordedObject
 {
     public float speed = 10f;
-
+    private float distToGround = 0.5f; 
+    private bool IsGrounded()  {
+         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+    }
     protected override void ActForWard()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             rigidbody.AddForce(new Vector3(0, 1.5f, 0)*speed, ForceMode.Impulse);
         } else if (Input.GetKey(KeyCode.A))
