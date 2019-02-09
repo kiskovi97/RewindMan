@@ -267,8 +267,9 @@ GameObject:
   - component: {fileID: 471253798}
   - component: {fileID: 471253797}
   - component: {fileID: 471253796}
+  - component: {fileID: 471253800}
   m_Layer: 0
-  m_Name: Cube (6)
+  m_Name: GamOver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -282,11 +283,11 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471253795}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 1, y: 11.647988, z: 1.6142136}
+  m_Center: {x: 0, y: -5.3239937, z: -0.025816862}
 --- !u!23 &471253797
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -294,7 +295,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471253795}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -340,12 +341,24 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 471253795}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 18.77, y: -4.39, z: 0}
-  m_LocalScale: {x: 93.55169, y: 0.54074895, z: 3.1833258}
+  m_LocalPosition: {x: 18.77, y: -2.54, z: 0}
+  m_LocalScale: {x: 93.55169, y: 0.113138, z: 3.1833258}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &471253800
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 471253795}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b181ee9458ffff1499b4f65a2b3161e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &528382824
 GameObject:
   m_ObjectHideFlags: 0
