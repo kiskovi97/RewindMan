@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using FixedPointy;
 
 [RequireComponent(typeof(FixCollider))]
@@ -7,27 +7,23 @@ public class PhysicalObject : MonoBehaviour
 {
     new public FixCollider collider;
     public FixVec3 position = FixVec3.Zero;
-    public FixVec3 Velocity
-    {
-        get
-        {
-            FixTrans3 rotate = FixTrans3.MakeRotationZ(angle);
-            return (rotate * FixVec3.UnitX) * speed;
-        }
-    }
-    
-    public Fix speed = Fix.Zero;
-    private Fix angle = Fix.Zero;
-    public int startingSpeed = 1;
-    public int startingAngle = 0;
+    private FixVec3 velocity = FixVec3.Zero;
+    public Vector3 startVelocity = new Vector3(0, 1, 0);
+    private PhysicRecording records = new PhysicRecording();
 
     private void Start()
     {
         collider = GetComponent<FixCollider>();
 
         position = FixConverter.ToFixVec3(transform.position);
-        angle = startingAngle;
-        speed = startingSpeed;
+        velocity = FixConverter.ToFixVec3(startVelocity);
+        records.Add(new PhysicRecording.Record(velocity, PhysicsWorld.time));
+    }
+
+    public void SetRecord(PhysicRecording.Record record)
+    {
+        if (record != null)
+            velocity = record.velocity;
     }
 
     // Update is called once per frame
@@ -35,55 +31,47 @@ public class PhysicalObject : MonoBehaviour
     {
         if (PhysicsWorld.forward)
         {
-            position += Velocity * PhysicsWorld.deltaTime;
-            //position += PhysicsWorld.gravity * PhysicsWorld.deltaTime;
+            velocity += PhysicsWorld.gravity * PhysicsWorld.deltaTime;
+            position += velocity * PhysicsWorld.deltaTime;
         }
         else if (PhysicsWorld.backward)
         {
-            position -= Velocity * PhysicsWorld.deltaTime;
-            //position -= PhysicsWorld.gravity * PhysicsWorld.deltaTime;
+            position -= velocity * PhysicsWorld.deltaTime;
+            velocity -= PhysicsWorld.gravity * PhysicsWorld.deltaTime;
         }
         transform.position = FixConverter.ToFixVec3(position);
         collider.SetPosition(position);
     }
 
-    public void Collide(PhysicalObject other, bool first = false)
+    public bool IsCollided(PhysicalObject other)
     {
-        if (Velocity.GetMagnitude() == 0) return;
-        if (collider.Collide(other.collider))
+        return collider.Collide(other.collider);
+    }
+
+    public void CollideAll(PhysicalObject[] colliders)
+    {
+        if (colliders.Length == 0) return;
+        records.Add(new PhysicRecording.Record(velocity, PhysicsWorld.time));
+        FixVec3 N = colliders[0].collider.GetNormal(collider);
+        for (int i = 1; i < colliders.Length; i++)
         {
-            FixVec3 normal = collider.GetNormal(other.collider);
-            DrawVector(normal, Color.red);
-            Fix normalAngle = GetAngle(normal);
-
-            if (PhysicsWorld.forward)
-            {
-                Fix angleChange = normalAngle - (angle - 180);
-                angle = normalAngle + (angleChange);
-
-            }
-            if (PhysicsWorld.backward)
-            {
-                Fix angleChange = normalAngle - angle;
-                angle = normalAngle + (angleChange) - 180;
-            }
-            //DrawVector(Velocity, Color.blue);
-            //Debug.Log(angle);
-           /* if (first)
-            {
-                Fix tmp = speed;
-                speed = other.speed;
-                other.speed = tmp;
-            }*/
+            N += colliders[i].collider.GetNormal(collider);
         }
+        N = N.Normalize();
+        velocity = velocity - 2 * velocity.Dot(N) * N;
     }
 
-    Fix GetAngle(FixVec3 vector)
+    public void CollideBack()
     {
-        Fix normalAngle = FixMath.Acos(vector.X);
-        if (vector.Y < 0) normalAngle = 360 - normalAngle;
-        return normalAngle;
+        SetRecord(records.Get(PhysicsWorld.time));
     }
+
+    //Fix GetAngle(FixVec3 vector)
+    //{
+    //    Fix normalAngle = FixMath.Acos(vector.X);
+    //    if (vector.Y < 0) normalAngle = 360 - normalAngle;
+    //    return normalAngle;
+    //}
 
     void DrawVector(FixVec3 normal, Color color)
     {

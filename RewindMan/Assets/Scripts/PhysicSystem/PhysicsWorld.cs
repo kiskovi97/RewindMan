@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using FixedPointy;
 using System;
 
@@ -30,6 +30,7 @@ public class PhysicsWorld : MonoBehaviour
             forward = true;
             backward = false;
         }
+
         if (forward)
         {
             time += deltaTime;
@@ -39,10 +40,10 @@ public class PhysicsWorld : MonoBehaviour
         }
         else if (backward)
         {
-            time -= deltaTime;
             PhysicalObject[] objects = FindObjectsOfType<PhysicalObject>();
             CollisionDetectionBackWard(objects);
             MoveAll(objects);
+            time -= deltaTime;
         }
         timeFloat = (float)time;
     }
@@ -59,11 +60,13 @@ public class PhysicsWorld : MonoBehaviour
     {
         for (int i= objects.Length - 1; i>= 0; i--)
         {
+            List<PhysicalObject> collided = new List<PhysicalObject>();
             for (int j = objects.Length - 1; j >= 0; j--)
             {
                 if (i == j) continue;
-                objects[i].Collide(objects[j], i>j);
+                if (objects[i].IsCollided(objects[j])) collided.Add(objects[j]);
             }
+            objects[i].CollideAll(collided.ToArray());
         }
     }
 
@@ -71,15 +74,7 @@ public class PhysicsWorld : MonoBehaviour
     {
         for (int i = 0; i < objects.Length; i++)
         {
-            for (int j = 0; j < objects.Length; j++)
-            {
-                if (i == j) continue;
-                objects[i].Collide(objects[j], i < j);
-            }
+            objects[i].CollideBack();
         }
-    }
-
-    private void LateUpdate()
-    {
     }
 }
