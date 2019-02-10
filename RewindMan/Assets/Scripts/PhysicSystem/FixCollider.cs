@@ -4,27 +4,30 @@ using FixedPointy;
 
 public class FixCollider : MonoBehaviour
 {
-    private PhysicalObject obj;
+    private FixVec3 position;
     public float radiusFloat = 0.5f;
     public Fix radius = Fix.Zero;
 
     private void Start()
     {
         radius = FixConverter.ToFix(radiusFloat);
-        obj = GetComponent<PhysicalObject>();
     }
 
-    public FixVec3 ClosestPoint(FixVec3 from)
+    public void SetPosition(FixVec3 position)
     {
-        FixVec3 direction = from - obj.position;
-        return obj.position + direction * radius;
+        this.position = position;
     }
 
-    public void Collide(PhysicalObject other)
+    public bool Collide(FixCollider other)
     {
-        FixVec3 distance = other.position - obj.position;
-        if (distance.GetMagnitude() >= (other.collider.radius + radius))
-            return;
-        obj.velocity *= -1;
+        FixVec3 distance = other.position - position;
+        if (distance.GetMagnitude() >= (other.radius + radius))
+            return false;
+       return true;
+    }
+
+    public FixVec3 GetNormal(FixCollider other)
+    {
+        return (position - other.position).Normalize();
     }
 }
