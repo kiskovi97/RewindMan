@@ -9,10 +9,12 @@ public class PhysicRecording
     {
         public FixVec3 velocity;
         public Fix time;
-        public Record(FixVec3 velocity, Fix time)
+        public FixVec3 position;
+        public Record(FixVec3 velocity, Fix time, FixVec3 position)
         {
             this.velocity = velocity;
             this.time = time;
+            this.position = position;
         }
     }
 

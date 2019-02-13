@@ -106,6 +106,7 @@ namespace FixedPointy {
 		internal static uint SqrtULong (ulong N) {
 			ulong x = 1L << ((31 + (Fix.FRACTIONAL_BITS + 2) + 1) / 2);
 			while (true) {
+                if (x == 0) return 0;
 				ulong y = (x + N / x) >> 1;
 				if (y >= x)
 					return (uint)x;

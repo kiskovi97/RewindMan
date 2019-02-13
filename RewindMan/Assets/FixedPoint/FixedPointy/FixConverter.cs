@@ -7,7 +7,9 @@ public class FixConverter
     public static Fix ToFix(float from)
     {
         Fix tmp = (int) (from * (float) divide);
-        return tmp / divide ;
+        Fix output = tmp / divide;
+        return (FixConst)from;
+
     } 
     public static FixVec3 ToFixVec3(Vector3 from)
     {
@@ -15,6 +17,15 @@ public class FixConverter
         Fix Y = ToFix(from.y);
         Fix Z = ToFix(from.z);
         return new FixVec3(X,Y,Z);
+    }
+
+
+    public static FixVec3 ToFixVec3BigNumber(Vector3 from)
+    {
+        Fix X = (int)(from.x);
+        Fix Y = (int)(from.y);
+        Fix Z = (int)(from.z);
+        return new FixVec3(X, Y, Z);
     }
 
     public static Vector3 ToFixVec3(FixVec3 from)
