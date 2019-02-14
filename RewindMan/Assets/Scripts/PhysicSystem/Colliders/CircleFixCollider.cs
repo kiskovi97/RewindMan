@@ -6,6 +6,7 @@ public class CircleFixCollider : FixCollider
 {
     public float startingRadius = 0.5f;
     private Fix radius = Fix.Zero;
+    public bool DrawLines = false;
 
     private void Start()
     {
@@ -28,7 +29,16 @@ public class CircleFixCollider : FixCollider
         if (CollidePoint(pointA)) return true;
         if (CollidePoint(pointB)) return true;
         Fix dist = HelpFixMath.PointLineDistance(position, pointA, pointB);
-        return dist < radius;
+        if (FixMath.Abs(dist) < radius)
+        {
+            if (DrawLines)
+            {
+                Debug.DrawLine(FixConverter.ToFixVec3(pointA), FixConverter.ToFixVec3(position), Color.yellow);
+                Debug.DrawLine(FixConverter.ToFixVec3(pointB), FixConverter.ToFixVec3(position), Color.yellow);
+
+            }
+        }
+        return FixMath.Abs(dist) < radius;
     }
 
     public override FixVec3 GetNormal(FixCollider other)

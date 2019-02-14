@@ -10,6 +10,7 @@ public class PhysicalObject : MonoBehaviour
     // Initial Values
     public Vector3 startVelocity = new Vector3(0, 1, 0);
     public bool isStatic = false;
+    public bool DrawVectors = false;
 
     // Other Physical Objects Need It
     public FixCollider fixCollider;
@@ -53,7 +54,8 @@ public class PhysicalObject : MonoBehaviour
         if (isStatic) return;
 
         velocity += forces.GetSumForces() * FixWorld.deltaTime;
-
+        DrawVector(forces.GetSumForces(), Color.blue);
+        DrawVector(velocity, Color.green);
         position += velocity * FixWorld.deltaTime;
         transform.position = FixConverter.ToFixVec3(position);
         fixCollider.SetPosition(position);
@@ -107,6 +109,7 @@ public class PhysicalObject : MonoBehaviour
             // Position correction for all objects
             FixVec3 Something = collidedeObjects[i].fixCollider.GetIntersection(fixCollider);
             position += Something * 4 / 5;
+            DrawVector(collidedeObjects[i].position - position, Color.red);
         }
 
         // Static Collide
@@ -132,6 +135,7 @@ public class PhysicalObject : MonoBehaviour
 
     void DrawVector(FixVec3 normal, Color color)
     {
+        if (!DrawVectors) return;
         Vector3 normalFloat = FixConverter.ToFixVec3(normal);
         Debug.DrawLine(transform.position, transform.position + normalFloat, color, Time.fixedDeltaTime, false);
     }

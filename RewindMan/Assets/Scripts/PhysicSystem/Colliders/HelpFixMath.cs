@@ -7,8 +7,9 @@ public class HelpFixMath
     public static Fix PointLineDistance(FixVec3 Point, FixVec3 LineA, FixVec3 LineB)
     {
         FixVec3 UL = (LineB - LineA).Normalize();
+        FixVec3 paralellVector = new FixVec3(-UL.Y, UL.X, UL.Z);
         FixVec3 W = Point - LineA;
-        return UL.Dot(W);
+        return paralellVector.Dot(W);
     }
 
     public static bool OnSegment(FixVec3 p, FixVec3 q, FixVec3 r)

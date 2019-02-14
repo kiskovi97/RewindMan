@@ -9,6 +9,7 @@ public class RotatableBoxFixCollider : FixCollider
     private FixVec3 scale = FixVec3.Zero;
     private FixTrans3 rotateMatrix = FixTrans3.Identity;
     private FixTrans3 inverseRotateMatrix = FixTrans3.Identity;
+    public bool DrawLines = false;
 
     private void Start()
     {
@@ -28,7 +29,7 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return rotateMatrix * (position + FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
+            return position + rotateMatrix * (FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
         }
     }
 
@@ -36,7 +37,7 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return rotateMatrix * (position + FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
+            return position + rotateMatrix * (FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
         }
     }
 
@@ -44,7 +45,7 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return rotateMatrix * (position - FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
+            return position + rotateMatrix * (- FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
         }
     }
 
@@ -52,14 +53,14 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return rotateMatrix * (position - FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
+            return position + rotateMatrix * (- FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
         }
     }
 
     public override bool Collide(FixCollider other)
     {
-        FixVec3 direction = other.GetPosition() - position;
-        direction = rotateMatrix * direction;
+        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - position);
+        direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
         if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
         {
             return other.CollideSegment(LeftUp, RightUp);
