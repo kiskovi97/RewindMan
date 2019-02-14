@@ -35,4 +35,14 @@ public class FixCollider : MonoBehaviour
     {
         return (other.position - position).Normalize();
     }
+
+    public virtual FixVec3 GetIntersection(FixCollider other)
+    {
+        return (other.position - position);
+    }
+
+    public virtual FixVec3 GetIntersectionFromPoint(FixVec3 point)
+    {
+        return (point - position);
+    }
 }

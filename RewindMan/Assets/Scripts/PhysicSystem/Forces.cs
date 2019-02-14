@@ -20,6 +20,7 @@ public class Forces
     {
         FixVec3 force = FixVec3.Zero;
         foreach (FixVec3 impulse in impulses) force += impulse;
+        force += FixWorld.gravity;
         return force;
     }
     

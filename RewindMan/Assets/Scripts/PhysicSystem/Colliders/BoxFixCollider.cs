@@ -103,4 +103,30 @@ public class BoxFixCollider : FixCollider
         }
         return FixVec3.UnitX * -1;
     }
+
+    public override FixVec3 GetIntersection(FixCollider other)
+    {
+        FixVec3 pos = other.GetPosition();
+        FixVec3 direction = other.GetPosition() - position;
+        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
+        {
+            return GetIntersectionFromPoint(new FixVec3(pos.X, LeftUp.Y, pos.Z));
+        }
+        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y < 0)
+        {
+            return GetIntersectionFromPoint(new FixVec3(pos.X, LeftDown.Y, pos.Z));
+        }
+        if (FixMath.Abs(direction.Y) <= FixMath.Abs(direction.X) && direction.X > 0)
+        {
+            return GetIntersectionFromPoint(new FixVec3(RightDown.X, pos.Y, pos.Z));
+        }
+        return GetIntersectionFromPoint(new FixVec3(LeftDown.X, pos.Y, pos.Z));
+    }
+
+    public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint)
+    {
+        /**
+         * TODO */
+        return FixVec3.Zero;
+    }
 }

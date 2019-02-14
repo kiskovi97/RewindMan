@@ -3,21 +3,51 @@ using System.Collections.Generic;
 using FixedPointy;
 using System;
 
-public class PhysicsWorld : MonoBehaviour
+public class FixWorld : MonoBehaviour
 {
+    // PhysicalObjects And Or Forces need it
     public static Fix time = Fix.Zero;
     public static FixVec3 gravity = FixVec3.Zero;
-    public Vector3 starGravity = new Vector3(0, 0, 0);
-    public float timeFloat = 0f;
     public static Fix deltaTime;
-    public static volatile bool forward = true;
-    public static volatile bool backward = false;
+
+    // Initial values
+    public Vector3 starGravity = new Vector3(0, 0, 0);
+
+    // Inner state
+    private static volatile bool forward = true;
+    private static volatile bool backward = false;
+    private PhysicalObject[] objects;
+
     public void Start()
     {
         deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
         gravity = FixConverter.ToFixVec3(starGravity);
+        objects = FindObjectsOfType<PhysicalObject>();
     }
+
+    public static FixVec3 GravitySizeVector(FixVec3 vector)
+    {
+        return vector.Normalize() * gravity.GetMagnitude();
+    }
+
     private void FixedUpdate()
+    {
+        InputCheck();
+        if (forward)
+        {
+            time += deltaTime;
+            MoveAll();
+            CollisionDetection();
+        }
+        else if (backward)
+        {
+            CollisionDetectionBackWard();
+            MoveAllBack();
+            time -= deltaTime;
+        }
+    }
+
+    private void InputCheck()
     {
         if (Input.GetKey(KeyCode.Q))
         {
@@ -30,25 +60,9 @@ public class PhysicsWorld : MonoBehaviour
             forward = true;
             backward = false;
         }
-
-        if (forward)
-        {
-            time += deltaTime;
-            PhysicalObject[] objects = FindObjectsOfType<PhysicalObject>();
-            MoveAll(objects);
-            CollisionDetection(objects);
-        }
-        else if (backward)
-        {
-            PhysicalObject[] objects = FindObjectsOfType<PhysicalObject>();
-            CollisionDetectionBackWard(objects);
-            MoveAll(objects);
-            time -= deltaTime;
-        }
-        timeFloat = (float)time;
     }
 
-    private void MoveAll(PhysicalObject[] objects)
+    private void MoveAll()
     {
         for (int i = 0; i < objects.Length; i++)
         {
@@ -56,7 +70,15 @@ public class PhysicsWorld : MonoBehaviour
         }
     }
 
-    private void CollisionDetection(PhysicalObject[] objects)
+    private void MoveAllBack()
+    {
+        for (int i = 0; i < objects.Length; i++)
+        {
+            objects[i].MoveBackwards();
+        }
+    }
+
+    private void CollisionDetection()
     {
         for (int i= objects.Length - 1; i>= 0; i--)
         {
@@ -66,11 +88,11 @@ public class PhysicsWorld : MonoBehaviour
                 if (i == j) continue;
                 if (objects[i].IsCollided(objects[j])) collided.Add(objects[j]);
             }
-            objects[i].CollideAll(collided.ToArray());
+            objects[i].Collide(collided.ToArray());
         }
     }
 
-    private void CollisionDetectionBackWard(PhysicalObject[] objects)
+    private void CollisionDetectionBackWard()
     {
         for (int i = 0; i < objects.Length; i++)
         {

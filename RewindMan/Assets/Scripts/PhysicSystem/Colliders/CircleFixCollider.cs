@@ -35,4 +35,21 @@ public class CircleFixCollider : FixCollider
     {
         return (other.GetPosition() - position).Normalize();
     }
+
+    public override FixVec3 GetIntersection(FixCollider other)
+    {
+        FixVec3 myPoint = GetPoint(other.GetPosition() - position);
+        return other.GetIntersectionFromPoint(myPoint);
+    }
+    
+    public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint)
+    {
+        FixVec3 myPoint = GetPoint(otherPoint - position);
+        return (otherPoint - myPoint);
+    }
+
+    FixVec3 GetPoint(FixVec3 direction)
+    {
+        return (position + direction.Normalize() * radius);
+    }
 }
