@@ -15,6 +15,40 @@ public class FixPlayer : MonoBehaviour
 
     public void KeyCheck()
     {
+        ByMovePosition();
+    }
+
+    void ByMovePosition()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                fixObject.AddToSpeed(new FixVec3(speed, speed * 5, 0));
+            }
+            else if (Input.GetKey(KeyCode.A))
+            {
+                fixObject.AddToSpeed(new FixVec3(-speed, speed * 5, 0));
+            }
+            else fixObject.AddToSpeed(new FixVec3(0, speed * 5, 0));
+        } else
+        {
+            if (Input.GetKey(KeyCode.D))
+            {
+                fixObject.AddToSpeed(new FixVec3(speed / 5, 0, 0));
+                fixObject.MovePosition(new FixVec3(speed, 0, 0));
+            }
+            if (Input.GetKey(KeyCode.A))
+            {
+                fixObject.AddToSpeed(new FixVec3(-speed / 5, 0, 0));
+                fixObject.MovePosition(new FixVec3(-speed, 0, 0));
+            }
+        }
+
+    }
+
+    void ByForce()
+    {
         if (Input.GetKeyDown(KeyCode.D))
         {
             fixObject.AddForce(new FixVec3(speed, 0, 0));
@@ -33,12 +67,41 @@ public class FixPlayer : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            fixObject.AddForce(new FixVec3(0,  3 * speed, 0));
+            fixObject.AddForce(new FixVec3(0, speed, 0));
         }
         if (Input.GetKeyUp(KeyCode.Space))
         {
-            fixObject.AddForce(new FixVec3(0, -3 * speed, 0));
+            fixObject.AddForce(new FixVec3(0, speed, 0));
         }
         Debug.Log(fixObject.forces.GetSumForces());
+
+    }
+
+    void BySpeed()
+    {
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            fixObject.AddToSpeed(new FixVec3(speed, 0, 0));
+        }
+        if (Input.GetKeyUp(KeyCode.D))
+        {
+            fixObject.AddToSpeed(new FixVec3(-speed, 0, 0));
+        }
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            fixObject.AddToSpeed(new FixVec3(-speed, 0, 0));
+        }
+        if (Input.GetKeyUp(KeyCode.A))
+        {
+            fixObject.AddToSpeed(new FixVec3(speed, 0, 0));
+        }
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            fixObject.AddToSpeed(new FixVec3(0, 3 * speed, 0));
+        }
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            fixObject.AddToSpeed(new FixVec3(0, -3 * speed, 0));
+        }
     }
 }

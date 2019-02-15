@@ -6,6 +6,7 @@ using FixedPointy;
 public class FixObject : MonoBehaviour
 {
     private Fix frictionCoefficient;
+    private bool hasCollided = false;
 
     // Initial Values
     public Vector3 startVelocity = new Vector3(0, 1, 0);
@@ -41,10 +42,27 @@ public class FixObject : MonoBehaviour
         forces.AddForce(FixWorld.gravity);
     }
 
+    public void MovePosition(FixVec3 speed)
+    {
+        if (hasCollided)
+        {
+            position += speed * FixWorld.deltaTime;
+        }
+    }
+
     public void AddForce(FixVec3 force)
     {
         forces.AddForce(force);
         records.AddForceChange(force, FixWorld.time);
+    }
+
+    public void AddToSpeed(FixVec3 speed)
+    {
+        if (hasCollided)
+        {
+            records.Add(velocity, FixWorld.time, position);
+            velocity += speed;
+        }
     }
 
     public void Move()
@@ -60,6 +78,7 @@ public class FixObject : MonoBehaviour
 
         forces.Clear();
         savedVelocity = velocity;
+        hasCollided = false;
     }
 
     public void MoveBackwards()
@@ -86,6 +105,7 @@ public class FixObject : MonoBehaviour
         if (isStatic) return;
         if (collidedeObjects.Length != 0)
         {
+            hasCollided = true;
             records.Add(velocity, FixWorld.time, position);
             ReactToCollide(collidedeObjects);
         }
@@ -135,7 +155,7 @@ public class FixObject : MonoBehaviour
                 position += Something * 4 / 5;
             } else
             {
-                position += Something * 1 / 5;
+                position += Something * 1 / 2;
             }
             DrawVector(collidedeObjects[i].position - position, Color.red);
         }

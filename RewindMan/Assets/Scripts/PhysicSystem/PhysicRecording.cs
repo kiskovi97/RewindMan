@@ -52,9 +52,16 @@ public class PhysicRecording
             records.Pop();
             last = records.Peek();
         }
-        if (last.time == time)
+        Record output = last;
+        while (last != null && last.time == time)
         {
-            return last;
+            output = records.Pop();
+            last = records.Peek();
+        }
+        if (last == null) records.Push(output);
+        if (output.time == time)
+        {
+            return output;
         }
         return null;
     }
