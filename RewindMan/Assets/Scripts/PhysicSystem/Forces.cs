@@ -6,6 +6,14 @@ public class Forces
 {
     private List<FixVec3> impulses = new List<FixVec3>();
 
+    private FixVec3 sumForce;
+    
+
+    public void AddForce(FixVec3 force)
+    {
+        sumForce += force;
+    }
+
     public void Clear()
     {
         impulses.Clear();
@@ -20,7 +28,7 @@ public class Forces
     {
         FixVec3 force = FixVec3.Zero;
         foreach (FixVec3 impulse in impulses) force += impulse;
-        force += FixWorld.gravity;
+        force += sumForce;
         return force;
     }
     

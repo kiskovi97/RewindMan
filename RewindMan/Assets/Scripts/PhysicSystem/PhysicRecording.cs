@@ -18,11 +18,30 @@ public class PhysicRecording
         }
     }
 
-    private Stack<Record> records = new Stack<Record>();
-
-    public void Add(Record record)
+    public class ForceRecord
     {
+        public FixVec3 force;
+        public Fix time;
+        public ForceRecord(FixVec3 force, Fix time)
+        {
+            this.force = force;
+            this.time = time;
+        }
+    }
+
+    private Stack<Record> records = new Stack<Record>();
+    private Stack<ForceRecord> forceRecords = new Stack<ForceRecord>();
+
+    public void Add(FixVec3 velocity, Fix time, FixVec3 position)
+    {
+        Record record = new Record(velocity, time, position);
         records.Push(record);
+    }
+
+    public void AddForceChange(FixVec3 force, Fix time)
+    {
+        ForceRecord record = new ForceRecord(force, time);
+        forceRecords.Push(record);
     }
 
     public Record Get(Fix time)
@@ -32,6 +51,23 @@ public class PhysicRecording
         {
             records.Pop();
             last = records.Peek();
+        }
+        if (last.time == time)
+        {
+            return last;
+        }
+        return null;
+    }
+
+    public ForceRecord GetForceChange(Fix time)
+    {
+        if (forceRecords.Count == 0) return null;
+        ForceRecord last = forceRecords.Peek();
+        while (last.time > time)
+        {
+            forceRecords.Pop();
+            if (forceRecords.Count == 0) return null;
+            last = forceRecords.Peek();
         }
         if (last.time == time)
         {

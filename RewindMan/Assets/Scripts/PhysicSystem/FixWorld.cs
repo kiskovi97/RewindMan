@@ -10,19 +10,22 @@ public class FixWorld : MonoBehaviour
     public static FixVec3 gravity = FixVec3.Zero;
     public static Fix deltaTime;
 
-    // Initial values
-    public Vector3 starGravity = new Vector3(0, 0, 0);
-
     // Inner state
     private static volatile bool forward = true;
     private static volatile bool backward = false;
-    private PhysicalObject[] objects;
+    private FixObject[] objects;
+    private FixPlayer player;
+
+    public void Awake()
+    {
+        gravity = FixConverter.ToFixVec3(Physics.gravity);
+    }
 
     public void Start()
     {
         deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
-        gravity = FixConverter.ToFixVec3(starGravity);
-        objects = FindObjectsOfType<PhysicalObject>();
+        objects = FindObjectsOfType<FixObject>();
+        player = FindObjectOfType<FixPlayer>();
     }
 
     public static FixVec3 GravitySizeVector(FixVec3 vector)
@@ -44,6 +47,14 @@ public class FixWorld : MonoBehaviour
             CollisionDetectionBackWard();
             MoveAllBack();
             time -= deltaTime;
+        }
+    }
+
+    private void Update()
+    {
+        if (forward)
+        {
+            player.KeyCheck();
         }
     }
 
@@ -82,7 +93,7 @@ public class FixWorld : MonoBehaviour
     {
         for (int i= objects.Length - 1; i>= 0; i--)
         {
-            List<PhysicalObject> collided = new List<PhysicalObject>();
+            List<FixObject> collided = new List<FixObject>();
             for (int j = objects.Length - 1; j >= 0; j--)
             {
                 if (i == j) continue;

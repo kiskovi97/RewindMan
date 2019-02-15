@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using FixedPointy;
 
 [RequireComponent(typeof(FixCollider))]
-public class PhysicalObject : MonoBehaviour
+public class FixObject : MonoBehaviour
 {
     private Fix frictionCoefficient;
 
@@ -19,7 +19,7 @@ public class PhysicalObject : MonoBehaviour
     // Inner state
     private FixVec3 position = FixVec3.Zero;
     private FixVec3 velocity = FixVec3.Zero;
-    private Forces forces = new Forces();
+    public Forces forces = new Forces();
 
     private PhysicRecording records = new PhysicRecording();
 
@@ -33,22 +33,20 @@ public class PhysicalObject : MonoBehaviour
 
         velocity = FixConverter.ToFixVec3(startVelocity);
 
-        records.Add(new PhysicRecording.Record(velocity, FixWorld.time, position));
+        records.Add(velocity, FixWorld.time, position);
 
         frictionCoefficient = FixConverter.ToFix(0.98f);
+        forces = new Forces();
         forces.Clear();
+        forces.AddForce(FixWorld.gravity);
     }
 
-    public void SetRecord(PhysicRecording.Record record)
+    public void AddForce(FixVec3 force)
     {
-        if (record != null)
-        {
-            velocity = record.velocity;
-            position = record.position;
-        }
+        forces.AddForce(force);
+        records.AddForceChange(force, FixWorld.time);
     }
 
-    // Update is called once per frame
     public void Move()
     {
         if (isStatic) return;
@@ -78,22 +76,46 @@ public class PhysicalObject : MonoBehaviour
         savedVelocity = velocity;
     }
 
-    public bool IsCollided(PhysicalObject other)
+    public bool IsCollided(FixObject other)
     {
         return fixCollider.Collide(other.fixCollider);
     }
 
-    public void Collide(PhysicalObject[] collidedeObjects)
+    public void Collide(FixObject[] collidedeObjects)
     {
         if (isStatic) return;
         if (collidedeObjects.Length != 0)
         {
-            records.Add(new PhysicRecording.Record(velocity, FixWorld.time, position));
+            records.Add(velocity, FixWorld.time, position);
             ReactToCollide(collidedeObjects);
         }
     }
 
-    void ReactToCollide(PhysicalObject[] collidedeObjects)
+    public void CollideBack()
+    {
+        SetRecord(records.Get(FixWorld.time));
+        SetForceRecord(records.GetForceChange(FixWorld.time));
+
+    }
+
+    public void SetRecord(PhysicRecording.Record record)
+    {
+        if (record != null)
+        {
+            velocity = record.velocity;
+            position = record.position;
+        }
+    }
+
+    public void SetForceRecord(PhysicRecording.ForceRecord record)
+    {
+        if (record != null)
+        {
+            forces.AddForce(record.force * - 1);
+        }
+    }
+
+    void ReactToCollide(FixObject[] collidedeObjects)
     {
         // Non static Collide
         for (int i = 0; i < collidedeObjects.Length; i++)
@@ -108,7 +130,13 @@ public class PhysicalObject : MonoBehaviour
             }
             // Position correction for all objects
             FixVec3 Something = collidedeObjects[i].fixCollider.GetIntersection(fixCollider);
-            position += Something * 4 / 5;
+            if (collidedeObjects[i].isStatic)
+            {
+                position += Something * 4 / 5;
+            } else
+            {
+                position += Something * 1 / 5;
+            }
             DrawVector(collidedeObjects[i].position - position, Color.red);
         }
 
@@ -126,11 +154,6 @@ public class PhysicalObject : MonoBehaviour
             }
         }
 
-    }
-
-    public void CollideBack()
-    {
-        SetRecord(records.Get(FixWorld.time));
     }
 
     void DrawVector(FixVec3 normal, Color color)
