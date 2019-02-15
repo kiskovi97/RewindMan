@@ -46,7 +46,9 @@ public class FixObject : MonoBehaviour
     {
         if (hasCollided)
         {
+            records.Add(velocity, FixWorld.time, position);
             position += speed * FixWorld.deltaTime;
+            velocity = (velocity + speed )/ 2;
         }
     }
 
@@ -61,7 +63,7 @@ public class FixObject : MonoBehaviour
         if (hasCollided)
         {
             records.Add(velocity, FixWorld.time, position);
-            velocity += speed;
+            velocity = speed;
         }
     }
 

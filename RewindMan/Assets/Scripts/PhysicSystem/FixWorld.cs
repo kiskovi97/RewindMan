@@ -10,6 +10,8 @@ public class FixWorld : MonoBehaviour
     public static FixVec3 gravity = FixVec3.Zero;
     public static Fix deltaTime;
 
+    public float timeOut = 0f;
+
     // Inner state
     private static volatile bool forward = true;
     private static volatile bool backward = false;
@@ -48,6 +50,7 @@ public class FixWorld : MonoBehaviour
             MoveAllBack();
             time -= deltaTime;
         }
+        timeOut = (float)time;
     }
 
     private void Update()
