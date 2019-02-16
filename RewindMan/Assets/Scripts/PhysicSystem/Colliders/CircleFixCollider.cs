@@ -49,10 +49,10 @@ public class CircleFixCollider : FixCollider
     public override FixVec3 GetIntersection(FixCollider other)
     {
         FixVec3 myPoint = GetPoint(other.GetPosition() - position);
-        return other.GetIntersectionFromPoint(myPoint);
+        return other.GetIntersectionFromPoint(myPoint, other.GetPosition() - position);
     }
     
-    public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint)
+    public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint, FixVec3 dir)
     {
         FixVec3 myPoint = GetPoint(otherPoint - position);
         return (otherPoint - myPoint);

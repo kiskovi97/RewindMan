@@ -60,6 +60,7 @@ public class RotatableBoxFixCollider : FixCollider
     public override bool Collide(FixCollider other)
     {
         FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - position);
+
         direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
         if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
         {
@@ -82,14 +83,17 @@ public class RotatableBoxFixCollider : FixCollider
         Fix XPos = FixMath.Abs(realPoint.X);
         Fix YPos = FixMath.Abs(realPoint.Y);
 
-        return (XPos < scale.X / 2) && (YPos < scale.Y / 2);
+        return (XPos <= scale.X / 2) && (YPos <= scale.Y / 2);
     }
 
     public override bool CollideSegment(FixVec3 pointA, FixVec3 pointB)
     {
+        if ((pointA - position).GetMagnitude() > (scale.X + scale.Y) &&
+            (pointB - position).GetMagnitude() > (scale.X + scale.Y)) return false;
         // Optimalization, if its in there Do Not Check Intersect
         if (CollidePoint(pointA)) return true;
         if (CollidePoint(pointB)) return true;
+        
 
         return HelpFixMath.DoIntersect(pointA, pointB, LeftDown, LeftUp) ||
             HelpFixMath.DoIntersect(pointA, pointB, LeftDown, RightDown) ||
@@ -125,27 +129,43 @@ public class RotatableBoxFixCollider : FixCollider
         if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
         {
             FixVec3 realPoint = ConvertToRealWorld(new FixVec3(pos.X, scale.Y / 2, pos.Z));
-            return other.GetIntersectionFromPoint(realPoint);
+            return other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitY);
         }
         if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y < 0)
         {
             FixVec3 realPoint = ConvertToRealWorld(new FixVec3(pos.X, -scale.Y / 2, pos.Z));
-            return other.GetIntersectionFromPoint(realPoint);
+            return other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitY * -1);
         }
         if (FixMath.Abs(direction.Y) <= FixMath.Abs(direction.X) && direction.X > 0)
         {
             FixVec3 realPoint = ConvertToRealWorld(new FixVec3(scale.X / 2, pos.Y, pos.Z));
-            return other.GetIntersectionFromPoint(realPoint);
+            return other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitX);
         }
         FixVec3 realPoint2 = ConvertToRealWorld(new FixVec3(-scale.X / 2, pos.Y, pos.Z));
-        return other.GetIntersectionFromPoint(realPoint2);
+        return other.GetIntersectionFromPoint(realPoint2, rotateMatrix * FixVec3.UnitX * -1);
     }
 
-    public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint)
+    public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint, FixVec3 dir)
     {
-        /**
-         * TODO */
-        return FixVec3.Zero;
+        FixVec3 pos = ConvertToInner(otherPoint);
+        FixVec3 direction = new FixVec3(dir.X * scale.Y, dir.Y * scale.X, dir.Z) * -1;
+        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
+        {
+            FixVec3 realPoint = ConvertToRealWorld(new FixVec3(pos.X, scale.Y / 2, pos.Z));
+            return otherPoint - realPoint;
+        }
+        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y < 0)
+        {
+            FixVec3 realPoint = ConvertToRealWorld(new FixVec3(pos.X, -scale.Y / 2, pos.Z));
+            return otherPoint - realPoint;
+        }
+        if (FixMath.Abs(direction.Y) <= FixMath.Abs(direction.X) && direction.X > 0)
+        {
+            FixVec3 realPoint = ConvertToRealWorld(new FixVec3(scale.X / 2, pos.Y, pos.Z));
+            return otherPoint - realPoint;
+        }
+        FixVec3 realPoint2 = ConvertToRealWorld(new FixVec3(-scale.X / 2, pos.Y, pos.Z));
+        return otherPoint - realPoint2;
     }
 
     private FixVec3 ConvertToInner(FixVec3 point)

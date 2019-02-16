@@ -41,7 +41,7 @@ public class FixCollider : MonoBehaviour
         return (other.position - position);
     }
 
-    public virtual FixVec3 GetIntersectionFromPoint(FixVec3 point)
+    public virtual FixVec3 GetIntersectionFromPoint(FixVec3 point, FixVec3 dir)
     {
         return (point - position);
     }
