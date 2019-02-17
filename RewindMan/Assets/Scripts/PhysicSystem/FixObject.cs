@@ -46,7 +46,6 @@ public class FixObject : MonoBehaviour
         forces.Clear();
         forces.AddForce(FixWorld.gravity);
         minCollide = FixMath.Abs(FixWorld.gravity.Y) * FixWorld.deltaTime * FixWorld.deltaTime;
-        Debug.Log(minCollide);
     }
 
     public void MovePosition(FixVec3 speed)
@@ -170,10 +169,19 @@ public class FixObject : MonoBehaviour
             FixVec3 Something = collisions[i].Overlap;
             Fix length = Something.GetMagnitude();
 
-            if (length == 0) collisions[i].Overlap = collisions[i].Normal * -1;
+            if (length == 0) collisions[i].Overlap = collisions[i].Normal;
             if (length >= minCollide)
+            {
+
                 length -= minCollide;
-            else length -= length + minCollide;
+                DrawVector(Something.Normalize() * length * 10, Color.blue);
+            }
+            else
+            {
+
+                length = 0;
+                DrawVector(Something.Normalize() * length * 10, Color.magenta);
+            }
 
             Something = Something.Normalize() * length;
 

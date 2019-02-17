@@ -85,13 +85,14 @@ public class FixRecording
             last = records.Peek();
         }
         if (last == null) records.Push(output);
-        if (output.time == time)
-        {
-            return output;
-        }
         if (output.kinematic)
         {
-            output.time = time;
+            output.time = time - FixWorld.deltaTime;
+            records.Push(output);
+            return output;
+        }
+        if (output.time == time)
+        {
             return output;
         }
         return null;
