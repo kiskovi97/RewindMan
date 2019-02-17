@@ -5,12 +5,17 @@ using FixedPointy;
 [RequireComponent(typeof(FixCollider))]
 public class FixObject : MonoBehaviour
 {
+    private static int collideOverlap = 10;
+    private static Fix minCollide = new Fix(4);
     private Fix frictionCoefficient;
-    private bool hasCollided = false;
+    public int hasCollided = 0;
+
+    public int recordsNumber = 0;
 
     // Initial Values
     public Vector3 startVelocity = new Vector3(0, 1, 0);
     public bool isStatic = false;
+    private bool kinematic = false;
     public bool DrawVectors = false;
 
     // Other Physical Objects Need It
@@ -22,7 +27,7 @@ public class FixObject : MonoBehaviour
     private FixVec3 velocity = FixVec3.Zero;
     public Forces forces = new Forces();
 
-    private PhysicRecording records = new PhysicRecording();
+    private FixRecording records = new FixRecording();
 
     private void Start()
     {
@@ -34,21 +39,23 @@ public class FixObject : MonoBehaviour
 
         velocity = FixConverter.ToFixVec3(startVelocity);
 
-        records.Add(velocity, FixWorld.time, position);
+        records.Add(velocity, FixWorld.time, position, DrawVectors);
 
         frictionCoefficient = FixConverter.ToFix(0.98f);
         forces = new Forces();
         forces.Clear();
         forces.AddForce(FixWorld.gravity);
+        minCollide = FixMath.Abs(FixWorld.gravity.Y) * FixWorld.deltaTime * FixWorld.deltaTime;
+        Debug.Log(minCollide);
     }
 
     public void MovePosition(FixVec3 speed)
     {
-        if (hasCollided)
+        if (hasCollided > 0)
         {
-            records.Add(velocity, FixWorld.time, position);
+            records.Add(velocity, FixWorld.time, position, DrawVectors);
             position += speed * FixWorld.deltaTime;
-            velocity = (velocity + speed )/ 2;
+            velocity = (velocity + speed) / 2;
         }
     }
 
@@ -60,30 +67,36 @@ public class FixObject : MonoBehaviour
 
     public void AddToSpeed(FixVec3 speed)
     {
-        if (hasCollided)
+        if (hasCollided > 0)
         {
-            records.Add(velocity, FixWorld.time, position);
+            records.Add(velocity, FixWorld.time, position, DrawVectors);
             velocity = speed;
+            hasCollided = 0;
         }
     }
 
     public void Move()
     {
+        recordsNumber = records.RecordNumber();
         if (isStatic) return;
 
-        velocity += forces.GetSumForces() * FixWorld.deltaTime;
+        startVelocity = FixConverter.ToFixVec3(velocity);
         position += velocity * FixWorld.deltaTime;
         transform.position = FixConverter.ToFixVec3(position);
         fixCollider.SetPosition(position);
 
+        velocity += forces.GetSumForces() * FixWorld.deltaTime;
+
         forces.Clear();
         savedVelocity = velocity;
-        hasCollided = false;
+        hasCollided--;
+        if (hasCollided < 0) hasCollided = 0;
     }
 
     public void MoveBackwards()
     {
         if (isStatic) return;
+        if (kinematic) return;
 
         position -= velocity * FixWorld.deltaTime;
         transform.position = FixConverter.ToFixVec3(position);
@@ -91,7 +104,6 @@ public class FixObject : MonoBehaviour
 
         velocity -= forces.GetSumForces() * FixWorld.deltaTime;
 
-        forces.Clear();
         savedVelocity = velocity;
     }
 
@@ -105,33 +117,35 @@ public class FixObject : MonoBehaviour
         if (isStatic) return;
         if (collisions.Length != 0)
         {
-            hasCollided = true;
-            records.Add(velocity, FixWorld.time, position);
+            hasCollided = collideOverlap;
+            records.Add(velocity, FixWorld.time, position, DrawVectors);
             ReactToCollide(collisions);
         }
     }
 
     public void CollideBack()
     {
+        forces.Clear();
         SetRecord(records.Get(FixWorld.time));
         SetForceRecord(records.GetForceChange(FixWorld.time));
 
     }
 
-    public void SetRecord(PhysicRecording.Record record)
+    public void SetRecord(FixRecording.Record record)
     {
         if (record != null)
         {
             velocity = record.velocity;
             position = record.position;
+            kinematic = record.kinematic;
         }
     }
 
-    public void SetForceRecord(PhysicRecording.ForceRecord record)
+    public void SetForceRecord(FixRecording.ForceRecord record)
     {
         if (record != null)
         {
-            forces.AddForce(record.force * - 1);
+            forces.AddForce(record.force * -1);
         }
     }
 
@@ -142,21 +156,43 @@ public class FixObject : MonoBehaviour
         {
             if (!collisions[i].isStatic)
             {
-                FixVec3 N = collisions[i].Normal ;
+                FixVec3 N = collisions[i].Normal;
                 //velocity = FixVec3.Zero;
                 // Direction
                 velocity = velocity + FixMath.Abs(2 * velocity.Dot(N)) * N;
                 // Impulse
-                velocity = velocity / 2 + collisions[i].savedVelocity / 2;
+                velocity = velocity / 4 + collisions[i].savedVelocity / 2;
+                if (collisions[i].savedVelocity.GetMagnitude() == 0) velocity = FixVec3.Zero;
             }
             // Position correction for all objects
-            FixVec3 Something =  collisions[i].Overlap;
+
+
+            FixVec3 Something = collisions[i].Overlap;
+            Fix length = Something.GetMagnitude();
+
+            if (length == 0) collisions[i].Overlap = collisions[i].Normal * -1;
+            if (length >= minCollide)
+                length -= minCollide;
+            else length -= length + minCollide;
+
+            Something = Something.Normalize() * length;
+
             if (collisions[i].isStatic)
             {
-                position += Something * 4 / 5;
-            } else
+                position += Something;
+                DrawVector(Something, Color.magenta);
+            }
+            else
             {
-                position += Something * 1 / 2;
+                //if (savedVelocity.GetMagnitude() > collisions[i].savedVelocity.GetMagnitude())
+                if (position.Y >= collisions[i].position.Y)
+                {
+                    position += Something;
+                }
+                else
+                {
+                    DrawVector(Something, Color.black);
+                }
             }
             DrawVector(Something, Color.red);
             DrawVector(collisions[i].position - position, Color.yellow);

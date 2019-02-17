@@ -21,11 +21,11 @@ public class FixWorld : MonoBehaviour
     public void Awake()
     {
         gravity = FixConverter.ToFixVec3(Physics.gravity);
+        deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
     }
 
     public void Start()
     {
-        deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
         objects = FindObjectsOfType<FixObject>();
         player = FindObjectOfType<FixPlayer>();
     }

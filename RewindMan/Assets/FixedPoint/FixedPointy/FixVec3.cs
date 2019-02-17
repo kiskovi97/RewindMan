@@ -68,6 +68,11 @@ namespace FixedPointy {
 			return new FixVec3(lhs._x / rhs, lhs._y / rhs, lhs._z / rhs);
 		}
 
+        public bool Equals(FixVec3 other)
+        {
+            return (_x == other._x) && (_y == other._y) && (_z == other._z);
+        }
+
 		Fix _x, _y, _z;
 
 		public FixVec3 (Fix x, Fix y, Fix z) {
