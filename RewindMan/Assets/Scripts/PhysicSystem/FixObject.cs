@@ -15,10 +15,10 @@ public class FixObject : MonoBehaviour
 
     // Other Physical Objects Need It
     public FixCollider fixCollider;
-    private FixVec3 savedVelocity = FixVec3.Zero;
+    public FixVec3 savedVelocity = FixVec3.Zero;
 
     // Inner state
-    private FixVec3 position = FixVec3.Zero;
+    public FixVec3 position = FixVec3.Zero;
     private FixVec3 velocity = FixVec3.Zero;
     public Forces forces = new Forces();
 
@@ -72,8 +72,6 @@ public class FixObject : MonoBehaviour
         if (isStatic) return;
 
         velocity += forces.GetSumForces() * FixWorld.deltaTime;
-        DrawVector(forces.GetSumForces(), Color.blue);
-        DrawVector(velocity, Color.green);
         position += velocity * FixWorld.deltaTime;
         transform.position = FixConverter.ToFixVec3(position);
         fixCollider.SetPosition(position);
@@ -102,14 +100,19 @@ public class FixObject : MonoBehaviour
         return fixCollider.Collide(other.fixCollider);
     }
 
-    public void Collide(FixObject[] collidedeObjects)
+    public Collision GetCollision(FixObject other)
+    {
+        return other.fixCollider.GetCollision(fixCollider);
+    }
+
+    public void Collide(FixObject[] collidedeObjects, Collision[] collisions)
     {
         if (isStatic) return;
-        if (collidedeObjects.Length != 0)
+        if (collisions.Length != 0)
         {
             hasCollided = true;
             records.Add(velocity, FixWorld.time, position);
-            ReactToCollide(collidedeObjects);
+            ReactToCollide(collisions);
         }
     }
 
@@ -137,38 +140,40 @@ public class FixObject : MonoBehaviour
         }
     }
 
-    void ReactToCollide(FixObject[] collidedeObjects)
+    void ReactToCollide(Collision[] collisions)
     {
         // Non static Collide
-        for (int i = 0; i < collidedeObjects.Length; i++)
+        for (int i = 0; i < collisions.Length; i++)
         {
-            if (!collidedeObjects[i].isStatic)
+            if (!collisions[i].isStatic)
             {
-                FixVec3 N = collidedeObjects[i].fixCollider.GetNormal(fixCollider);
+                FixVec3 N = collisions[i].Normal ;
+                //velocity = FixVec3.Zero;
                 // Direction
                 velocity = velocity + FixMath.Abs(2 * velocity.Dot(N)) * N;
                 // Impulse
-                velocity = velocity / 2 + collidedeObjects[i].savedVelocity / 2;
+                velocity = velocity / 2 + collisions[i].savedVelocity / 2;
             }
             // Position correction for all objects
-            FixVec3 Something = collidedeObjects[i].fixCollider.GetIntersection(fixCollider);
-            if (collidedeObjects[i].isStatic)
+            FixVec3 Something =  collisions[i].Overlap;
+            if (collisions[i].isStatic)
             {
                 position += Something * 4 / 5;
             } else
             {
                 position += Something * 1 / 2;
             }
-            DrawVector(collidedeObjects[i].position - position, Color.red);
+            DrawVector(Something, Color.red);
+            DrawVector(collisions[i].position - position, Color.yellow);
         }
 
         // Static Collide
-        for (int i = 0; i < collidedeObjects.Length; i++)
+        for (int i = 0; i < collisions.Length; i++)
         {
-            if (collidedeObjects[i].isStatic)
+            if (collisions[i].isStatic)
             {
                 // Project and fricition calculate
-                FixVec3 N = collidedeObjects[i].fixCollider.GetNormal(fixCollider);
+                FixVec3 N = collisions[i].Normal;
                 FixVec3 paralellVector = new FixVec3(-N.Y, N.X, N.Z);
                 FixVec3 projectedForce = HelpFixMath.Project(velocity, paralellVector);
                 velocity = projectedForce * frictionCoefficient;

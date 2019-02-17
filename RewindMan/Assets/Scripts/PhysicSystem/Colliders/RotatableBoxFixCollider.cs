@@ -4,12 +4,10 @@ using FixedPointy;
 
 public class RotatableBoxFixCollider : FixCollider
 {
-
     public Vector3 scaleAdjustment = new Vector3(1, 1, 1);
     private FixVec3 scale = FixVec3.Zero;
     private FixTrans3 rotateMatrix = FixTrans3.Identity;
     private FixTrans3 inverseRotateMatrix = FixTrans3.Identity;
-    public bool DrawLines = false;
 
     private void Start()
     {
@@ -18,6 +16,10 @@ public class RotatableBoxFixCollider : FixCollider
         float z = Mathf.Abs(transform.localScale.z * scaleAdjustment.z);
         scale = FixConverter.ToFixVec3(new Vector3(x, y, z));
         transform.localScale = FixConverter.ToFixVec3(scale);
+        DrawLine(GetPosition(), RightUp, Color.blue);
+        DrawLine(GetPosition(), RightDown, Color.blue);
+        DrawLine(GetPosition(), LeftUp, Color.blue);
+        DrawLine(GetPosition(), LeftDown, Color.blue);
         FixVec3 rotation = FixConverter.ToFixVec3BigNumber(transform.rotation.eulerAngles);
         transform.rotation = Quaternion.Euler(FixConverter.ToFixVec3(rotation));
 
@@ -29,7 +31,7 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return position + rotateMatrix * (FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
+            return GetPosition() + rotateMatrix * (FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
         }
     }
 
@@ -37,7 +39,7 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return position + rotateMatrix * (FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
+            return GetPosition() + rotateMatrix * (FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
         }
     }
 
@@ -45,7 +47,7 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return position + rotateMatrix * (- FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
+            return GetPosition() + rotateMatrix * (-FixVec3.UnitX * scale.X / 2 + FixVec3.UnitY * scale.Y / 2);
         }
     }
 
@@ -53,13 +55,13 @@ public class RotatableBoxFixCollider : FixCollider
     {
         get
         {
-            return position + rotateMatrix * (- FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
+            return GetPosition() + rotateMatrix * (-FixVec3.UnitX * scale.X / 2 - FixVec3.UnitY * scale.Y / 2);
         }
     }
 
     public override bool Collide(FixCollider other)
     {
-        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - position);
+        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - GetPosition());
 
         direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
         if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
@@ -77,34 +79,131 @@ public class RotatableBoxFixCollider : FixCollider
         return other.CollideSegment(LeftDown, LeftUp);
     }
 
+    public override Collision GetCollision(FixCollider other)
+    {
+        FixVec3 innerPosition = ConvertToInner(other.GetPosition());
+        FixVec3 innerDirection = ConvertToInnerVector(other.GetPosition() - GetPosition());
+        innerDirection = ScaleVector(innerDirection);
+        if (FixMath.Abs(innerDirection.Y) >= FixMath.Abs(innerDirection.X) && innerDirection.Y > 0)
+        {
+            // +Y
+            if (other.CollideSegment(LeftUp, RightUp))
+            {
+                FixVec3 normal = rotateMatrix * FixVec3.UnitY;
+                FixVec3 realPoint = ConvertToRealWorld(new FixVec3(innerPosition.X, scale.Y / 2, innerPosition.Z));
+                FixVec3 overlap = other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitY);
+                DrawLineShort(other.GetPosition(), GetPosition(), Color.cyan);
+                return new Collision(normal, overlap);
+            }
+        }
+        else if (FixMath.Abs(innerDirection.Y) >= FixMath.Abs(innerDirection.X) && innerDirection.Y < 0)
+        {
+            // -Y
+            if (other.CollideSegment(LeftDown, RightDown))
+            {
+                FixVec3 normal = rotateMatrix * FixVec3.UnitY * -1;
+                FixVec3 realPoint = ConvertToRealWorld(new FixVec3(innerPosition.X, -scale.Y / 2, innerPosition.Z));
+                FixVec3 overlap = other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitY * -1);
+                DrawLineShort(other.GetPosition(), GetPosition(), Color.cyan);
+                return new Collision(normal, overlap);
+            }
+        }
+        else if (FixMath.Abs(innerDirection.Y) <= FixMath.Abs(innerDirection.X) && innerDirection.X > 0)
+        {
+            // +X
+            if (other.CollideSegment(RightDown, RightUp))
+            {
+                FixVec3 realPoint = ConvertToRealWorld(new FixVec3(scale.X / 2, innerPosition.Y, innerPosition.Z));
+                FixVec3 overlap = other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitX);
+                FixVec3 normal = rotateMatrix * FixVec3.UnitX;
+                DrawLineShort(other.GetPosition(), GetPosition(), Color.cyan);
+                return new Collision(normal, overlap);
+            }
+        }
+        else
+        {
+            // -X
+            if (other.CollideSegment(LeftDown, LeftUp))
+            {
+                FixVec3 realPoint2 = ConvertToRealWorld(new FixVec3(-scale.X / 2, innerPosition.Y, innerPosition.Z));
+                FixVec3 overlap = other.GetIntersectionFromPoint(realPoint2, rotateMatrix * FixVec3.UnitX * -1);
+                FixVec3 normal = rotateMatrix * FixVec3.UnitX * -1;
+                DrawLineShort(other.GetPosition(), GetPosition(), Color.cyan);
+                return new Collision(normal, overlap);
+            }
+        }
+        return null;
+    }
+
     public override bool CollidePoint(FixVec3 point)
     {
-        FixVec3 realPoint = inverseRotateMatrix * (point - position);
+        FixVec3 realPoint = ConvertToInner(point);
         Fix XPos = FixMath.Abs(realPoint.X);
         Fix YPos = FixMath.Abs(realPoint.Y);
 
-        return (XPos <= scale.X / 2) && (YPos <= scale.Y / 2);
+        if ((XPos <= (scale.X / 2)) && (YPos <= (scale.Y / 2)))
+        {
+            DrawLineShort(point, GetPosition(), Color.green);
+            return true;
+        }
+        return false;
     }
 
     public override bool CollideSegment(FixVec3 pointA, FixVec3 pointB)
     {
-        if ((pointA - position).GetMagnitude() > (scale.X + scale.Y) &&
-            (pointB - position).GetMagnitude() > (scale.X + scale.Y)) return false;
+        Fix lengthInput = FixMath.Abs(pointA.X - pointB.X) + FixMath.Abs(pointA.Y - pointB.Y);
+        Fix maxLength = FixMath.Max( scale.X, scale.Y);
+       
+        if (FixMath.Abs((pointA - GetPosition()).GetMagnitude()) > (lengthInput + maxLength) &&
+            FixMath.Abs((pointB - GetPosition()).GetMagnitude()) > (lengthInput + maxLength))
+        {
+            return false;
+        }
         // Optimalization, if its in there Do Not Check Intersect
-        if (CollidePoint(pointA)) return true;
-        if (CollidePoint(pointB)) return true;
-        
+        if (CollidePoint(pointA))
+        {
+            return true;
+        }
+        if (CollidePoint(pointB))
+        {
+            return true;
+        }
 
-        return HelpFixMath.DoIntersect(pointA, pointB, LeftDown, LeftUp) ||
-            HelpFixMath.DoIntersect(pointA, pointB, LeftDown, RightDown) ||
-            HelpFixMath.DoIntersect(pointA, pointB, RightDown, RightUp) ||
-            HelpFixMath.DoIntersect(pointA, pointB, RightUp, LeftUp);
+        if (HelpFixMath.DoIntersect(pointA, pointB, LeftDown, LeftUp))
+        {
+            DrawLineShort(pointA, LeftDown, Color.red);
+            DrawLineShort(pointB, LeftUp, Color.red);
+            return true;
+        }
+
+        if (HelpFixMath.DoIntersect(pointA, pointB, LeftDown, RightDown))
+        {
+            DrawLineShort(pointA, LeftDown, Color.red);
+            DrawLineShort(pointB, RightDown, Color.red);
+            return true;
+        }
+
+        if (HelpFixMath.DoIntersect(pointA, pointB, RightDown, RightUp))
+        {
+            DrawLineShort(pointA, RightDown, Color.red);
+            DrawLineShort(pointB, RightUp, Color.red);
+            return true;
+        }
+
+        if (HelpFixMath.DoIntersect(pointA, pointB, RightUp, LeftUp))
+        {
+            DrawLineShort(pointA, RightUp, Color.red);
+            DrawLineShort(pointB, LeftUp, Color.red);
+            return true;
+        }
+
+        return false;
     }
 
     public override FixVec3 GetNormal(FixCollider other)
     {
 
-        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - position);
+        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - GetPosition());
         direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
         if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
         {
@@ -170,12 +269,28 @@ public class RotatableBoxFixCollider : FixCollider
 
     private FixVec3 ConvertToInner(FixVec3 point)
     {
-        return inverseRotateMatrix * (point - position);
+        return inverseRotateMatrix * (point - GetPosition());
+    }
+
+    private FixVec3 ConvertToInnerVector(FixVec3 dir)
+    {
+        return inverseRotateMatrix * dir;
+    }
+
+    private FixVec3 ScaleVector(FixVec3 dir)
+    {
+        return new FixVec3(dir.X * scale.Y, dir.Y * scale.X, dir.Z);
     }
 
     private FixVec3 ConvertToRealWorld(FixVec3 point)
     {
-
-        return (rotateMatrix * point) + position;
+        return (rotateMatrix * point) + GetPosition();
     }
+
+    private FixVec3 ConvertToRealWorldVector(FixVec3 dir)
+    {
+        return rotateMatrix * dir;
+    }
+
+    
 }

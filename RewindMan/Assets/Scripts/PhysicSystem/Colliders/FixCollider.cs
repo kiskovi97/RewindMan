@@ -4,7 +4,8 @@ using FixedPointy;
 
 public class FixCollider : MonoBehaviour
 {
-    protected FixVec3 position;
+    public bool Draw = false;
+    private FixVec3 position;
 
     public void SetPosition(FixVec3 position)
     {
@@ -14,6 +15,11 @@ public class FixCollider : MonoBehaviour
     public FixVec3 GetPosition()
     {
         return position;
+    }
+
+    public virtual Collision GetCollision(FixCollider other)
+    {
+        return null;
     }
 
     public virtual bool Collide(FixCollider other)
@@ -44,5 +50,17 @@ public class FixCollider : MonoBehaviour
     public virtual FixVec3 GetIntersectionFromPoint(FixVec3 point, FixVec3 dir)
     {
         return (point - position);
+    }
+
+    protected void DrawLine(FixVec3 pointA, FixVec3 pointB, Color color)
+    {
+        if (Draw)
+            Debug.DrawLine(FixConverter.ToFixVec3(pointA), FixConverter.ToFixVec3(pointB), color, 10000f, false);
+    }
+
+    protected void DrawLineShort(FixVec3 pointA, FixVec3 pointB, Color color)
+    {
+        if (Draw)
+            Debug.DrawLine(FixConverter.ToFixVec3(pointA), FixConverter.ToFixVec3(pointB), color, Time.fixedDeltaTime, false);
     }
 }

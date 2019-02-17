@@ -97,12 +97,19 @@ public class FixWorld : MonoBehaviour
         for (int i= objects.Length - 1; i>= 0; i--)
         {
             List<FixObject> collided = new List<FixObject>();
+            List<Collision> collisions = new List<Collision>();
             for (int j = objects.Length - 1; j >= 0; j--)
             {
                 if (i == j) continue;
                 if (objects[i].IsCollided(objects[j])) collided.Add(objects[j]);
+                Collision collision = objects[i].GetCollision(objects[j]);
+                if (collision != null)
+                {
+                    collision.SetObjectsValues(objects[j].savedVelocity, objects[j].isStatic, objects[j].position);
+                    collisions.Add(collision);
+                }
             }
-            objects[i].Collide(collided.ToArray());
+            objects[i].Collide(collided.ToArray(), collisions.ToArray());
         }
     }
 
