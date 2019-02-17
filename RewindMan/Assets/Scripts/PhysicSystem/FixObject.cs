@@ -95,17 +95,12 @@ public class FixObject : MonoBehaviour
         savedVelocity = velocity;
     }
 
-    public bool IsCollided(FixObject other)
-    {
-        return fixCollider.Collide(other.fixCollider);
-    }
-
     public Collision GetCollision(FixObject other)
     {
         return other.fixCollider.GetCollision(fixCollider);
     }
 
-    public void Collide(FixObject[] collidedeObjects, Collision[] collisions)
+    public void Collide(Collision[] collisions)
     {
         if (isStatic) return;
         if (collisions.Length != 0)

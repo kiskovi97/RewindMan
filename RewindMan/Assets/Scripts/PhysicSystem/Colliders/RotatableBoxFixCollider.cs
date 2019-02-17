@@ -22,7 +22,6 @@ public class RotatableBoxFixCollider : FixCollider
         DrawLine(GetPosition(), LeftDown, Color.blue);
         FixVec3 rotation = FixConverter.ToFixVec3BigNumber(transform.rotation.eulerAngles);
         transform.rotation = Quaternion.Euler(FixConverter.ToFixVec3(rotation));
-
         rotateMatrix = FixTrans3.MakeRotation(rotation);
         inverseRotateMatrix = FixTrans3.MakeRotation(rotation * -1);
     }
@@ -59,30 +58,10 @@ public class RotatableBoxFixCollider : FixCollider
         }
     }
 
-    public override bool Collide(FixCollider other)
-    {
-        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - GetPosition());
-
-        direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
-        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
-        {
-            return other.CollideSegment(LeftUp, RightUp);
-        }
-        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y < 0)
-        {
-            return other.CollideSegment(LeftDown, RightDown);
-        }
-        if (FixMath.Abs(direction.Y) <= FixMath.Abs(direction.X) && direction.X > 0)
-        {
-            return other.CollideSegment(RightDown, RightUp);
-        }
-        return other.CollideSegment(LeftDown, LeftUp);
-    }
-
     public override Collision GetCollision(FixCollider other)
     {
         FixVec3 innerPosition = ConvertToInner(other.GetPosition());
-        FixVec3 innerDirection = ConvertToInnerVector(other.GetPosition() - GetPosition());
+        FixVec3 innerDirection = innerPosition;
         innerDirection = ScaleVector(innerDirection);
         if (FixMath.Abs(innerDirection.Y) >= FixMath.Abs(innerDirection.X) && innerDirection.Y > 0)
         {
@@ -200,50 +179,6 @@ public class RotatableBoxFixCollider : FixCollider
         return false;
     }
 
-    public override FixVec3 GetNormal(FixCollider other)
-    {
-
-        FixVec3 direction = inverseRotateMatrix * (other.GetPosition() - GetPosition());
-        direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
-        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
-        {
-            return rotateMatrix * FixVec3.UnitY;
-        }
-        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y < 0)
-        {
-            return rotateMatrix * FixVec3.UnitY * -1;
-        }
-        if (FixMath.Abs(direction.Y) <= FixMath.Abs(direction.X) && direction.X > 0)
-        {
-            return rotateMatrix * FixVec3.UnitX;
-        }
-        return rotateMatrix * FixVec3.UnitX * -1;
-    }
-
-    public override FixVec3 GetIntersection(FixCollider other)
-    {
-        FixVec3 pos = ConvertToInner(other.GetPosition());
-        FixVec3 direction = pos;
-        direction = new FixVec3(direction.X * scale.Y, direction.Y * scale.X, direction.Z);
-        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y > 0)
-        {
-            FixVec3 realPoint = ConvertToRealWorld(new FixVec3(pos.X, scale.Y / 2, pos.Z));
-            return other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitY);
-        }
-        if (FixMath.Abs(direction.Y) >= FixMath.Abs(direction.X) && direction.Y < 0)
-        {
-            FixVec3 realPoint = ConvertToRealWorld(new FixVec3(pos.X, -scale.Y / 2, pos.Z));
-            return other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitY * -1);
-        }
-        if (FixMath.Abs(direction.Y) <= FixMath.Abs(direction.X) && direction.X > 0)
-        {
-            FixVec3 realPoint = ConvertToRealWorld(new FixVec3(scale.X / 2, pos.Y, pos.Z));
-            return other.GetIntersectionFromPoint(realPoint, rotateMatrix * FixVec3.UnitX);
-        }
-        FixVec3 realPoint2 = ConvertToRealWorld(new FixVec3(-scale.X / 2, pos.Y, pos.Z));
-        return other.GetIntersectionFromPoint(realPoint2, rotateMatrix * FixVec3.UnitX * -1);
-    }
-
     public override FixVec3 GetIntersectionFromPoint(FixVec3 otherPoint, FixVec3 dir)
     {
         FixVec3 pos = ConvertToInner(otherPoint);
@@ -290,7 +225,5 @@ public class RotatableBoxFixCollider : FixCollider
     private FixVec3 ConvertToRealWorldVector(FixVec3 dir)
     {
         return rotateMatrix * dir;
-    }
-
-    
+    }   
 }

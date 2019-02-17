@@ -2,7 +2,7 @@
 using System.Collections;
 using FixedPointy;
 
-public class FixCollider : MonoBehaviour
+public abstract class FixCollider : MonoBehaviour
 {
     public bool Draw = false;
     private FixVec3 position;
@@ -17,41 +17,15 @@ public class FixCollider : MonoBehaviour
         return position;
     }
 
-    public virtual Collision GetCollision(FixCollider other)
-    {
-        return null;
-    }
+    public abstract Collision GetCollision(FixCollider other);
 
-    public virtual bool Collide(FixCollider other)
-    {
-       return false;
-    }
+    public abstract bool CollidePoint(FixVec3 point);
 
-    public virtual bool CollidePoint(FixVec3 point)
-    {
-        return false;
-    }
+    public abstract bool CollideSegment(FixVec3 pointA, FixVec3 pointB);
 
-    public virtual bool CollideSegment(FixVec3 pointA, FixVec3 pointB)
-    {
-        return false;
-    }
+    public abstract FixVec3 GetIntersectionFromPoint(FixVec3 point, FixVec3 dir);
 
-    public virtual FixVec3 GetNormal(FixCollider other)
-    {
-        return (other.position - position).Normalize();
-    }
-
-    public virtual FixVec3 GetIntersection(FixCollider other)
-    {
-        return (other.position - position);
-    }
-
-    public virtual FixVec3 GetIntersectionFromPoint(FixVec3 point, FixVec3 dir)
-    {
-        return (point - position);
-    }
-
+    // DebugLines
     protected void DrawLine(FixVec3 pointA, FixVec3 pointB, Color color)
     {
         if (Draw)

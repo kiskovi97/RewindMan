@@ -96,12 +96,11 @@ public class FixWorld : MonoBehaviour
     {
         for (int i= objects.Length - 1; i>= 0; i--)
         {
-            List<FixObject> collided = new List<FixObject>();
+            if (objects[i].isStatic) continue;
             List<Collision> collisions = new List<Collision>();
             for (int j = objects.Length - 1; j >= 0; j--)
             {
                 if (i == j) continue;
-                if (objects[i].IsCollided(objects[j])) collided.Add(objects[j]);
                 Collision collision = objects[i].GetCollision(objects[j]);
                 if (collision != null)
                 {
@@ -109,7 +108,7 @@ public class FixWorld : MonoBehaviour
                     collisions.Add(collision);
                 }
             }
-            objects[i].Collide(collided.ToArray(), collisions.ToArray());
+            objects[i].Collide(collisions.ToArray());
         }
     }
 
@@ -117,6 +116,7 @@ public class FixWorld : MonoBehaviour
     {
         for (int i = 0; i < objects.Length; i++)
         {
+            if (objects[i].isStatic) continue;
             objects[i].CollideBack();
         }
     }
