@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 using FixedPointy;
 
-[RequireComponent(typeof(FixObject))]
+[RequireComponent(typeof(RigidObject))]
 public class FixPlayer : MonoBehaviour
 {
-    private FixObject fixObject;
+    private RigidObject fixObject;
 
     public int speed = 20;
 
     private void Start()
     {
-        fixObject = GetComponent<FixObject>();
+        fixObject = GetComponent<RigidObject>();
     }
 
     public void KeyCheck()
@@ -42,36 +42,6 @@ public class FixPlayer : MonoBehaviour
                 fixObject.MovePosition(new FixVec3(-speed, 0, 0));
             }
         }
-
-    }
-
-    void ByForce()
-    {
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            fixObject.AddForce(new FixVec3(speed, 0, 0));
-        }
-        if (Input.GetKeyUp(KeyCode.D))
-        {
-            fixObject.AddForce(new FixVec3(-speed, 0, 0));
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            fixObject.AddForce(new FixVec3(-speed, 0, 0));
-        }
-        if (Input.GetKeyUp(KeyCode.A))
-        {
-            fixObject.AddForce(new FixVec3(speed, 0, 0));
-        }
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            fixObject.AddForce(new FixVec3(0, speed, 0));
-        }
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            fixObject.AddForce(new FixVec3(0, speed, 0));
-        }
-        Debug.Log(fixObject.forces.GetSumForces());
 
     }
 

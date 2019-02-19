@@ -26,7 +26,7 @@ public class FixWorld : MonoBehaviour
 
     public void Start()
     {
-        objects = FindObjectsOfType<FixObject>();
+        objects = FindObjectsOfType<RigidObject>();
         player = FindObjectOfType<FixPlayer>();
     }
 
@@ -94,19 +94,16 @@ public class FixWorld : MonoBehaviour
 
     private void CollisionDetection()
     {
-        for (int i= objects.Length - 1; i>= 0; i--)
+        for (int i = objects.Length - 1; i >= 0; i--)
         {
-            if (objects[i].isStatic) continue;
+            if (objects[i].IsStatic()) continue;
             List<Collision> collisions = new List<Collision>();
             for (int j = objects.Length - 1; j >= 0; j--)
             {
                 if (i == j) continue;
-                Collision collision = objects[i].GetCollision(objects[j]);
+                Collision collision = objects[j].GetCollision(objects[i]);
                 if (collision != null)
-                {
-                    collision.SetObjectsValues(objects[j].savedVelocity, objects[j].isStatic, objects[j].position);
                     collisions.Add(collision);
-                }
             }
             objects[i].Collide(collisions.ToArray());
         }
@@ -116,8 +113,16 @@ public class FixWorld : MonoBehaviour
     {
         for (int i = 0; i < objects.Length; i++)
         {
-            if (objects[i].isStatic) continue;
-            objects[i].CollideBack();
+            if (objects[i].IsStatic()) continue; if (objects[i].IsStatic()) continue;
+            List<Collision> collisions = new List<Collision>();
+            for (int j = objects.Length - 1; j >= 0; j--)
+            {
+                if (i == j) continue;
+                Collision collision = objects[j].GetCollision(objects[i]);
+                if (collision != null)
+                    collisions.Add(collision);
+            }
+            objects[i].CollideBack(collisions.ToArray());
         }
     }
 }

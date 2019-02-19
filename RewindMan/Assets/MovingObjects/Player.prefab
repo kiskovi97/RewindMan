@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5529930441831573275}
   - component: {fileID: 5529930441831573274}
   - component: {fileID: 5529930441831573253}
-  - component: {fileID: 5529930441831573252}
   - component: {fileID: 5529930441831573273}
+  - component: {fileID: 2336202057657240331}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -92,24 +92,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041f6bbeddee76e4992379056723485e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Draw: 0
   startingRadius: 0.5
   DrawLines: 0
---- !u!114 &5529930441831573252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529930441831573255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd9674d1e0727c46b0e77362e182031, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startVelocity: {x: 0, y: 0, z: 0}
-  isStatic: 0
-  DrawVectors: 0
-  fixCollider: {fileID: 0}
 --- !u!114 &5529930441831573273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,3 +108,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 5
+--- !u!114 &2336202057657240331
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529930441831573255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasCollided: 0
+  recordsNumber: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  isStatic: 0
+  DrawVectors: 0
+  fixCollider: {fileID: 0}

@@ -3,6 +3,7 @@ using UnityEditor;
 using FixedPointy;
 using System.Collections.Generic;
 
+
 public class FixRecording
 {
     public class Record
@@ -45,29 +46,23 @@ public class FixRecording
     public void Add(FixVec3 velocity, Fix time, FixVec3 position, bool Draw = false)
     {
         Record record = new Record(velocity, time, position);
-        if (records.Count == 0 || !record.Equals(records.Peek()))
+        if (records.Count != 0)
         {
-            if (Draw)
+            if (records.Peek().time != record.time)
             {
-                Debug.DrawLine(FixConverter.ToFixVec3(position), new Vector3(0,0,0), Color.blue, Time.fixedDeltaTime, false);
+                if (!record.Equals(records.Peek()))
+                {
+                    records.Push(record);
+                }
+                else
+                {
+                    Record rec = records.Peek();
+                    rec.time = time;
+                    rec.kinematic = true;
+                }
             }
-            records.Push(record);
-        } else
-        {
-            if (Draw)
-            {
-                Debug.DrawLine(FixConverter.ToFixVec3(position), new Vector3(0, 1, 0), Color.red, Time.fixedDeltaTime, false);
-            }
-            Record rec = records.Peek();
-            rec.time = time;
-            rec.kinematic = true;
         }
-    }
-
-    public void AddForceChange(FixVec3 force, Fix time)
-    {
-        ForceRecord record = new ForceRecord(force, time);
-        forceRecords.Push(record);
+        else records.Push(record);
     }
 
     public Record Get(Fix time)
@@ -94,23 +89,6 @@ public class FixRecording
         if (output.time == time)
         {
             return output;
-        }
-        return null;
-    }
-
-    public ForceRecord GetForceChange(Fix time)
-    {
-        if (forceRecords.Count == 0) return null;
-        ForceRecord last = forceRecords.Peek();
-        while (last.time > time)
-        {
-            forceRecords.Pop();
-            if (forceRecords.Count == 0) return null;
-            last = forceRecords.Peek();
-        }
-        if (last.time == time)
-        {
-            return last;
         }
         return null;
     }

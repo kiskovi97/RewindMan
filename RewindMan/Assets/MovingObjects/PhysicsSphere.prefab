@@ -91,6 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 041f6bbeddee76e4992379056723485e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Draw: 0
   startingRadius: 0.5
   DrawLines: 0
 --- !u!114 &1047089710316113900
@@ -102,9 +103,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1047089710316113899}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cdd9674d1e0727c46b0e77362e182031, type: 3}
+  m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasCollided: 0
+  recordsNumber: 0
   startVelocity: {x: 0, y: 1, z: 0}
   isStatic: 0
   DrawVectors: 0
