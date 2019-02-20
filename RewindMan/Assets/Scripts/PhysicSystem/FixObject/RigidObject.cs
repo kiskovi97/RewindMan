@@ -10,12 +10,13 @@ class RigidObject : RecordedObject, FixObject
     public bool isStatic = false;
     public Vector3 startVelocity = new Vector3(0, 1, 0);
 
-    private static int collideOverlap = 3;
+    private static readonly int collideOverlap = 3;
     private static Fix minCollide = new Fix(4);
     private Fix frictionCoefficient;
+    private Fix impulseLoseCoefficent;
     private int hasCollided = 0;
     
-    // Inner state
+    // Inner state 
     private FixCollider fixCollider;
     private FixVec3 savedVelocity = FixVec3.Zero;
     private Forces forces = new Forces();
@@ -33,6 +34,7 @@ class RigidObject : RecordedObject, FixObject
         transform.position = FixConverter.ToFixVec3(Position);
 
         frictionCoefficient = FixConverter.ToFix(0.98f);
+        impulseLoseCoefficent = FixConverter.ToFix(0.5f);
         forces = new Forces();
         forces.Clear();
         forces.AddForce(FixWorld.gravity);
@@ -44,12 +46,11 @@ class RigidObject : RecordedObject, FixObject
     public void Move()
     {
         if (isStatic) return;
-
         savedVelocity = Velocity;
         Accelerate(forces.GetSumForces());
         Step();
         fixCollider.SetPosition(Position);
-
+        Log();
         forces.Clear();
         hasCollided--;
         if (hasCollided < 0) hasCollided = 0;
@@ -72,6 +73,7 @@ class RigidObject : RecordedObject, FixObject
         if (isStatic) return;
         if (collisions.Length != 0)
         {
+            Log();
             hasCollided = collideOverlap;
             ChangePositionAndVelocity(Position, Velocity);
             ReactToCollide(collisions);
@@ -131,11 +133,8 @@ class RigidObject : RecordedObject, FixObject
 
     // --------------- Inner Help Functions  -------------
 
-    bool zero = false;
-
     void ReactToCollide(Collision[] collisions)
     {
-        zero = false;
         for (int i = 0; i < collisions.Length; i++)
         {
             if (!collisions[i].isStatic)
@@ -165,23 +164,12 @@ class RigidObject : RecordedObject, FixObject
 
     private void ReactDynamicCollide(Collision collision)
     {
-        if (zero) return;
         FixVec3 N = collision.Normal;
         // Direction
         FixVec3 velocity = Velocity + FixMath.Abs(2 * Velocity.Dot(N)) * N;
         // Impulse
-        velocity = velocity / 4 + collision.savedVelocity * 3 / 4;
+        velocity = ((velocity  + collision.savedVelocity  ) / 2 ) * impulseLoseCoefficent;
 
-        if (collision.savedVelocity.GetMagnitude() == 0 && Position.Y >= collision.position.Y)
-        {
-            DrawVector(new FixVec3(0, 1, 0) * 100, Color.green);
-            velocity = FixVec3.Zero;
-            zero = true;
-        }
-        else
-        {
-            DrawVector(collision.position - Position, Color.green);
-        }
         if (Position.Y >= collision.position.Y)
         {
             forces.AddImpulse(FixWorld.GravitySizeVector(N));
@@ -198,19 +186,17 @@ class RigidObject : RecordedObject, FixObject
         if (length > minCollide)
         {
             length -= minCollide;
-            DrawVector(Something.Normalize() * length * 10, Color.green);
         }
         else
         {
             length = 0;
-            DrawVector(Something.Normalize() * length * 10, Color.magenta);
         }
-        Something = Something.Normalize() * length;
+        FixVec3 Correction = Something.Normalize() * length;
         if (collision.isStatic)
         {
             if (Position.Y >= collision.position.Y)
             {
-                PositionCorrection(Position + Something);
+                PositionCorrection(Position + Correction);
             }
             else
             {
@@ -221,9 +207,9 @@ class RigidObject : RecordedObject, FixObject
         {
             if (Position.Y >= collision.position.Y)
             {
-                PositionCorrection(Position + Something);
+                PositionCorrection(Position + Something - Something.Normalize() * minCollide);
             }
         }
-        DrawVector(Something, Color.red);
+        DrawVector(Correction, Color.red);
     }
 }

@@ -36,34 +36,38 @@ public class FixRecording
         return records.Count;
     }
 
+    private Fix prevTime = 0;
+
     public void Add(FixVec3 velocity, Fix time, FixVec3 position, bool Draw = false)
     {
+        
         Record record = new Record(velocity, time, position);
         if (records.Count == 0) records.Push(record);
         else
         {
             Record prev = records.Peek();
-
-            if (prev.time == time) return;
-
-            if (!prev.Equals(record))
+            if (prevTime != time)
             {
-                //Debug.Log(prev + " " + record + " " + records.Count);
-                records.Push(record);
-            } else
-            {
-                if (!prev.kinematic)
+                if (!prev.Equals(record))
                 {
-                    record.kinematic = true;
                     records.Push(record);
                 }
+                else
+                {
+                    if (!prev.kinematic)
+                    {
+                        record.kinematic = true;
+                        records.Push(record);
+                    }
+                }
             }
-
         }
+        prevTime = time;
     }
 
     public Record Get(Fix time)
     {
+        prevTime = time;
         Record last = records.Peek();
         while (last != null && last.time > time)
         {

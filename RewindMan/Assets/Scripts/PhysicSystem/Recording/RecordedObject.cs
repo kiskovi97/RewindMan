@@ -52,6 +52,7 @@ class RecordedObject : MonoBehaviour
     {
         recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
         Velocity = newVelocity;
+        if (newVelocity.GetMagnitude() < FixWorld.deltaTime * FixWorld.gravity.GetMagnitude()) newVelocity = FixVec3.Zero;
     }
 
     protected void Step()
