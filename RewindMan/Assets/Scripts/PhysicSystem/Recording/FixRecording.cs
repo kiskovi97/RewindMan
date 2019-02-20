@@ -12,31 +12,24 @@ public class FixRecording
         public Fix time;
         public FixVec3 position;
         public bool kinematic = false;
-        public Record(FixVec3 velocity, Fix time, FixVec3 position)
+        public Record(FixVec3 velocity, Fix time, FixVec3 position, bool kinematic = false)
         {
             this.velocity = velocity;
             this.time = time;
             this.position = position;
+            this.kinematic = kinematic;
         }
         public bool Equals(Record other)
         {
-            return velocity.Equals(other.velocity) && position.Equals(other.position);
+            return velocity.Equals(other.velocity) && position.Equals(other.position) && velocity.GetMagnitude() < new Fix(8);
         }
-    }
-
-    public class ForceRecord
-    {
-        public FixVec3 force;
-        public Fix time;
-        public ForceRecord(FixVec3 force, Fix time)
+        public override string ToString()
         {
-            this.force = force;
-            this.time = time;
+            return velocity + " " + time + " " + position;
         }
     }
 
     private Stack<Record> records = new Stack<Record>();
-    private Stack<ForceRecord> forceRecords = new Stack<ForceRecord>();
 
     public int RecordNumber()
     {
@@ -46,49 +39,41 @@ public class FixRecording
     public void Add(FixVec3 velocity, Fix time, FixVec3 position, bool Draw = false)
     {
         Record record = new Record(velocity, time, position);
-        if (records.Count != 0)
+        if (records.Count == 0) records.Push(record);
+        else
         {
-            if (records.Peek().time != record.time)
+            Record prev = records.Peek();
+
+            if (prev.time == time) return;
+
+            if (prev.Equals(record))
             {
-                if (!record.Equals(records.Peek()))
-                {
-                    records.Push(record);
-                }
-                else
-                {
-                    Record rec = records.Peek();
-                    rec.time = time;
-                    rec.kinematic = true;
-                }
+                record.kinematic = true;
+                if (prev.kinematic == true) records.Pop();
             }
+
+            records.Push(record);
         }
-        else records.Push(record);
     }
 
     public Record Get(Fix time)
     {
         Record last = records.Peek();
-        while (last.time > time)
+        while (last != null && last.time > time)
         {
-            records.Pop();
+            Record prev = records.Pop();
             last = records.Peek();
+            if (prev.kinematic && prev.time > (last.time + FixWorld.deltaTime))
+            {
+                prev.time -= FixWorld.deltaTime;
+                last = prev;
+                records.Push(last);
+            }
         }
-        Record output = last;
-        while (last != null && last.time == time)
+        //  last.time <= time
+        if (last.time == time)
         {
-            output = records.Pop();
-            last = records.Peek();
-        }
-        if (last == null) records.Push(output);
-        if (output.kinematic)
-        {
-            output.time = time - FixWorld.deltaTime;
-            records.Push(output);
-            return output;
-        }
-        if (output.time == time)
-        {
-            return output;
+            return last;
         }
         return null;
     }

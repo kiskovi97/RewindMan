@@ -40,15 +40,15 @@ public class FixWorld : MonoBehaviour
         InputCheck();
         if (forward)
         {
-            time += deltaTime;
             MoveAll();
             CollisionDetection();
+            time += deltaTime;
         }
         else if (backward)
         {
+            time -= deltaTime;
             CollisionDetectionBackWard();
             MoveAllBack();
-            time -= deltaTime;
         }
         timeOut = (float)time;
     }

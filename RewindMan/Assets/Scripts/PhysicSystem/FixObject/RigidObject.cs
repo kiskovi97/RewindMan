@@ -65,7 +65,6 @@ class RigidObject : RecordedObject, FixObject
         StepBack();
         fixCollider.SetPosition(Position);
 
-
         savedVelocity = Velocity;
     }
 
@@ -117,7 +116,7 @@ class RigidObject : RecordedObject, FixObject
     {
         if (hasCollided > 0)
         {
-            PositionCorrection(Position + speed * FixWorld.deltaTime);
+            //PositionCorrection(Position + speed * FixWorld.deltaTime);
             VelocityCorrection((Velocity + speed) / 2);
         }
     }
