@@ -30,12 +30,12 @@ class RecordedObject : MonoBehaviour
     {
         Position = position;
         Velocity = velocity;
-        recording.Add(Velocity, FixWorld.time, Position);
+        recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
     }
 
     protected void ChangePositionAndVelocity(FixVec3 position, FixVec3 velocity)
     {
-        recording.Add(Velocity, FixWorld.time, Position);
+        recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
         DrawLine(Position, position, Color.blue);
         Position = position;
         Velocity = velocity;
@@ -44,13 +44,13 @@ class RecordedObject : MonoBehaviour
     protected void PositionCorrection(FixVec3 newPosition)
     {
         DrawLine(Position, newPosition, Color.red);
-        recording.Add(Velocity, FixWorld.time, Position);
+        recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
         Position = newPosition;
     }
 
     protected void VelocityCorrection(FixVec3 newVelocity)
     {
-        recording.Add(Velocity, FixWorld.time, Position);
+        recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
         Velocity = newVelocity;
     }
 
@@ -106,5 +106,10 @@ class RecordedObject : MonoBehaviour
     {
         if (EnableLog)
             Debug.Log(Position + " :  " + Velocity + " kinematic: " + Kinematic);
+    }
+
+    protected void Log(string m) {
+        if (EnableLog)
+            Debug.Log(m);
     }
 }

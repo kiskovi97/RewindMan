@@ -45,11 +45,10 @@ class RigidObject : RecordedObject, FixObject
     {
         if (isStatic) return;
 
-        Step();
-        fixCollider.SetPosition(Position);
-
         savedVelocity = Velocity;
         Accelerate(forces.GetSumForces());
+        Step();
+        fixCollider.SetPosition(Position);
 
         forces.Clear();
         hasCollided--;
@@ -61,8 +60,8 @@ class RigidObject : RecordedObject, FixObject
         if (isStatic) return;
         if (Kinematic) return;
 
-        AccelerateBack(forces.GetSumForces());
         StepBack();
+        AccelerateBack(forces.GetSumForces());
         fixCollider.SetPosition(Position);
 
         savedVelocity = Velocity;
@@ -183,7 +182,10 @@ class RigidObject : RecordedObject, FixObject
         {
             DrawVector(collision.position - Position, Color.green);
         }
-
+        if (Position.Y >= collision.position.Y)
+        {
+            forces.AddImpulse(FixWorld.GravitySizeVector(N));
+        }
         VelocityCorrection(velocity);
     }
 

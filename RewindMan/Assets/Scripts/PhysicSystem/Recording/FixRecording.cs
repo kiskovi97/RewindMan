@@ -25,7 +25,7 @@ public class FixRecording
         }
         public override string ToString()
         {
-            return velocity + " " + time + " " + position;
+            return velocity.ToString();
         }
     }
 
@@ -46,13 +46,19 @@ public class FixRecording
 
             if (prev.time == time) return;
 
-            if (prev.Equals(record))
+            if (!prev.Equals(record))
             {
-                record.kinematic = true;
-                if (prev.kinematic == true) records.Pop();
+                //Debug.Log(prev + " " + record + " " + records.Count);
+                records.Push(record);
+            } else
+            {
+                if (!prev.kinematic)
+                {
+                    record.kinematic = true;
+                    records.Push(record);
+                }
             }
 
-            records.Push(record);
         }
     }
 
@@ -61,19 +67,16 @@ public class FixRecording
         Record last = records.Peek();
         while (last != null && last.time > time)
         {
-            Record prev = records.Pop();
+            records.Pop();
             last = records.Peek();
-            if (prev.kinematic && prev.time > (last.time + FixWorld.deltaTime))
-            {
-                prev.time -= FixWorld.deltaTime;
-                last = prev;
-                records.Push(last);
-            }
         }
         //  last.time <= time
         if (last.time == time)
         {
             return last;
+        } else
+        {
+            if (last.kinematic) return last;
         }
         return null;
     }
