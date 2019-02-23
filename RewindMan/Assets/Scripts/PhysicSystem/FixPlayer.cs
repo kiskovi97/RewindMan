@@ -24,22 +24,22 @@ public class FixPlayer : MonoBehaviour
         {
             if (Input.GetKey(KeyCode.D))
             {
-                fixObject.AddToSpeed(new FixVec3(speed * 2, speed * 3, 0));
+                fixObject.AddToSpeed(new FixVec3(speed , speed * 2, 0));
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                fixObject.AddToSpeed(new FixVec3(-speed * 2, speed * 3, 0));
+                fixObject.AddToSpeed(new FixVec3(-speed, speed * 2, 0));
             }
             else fixObject.AddToSpeed(new FixVec3(0, speed * 2, 0));
         } else
         {
             if (Input.GetKey(KeyCode.D))
             {
-                fixObject.MovePosition(new FixVec3(speed * 2, 0, 0));
+                fixObject.MovePosition(new FixVec3(speed, 0, 0));
             }
             if (Input.GetKey(KeyCode.A))
             {
-                fixObject.MovePosition(new FixVec3(-speed * 2, 0, 0));
+                fixObject.MovePosition(new FixVec3(-speed, 0, 0));
             }
         }
 

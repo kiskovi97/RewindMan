@@ -10,6 +10,7 @@ class RigidObject : RecordedObject, FixObject
     public bool isStatic = false;
     public Vector3 startVelocity = new Vector3(0, 1, 0);
     public float frictionCoefficientFloat = 0.98f;
+    public float impulseLoseCoefficentFloat = 0.5f;
 
     private static readonly int collideOverlap = 3;
     private static Fix minCollide = new Fix(4);
@@ -35,7 +36,7 @@ class RigidObject : RecordedObject, FixObject
         transform.position = FixConverter.ToFixVec3(Position);
 
         frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
-        impulseLoseCoefficent = FixConverter.ToFix(0.5f);
+        impulseLoseCoefficent = FixConverter.ToFix(impulseLoseCoefficentFloat);
         forces = new Forces();
         forces.Clear();
         forces.AddForce(FixWorld.gravity);
