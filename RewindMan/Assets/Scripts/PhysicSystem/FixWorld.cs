@@ -26,7 +26,10 @@ public class FixWorld : MonoBehaviour
 
     public void Start()
     {
-        objects = FindObjectsOfType<RigidObject>();
+        List<FixObject> list = new List<FixObject>();
+        list.AddRange(FindObjectsOfType<RigidObject>());
+        list.AddRange(FindObjectsOfType<MovingPlatform>());
+        objects = list.ToArray();
         player = FindObjectOfType<FixPlayer>();
     }
 

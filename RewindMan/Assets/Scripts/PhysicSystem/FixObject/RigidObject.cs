@@ -9,6 +9,7 @@ class RigidObject : RecordedObject, FixObject
     // Inspector Initial values
     public bool isStatic = false;
     public Vector3 startVelocity = new Vector3(0, 1, 0);
+    public float frictionCoefficientFloat = 0.98f;
 
     private static readonly int collideOverlap = 3;
     private static Fix minCollide = new Fix(4);
@@ -33,7 +34,7 @@ class RigidObject : RecordedObject, FixObject
         fixCollider.SetPosition(Position);
         transform.position = FixConverter.ToFixVec3(Position);
 
-        frictionCoefficient = FixConverter.ToFix(0.98f);
+        frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
         impulseLoseCoefficent = FixConverter.ToFix(0.5f);
         forces = new Forces();
         forces.Clear();
@@ -50,7 +51,6 @@ class RigidObject : RecordedObject, FixObject
         Accelerate(forces.GetSumForces());
         Step();
         fixCollider.SetPosition(Position);
-        Log();
         forces.Clear();
         hasCollided--;
         if (hasCollided < 0) hasCollided = 0;
@@ -73,7 +73,6 @@ class RigidObject : RecordedObject, FixObject
         if (isStatic) return;
         if (collisions.Length != 0)
         {
-            Log();
             hasCollided = collideOverlap;
             ChangePositionAndVelocity(Position, Velocity);
             ReactToCollide(collisions);
