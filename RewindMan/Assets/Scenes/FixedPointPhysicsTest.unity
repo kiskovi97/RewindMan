@@ -144,12 +144,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &194350405
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,12 +257,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &222140039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -368,12 +370,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &239607559
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -480,12 +483,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &271081399
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,12 +709,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &419838989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -816,12 +821,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &441711147
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -928,12 +934,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &478935061
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1018,8 +1025,6 @@ GameObject:
   - component: {fileID: 630915026}
   - component: {fileID: 630915025}
   - component: {fileID: 630915024}
-  - component: {fileID: 630915023}
-  - component: {fileID: 630915027}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1027,21 +1032,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &630915023
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630915021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 041f6bbeddee76e4992379056723485e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Draw: 0
-  startingRadius: 0.5
-  DrawLines: 0
 --- !u!23 &630915024
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1101,19 +1091,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &630915027
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 630915021}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 41d0588a2de45ff469c85d9d986f80b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
 --- !u!1 &660557048
 GameObject:
   m_ObjectHideFlags: 0
@@ -1146,12 +1123,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &660557050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1336,12 +1314,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &930370360
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1448,12 +1427,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &985341920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1559,12 +1539,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1017962049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1671,12 +1652,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1050996660
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2103,12 +2085,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1315169476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2315,12 +2298,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1573273448
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2426,12 +2410,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1591403617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2538,12 +2523,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1632686549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2649,12 +2635,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 1
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 1
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1641811331
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2760,12 +2747,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  isStatic: 0
+  startVelocity: {x: 0, y: 0, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1748420837
 MonoBehaviour:
   m_ObjectHideFlags: 0
