@@ -3,22 +3,32 @@ using UnityEditor;
 using FixedPointy;
 using System.Collections.Generic;
 [RequireComponent(typeof(FixCollider))]
-class MovingPlatform : RecordedObject, FixObject
+class MovingPlatform : MonoBehaviour, FixObject
 {
+    public Vector3 startDistance = new Vector3(0, 1, 0);
+    public float startSpeed = 1.0f;
+
     private FixCollider fixCollider;
-    public Vector3 startVelocity = new Vector3(0, 1, 0);
-    public float period = 1.0f;
-    public Fix periodTime;
-    public Fix periodStatus = Fix.Zero;
+    private Fix speed = Fix.Zero;
+    private FixVec3 distance = FixVec3.Zero;
+    private FixVec3 start = FixVec3.Zero;
+    private FixVec3 velocity = FixVec3.Zero;
+    private Fix angle = Fix.Zero;
+
 
     private void Start()
     {
         fixCollider = GetComponent<FixCollider>();
-        FixVec3 position = (FixConverter.ToFixVec3(transform.position));
-        FixVec3 velocity = FixConverter.ToFixVec3(startVelocity);
-        periodTime = FixConverter.ToFix(period);
-        SetPositionAndVelocity(position, velocity);
-        fixCollider.SetPosition(Position);
+        start = (FixConverter.ToFixVec3(transform.position));
+        distance = FixConverter.ToFixVec3(startDistance);
+        speed = FixConverter.ToFix(startSpeed);
+        transform.position = FixConverter.ToFixVec3(GetPosition());
+        fixCollider.SetPosition(GetPosition());
+    }
+
+    private FixVec3 GetPosition()
+    {
+        return start + distance * (FixMath.Sin(angle * 100) + 1);
     }
 
     public void Collide(Collision[] collisions)
@@ -44,7 +54,7 @@ class MovingPlatform : RecordedObject, FixObject
 
         Collision collision = fixCollider.GetCollision(collider);
 
-        if (collision != null) collision.SetObjectsValues(Velocity, IsStatic(), Position);
+        if (collision != null) collision.SetObjectsValues(velocity, IsStatic(), GetPosition());
 
         return collision;
     }
@@ -56,25 +66,23 @@ class MovingPlatform : RecordedObject, FixObject
 
     public void Move()
     {
-        periodStatus += FixWorld.deltaTime;
-        if (periodStatus >= periodTime)
-        {
-            periodStatus = Fix.Zero;
-            VelocityCorrection(Velocity * -1);
-        }
-        Step();
-        fixCollider.SetPosition(Position);
+        FixVec3 position = GetPosition();
+        angle += FixWorld.deltaTime * speed;
+        FixVec3 position2 = GetPosition();
+        velocity = (position - position2) * (1 / FixWorld.deltaTime);
+        fixCollider.SetPosition(position2);
+
+        transform.position = FixConverter.ToFixVec3(GetPosition());
     }
 
     public void MoveBackwards()
     {
-        StepBack();
-        fixCollider.SetPosition(Position);
-        if (periodStatus <= Fix.Zero)
-        {
-            periodStatus = periodTime;
-        }
-        SetNow();
-        periodStatus -= FixWorld.deltaTime;
+        FixVec3 position = GetPosition();
+        fixCollider.SetPosition(position);
+        angle -= FixWorld.deltaTime * speed;
+        FixVec3 position2 = GetPosition();
+        velocity = (position - position2) * (1 / FixWorld.deltaTime);
+
+        transform.position = FixConverter.ToFixVec3(GetPosition());
     }
 }
