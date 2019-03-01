@@ -4,6 +4,7 @@ using FixedPointy;
 [RequireComponent(typeof(RigidObject))]
 public class FixPlayer : MonoBehaviour
 {
+    public GameObject model;
 
     private RigidObject fixObject;
 
@@ -12,6 +13,7 @@ public class FixPlayer : MonoBehaviour
     private void Start()
     {
         fixObject = GetComponent<RigidObject>();
+        fixObject.animator.speed = speed / 5;
     }
 
     public void KeyCheck()
@@ -21,26 +23,45 @@ public class FixPlayer : MonoBehaviour
 
     void ByMovePosition()
     {
+        fixObject.animator.SetFloat("Speed", 0.0f);
         if (Input.GetKeyDown(KeyCode.Space))
         {
             if (Input.GetKey(KeyCode.D))
             {
-                fixObject.AddToSpeed(new FixVec3(speed , speed * 2, 0));
+                if (fixObject.AddToSpeed(new FixVec3(speed, speed * 2, 0)))
+                {
+                    model.transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
+                    fixObject.animator.SetFloat("Speed", 1.0f);
+                }
+              
             }
             else if (Input.GetKey(KeyCode.A))
             {
-                fixObject.AddToSpeed(new FixVec3(-speed, speed * 2, 0));
+                if (fixObject.AddToSpeed(new FixVec3(-speed, speed * 2, 0)))
+                {
+                    model.transform.rotation = Quaternion.LookRotation(new Vector3(-1, 0, 0));
+                    fixObject.animator.SetFloat("Speed", 1.0f);
+                }
+
             }
             else fixObject.AddToSpeed(new FixVec3(0, speed * 2, 0));
         } else
         {
             if (Input.GetKey(KeyCode.D))
             {
-                fixObject.MovePosition(new FixVec3(speed, 0, 0));
+                if (fixObject.MovePosition(new FixVec3(speed, 0, 0)))
+                {
+                    model.transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
+                    fixObject.animator.SetFloat("Speed", 1.0f);
+                }
             }
             if (Input.GetKey(KeyCode.A))
             {
-                fixObject.MovePosition(new FixVec3(-speed, 0, 0));
+                if (fixObject.MovePosition(new FixVec3(-speed, 0, 0)))
+                {
+                    model.transform.rotation = Quaternion.LookRotation(new Vector3(-1, 0, 0));
+                    fixObject.animator.SetFloat("Speed", 1.0f);
+                }
             }
         }
 

@@ -56,7 +56,15 @@ class RigidObject : RecordedObject, FixObject
         fixCollider.SetPosition(Position);
         forces.Clear();
         hasCollided--;
-        if (hasCollided < 0) hasCollided = 0;
+        if (hasCollided < 0)
+        {
+            if (animator != null) animator.SetBool("Jump", true);
+            hasCollided = 0;
+        }
+        if (hasCollided > 0)
+        {
+            if (animator != null) animator.SetBool("Jump", false);
+        }
         if (animator != null) animator.SetBool("Backward", false);
     }
 
@@ -117,22 +125,26 @@ class RigidObject : RecordedObject, FixObject
 
     // --------------- Outside 'Forces' ------------
 
-    public void MovePosition(FixVec3 speed)
+    public bool MovePosition(FixVec3 speed)
     {
         if (hasCollided > 0)
         {
             //PositionCorrection(Position + speed * FixWorld.deltaTime);
             VelocityCorrection((Velocity + speed) / 2);
+            return true;
         }
+        return false;
     }
 
-    public void AddToSpeed(FixVec3 speed)
+    public bool AddToSpeed(FixVec3 speed)
     {
         if (hasCollided > 0)
         {
             VelocityCorrection(speed);
             hasCollided = 0;
+            return true;
         }
+        return false;
     }
 
     // --------------- Inner Help Functions  -------------
