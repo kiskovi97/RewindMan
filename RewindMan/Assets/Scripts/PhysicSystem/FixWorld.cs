@@ -6,6 +6,9 @@ using System;
 public class FixWorld : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
+    public Light light;
+    public Color reverseColor;
+    private Color prevColor;
     public static Fix time = Fix.Zero;
     public static FixVec3 gravity = FixVec3.Zero;
     public static Fix deltaTime;
@@ -31,6 +34,7 @@ public class FixWorld : MonoBehaviour
         list.AddRange(FindObjectsOfType<MovingPlatform>());
         objects = list.ToArray();
         player = FindObjectOfType<FixPlayer>();
+        prevColor = light.color;
     }
 
     public static FixVec3 GravitySizeVector(FixVec3 vector)
@@ -43,12 +47,20 @@ public class FixWorld : MonoBehaviour
         InputCheck();
         if (forward)
         {
+            if (light != null)
+            {
+                light.color = prevColor;
+            }
             MoveAll();
             CollisionDetection();
             time += deltaTime;
         }
         else if (backward)
         {
+            if (light!= null)
+            {
+                light.color = reverseColor;
+            }
             time -= deltaTime;
             CollisionDetectionBackWard();
             MoveAllBack();

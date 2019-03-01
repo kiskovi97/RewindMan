@@ -482,6 +482,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca1115f7fab64264f9ee83f512be0517, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  light: {fileID: 1262888351}
+  reverseColor: {r: 0, g: 1, b: 0.9575858, a: 0}
   timeOut: 0
 --- !u!4 &319547453
 Transform:
