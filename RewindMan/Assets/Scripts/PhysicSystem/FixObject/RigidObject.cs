@@ -45,6 +45,8 @@ class RigidObject : RecordedObject, FixObject
 
     // ---------------- FixObject Implementations -----------------
 
+    public Animator animator;
+
     public void Move()
     {
         if (isStatic) return;
@@ -55,6 +57,7 @@ class RigidObject : RecordedObject, FixObject
         forces.Clear();
         hasCollided--;
         if (hasCollided < 0) hasCollided = 0;
+        if (animator != null) animator.SetBool("Backward", false);
     }
 
     public void MoveBackwards()
@@ -67,6 +70,7 @@ class RigidObject : RecordedObject, FixObject
         fixCollider.SetPosition(Position);
 
         savedVelocity = Velocity;
+        if (animator != null) animator.SetBool("Backward", true);
     }
 
     public void Collide(Collision[] collisions)

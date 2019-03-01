@@ -158,6 +158,7 @@ MonoBehaviour:
   startVelocity: {x: 0, y: 0, z: 0}
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
+  animator: {fileID: 7898883359112529251}
 --- !u!1001 &7898883360580178852
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -230,6 +231,12 @@ PrefabInstance:
 --- !u!4 &7898883359112529260 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4,
+    type: 3}
+  m_PrefabInstance: {fileID: 7898883360580178852}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &7898883359112529251 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 1535481543, guid: 718ae10ee9abb8d4f9164083ce45dce4,
     type: 3}
   m_PrefabInstance: {fileID: 7898883360580178852}
   m_PrefabAsset: {fileID: 0}

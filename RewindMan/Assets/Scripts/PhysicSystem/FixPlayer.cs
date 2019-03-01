@@ -4,6 +4,7 @@ using FixedPointy;
 [RequireComponent(typeof(RigidObject))]
 public class FixPlayer : MonoBehaviour
 {
+
     private RigidObject fixObject;
 
     public int speed = 20;
