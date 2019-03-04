@@ -177,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.5
+      value: -0.485
       objectReference: {fileID: 0}
     - target: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -227,6 +227,10 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 570205324, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 4300146, guid: 06d9c1a0c7a36484b8a5e0e6fd919241, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
 --- !u!1 &7898883359112529250 stripped

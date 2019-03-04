@@ -17,7 +17,7 @@ class RigidObject : RecordedObject, FixObject
     private Fix frictionCoefficient;
     private Fix impulseLoseCoefficent;
     private int hasCollided = 0;
-    
+
     // Inner state 
     private FixCollider fixCollider;
     private FixVec3 savedVelocity = FixVec3.Zero;
@@ -76,6 +76,16 @@ class RigidObject : RecordedObject, FixObject
         StepBack();
         AccelerateBack(forces.GetSumForces());
         fixCollider.SetPosition(Position);
+        hasCollided--;
+        if (hasCollided < 0)
+        {
+            if (animator != null) animator.SetBool("Jump", true);
+            hasCollided = 0;
+        }
+        if (hasCollided > 0)
+        {
+            if (animator != null) animator.SetBool("Jump", false);
+        }
 
         savedVelocity = Velocity;
         if (animator != null) animator.SetBool("Backward", true);
@@ -97,6 +107,10 @@ class RigidObject : RecordedObject, FixObject
         if (isStatic) return;
         forces.Clear();
         SetNow();
+        if (collisions.Length != 0)
+        {
+            hasCollided = collideOverlap;
+        }
     }
 
     public bool IsStatic()
@@ -184,7 +198,7 @@ class RigidObject : RecordedObject, FixObject
         // Direction
         FixVec3 velocity = Velocity + FixMath.Abs(2 * Velocity.Dot(N)) * N;
         // Impulse
-        velocity = ((velocity  + collision.savedVelocity  ) / 2 ) * impulseLoseCoefficent;
+        velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
 
         if (Position.Y >= collision.position.Y)
         {
