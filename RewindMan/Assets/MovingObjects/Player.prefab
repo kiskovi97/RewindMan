@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 4887836889324917732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 2, z: 1}
   m_Children: []
   m_Father: {fileID: 5529930441831573272}
   m_RootOrder: 1
@@ -47,7 +47,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4887836889324917732}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -105,7 +105,7 @@ Transform:
   m_GameObject: {fileID: 5529930441831573255}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7898883359112529260}
   - {fileID: 5284673209968059848}
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Draw: 0
-  scaleAdjustment: {x: 1, y: 1, z: 1}
+  scaleAdjustment: {x: 1, y: 2, z: 1}
 --- !u!114 &5529930441831573273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,7 +156,7 @@ MonoBehaviour:
   EnableLog: 0
   recordsNumber: 0
   isStatic: 0
-  startVelocity: {x: 0, y: 0, z: 0}
+  startVelocity: {x: 0, y: 2, z: 0}
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
   animator: {fileID: 7898883359112529251}
@@ -177,7 +177,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.485
+      value: -0.967
       objectReference: {fileID: 0}
     - target: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
       propertyPath: m_LocalPosition.z
@@ -221,7 +221,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1535481544, guid: 718ae10ee9abb8d4f9164083ce45dce4, type: 3}
       propertyPath: m_LocalScale.z

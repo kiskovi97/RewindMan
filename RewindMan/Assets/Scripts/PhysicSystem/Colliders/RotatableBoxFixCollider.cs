@@ -15,7 +15,11 @@ public class RotatableBoxFixCollider : FixCollider
         float y = Mathf.Abs(transform.localScale.y * scaleAdjustment.y);
         float z = Mathf.Abs(transform.localScale.z * scaleAdjustment.z);
         scale = FixConverter.ToFixVec3(new Vector3(x, y, z));
-        transform.localScale = FixConverter.ToFixVec3(scale);
+
+        x = Mathf.Abs((float)scale.X / scaleAdjustment.x);
+        y = Mathf.Abs((float)scale.Y / scaleAdjustment.y);
+        z = Mathf.Abs((float)scale.Z / scaleAdjustment.z);
+        transform.localScale = new Vector3(x,y,z);
         DrawLine(GetPosition(), RightUp, Color.blue);
         DrawLine(GetPosition(), RightDown, Color.blue);
         DrawLine(GetPosition(), LeftUp, Color.blue);

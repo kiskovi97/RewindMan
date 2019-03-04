@@ -670,6 +670,11 @@ PrefabInstance:
       propertyPath: EnableLog
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5919281621967302567, guid: 0de4c81c810265c4dbea7bc2e6357eff,
+        type: 3}
+      propertyPath: scaleAdjustment.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de4c81c810265c4dbea7bc2e6357eff, type: 3}
 --- !u!1001 &394618643
@@ -1800,7 +1805,7 @@ PrefabInstance:
     - target: {fileID: 5919281621967302562, guid: 0de4c81c810265c4dbea7bc2e6357eff,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 5919281621967302562, guid: 0de4c81c810265c4dbea7bc2e6357eff,
         type: 3}
