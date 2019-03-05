@@ -211,7 +211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 5384333737113600976}
-  reverseColor: {r: 0, g: 0.7297874, b: 0.972549, a: 0}
+  reverseColor: {r: 0, g: 0.14282519, b: 0.972549, a: 0}
   timeOut: 0
 --- !u!1 &8992691043979853481
 GameObject:
