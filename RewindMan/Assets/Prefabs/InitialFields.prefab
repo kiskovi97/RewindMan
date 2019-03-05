@@ -80,6 +80,7 @@ GameObject:
   - component: {fileID: 8992691042982662922}
   - component: {fileID: 8992691042982662923}
   - component: {fileID: 8992691042982662924}
+  - component: {fileID: 8717463019585151226}
   - component: {fileID: 8992691042982662920}
   m_Layer: 0
   m_Name: Main Camera
@@ -159,6 +160,23 @@ MonoBehaviour:
   focus: {fileID: 8992691043646667371}
   distance: {x: 0, y: 2, z: -16}
   speed: 0.1
+--- !u!114 &8717463019585151226
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8992691042982662921}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 032c52af8c88b0c45801ff4af4117a37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  displacementMap: {fileID: 2800000, guid: 059fbf02a0d6e7a40965f398fc32db38, type: 3}
+  Shader: {fileID: 4800000, guid: 2e7eff9f23e599a46b6aff71ac016817, type: 3}
+  intensity: 0.494
+  flipIntensity: 0
+  colorIntensity: 0.511
 --- !u!81 &8992691042982662920
 AudioListener:
   m_ObjectHideFlags: 0
@@ -211,7 +229,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   light: {fileID: 5384333737113600976}
-  reverseColor: {r: 0, g: 0.14282519, b: 0.972549, a: 0}
+  effect: {fileID: 8717463019585151226}
+  glitchIntensity: 0.2
+  reverseColor: {r: 1, g: 1, b: 1, a: 0}
   timeOut: 0
 --- !u!1 &8992691043979853481
 GameObject:

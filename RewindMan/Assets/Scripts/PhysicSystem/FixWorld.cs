@@ -7,6 +7,8 @@ public class FixWorld : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
     public Light light;
+    public GlitchEffect effect;
+    public float glitchIntensity = 0.2f;
     public Color reverseColor;
     private Color prevColor;
     public static Fix time = Fix.Zero;
@@ -47,25 +49,45 @@ public class FixWorld : MonoBehaviour
         InputCheck();
         if (forward)
         {
-            if (light != null)
-            {
-                light.color = prevColor;
-            }
+            SetForwardEffect();
             MoveAll();
             CollisionDetection();
             time += deltaTime;
         }
         else if (backward)
         {
-            if (light!= null)
-            {
-                light.color = reverseColor;
-            }
+            SetBackWardEffect();
             time -= deltaTime;
             CollisionDetectionBackWard();
             MoveAllBack();
         }
         timeOut = (float)time;
+    }
+
+    private void SetForwardEffect()
+    {
+        if (light != null)
+        {
+            light.color = prevColor;
+        }
+        if (effect != null)
+        {
+            effect.intensity = 0;
+            effect.colorIntensity = 0;
+        }
+    }
+
+    private void SetBackWardEffect()
+    {
+        if (light != null)
+        {
+            light.color = reverseColor;
+        }
+        if (effect != null)
+        {
+            effect.intensity = glitchIntensity;
+            effect.colorIntensity = 1f;
+        }
     }
 
     private void Update()
