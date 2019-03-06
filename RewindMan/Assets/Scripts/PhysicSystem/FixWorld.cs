@@ -20,6 +20,7 @@ public class FixWorld : MonoBehaviour
     // Inner state
     private static volatile bool forward = true;
     private static volatile bool backward = false;
+    private static volatile bool gameOver = false;
     private FixObject[] objects;
     private FixPlayer player;
 
@@ -27,6 +28,7 @@ public class FixWorld : MonoBehaviour
     {
         gravity = FixConverter.ToFixVec3(Physics.gravity);
         deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
+        time = Fix.Zero;
     }
 
     public void Start()
@@ -37,6 +39,17 @@ public class FixWorld : MonoBehaviour
         objects = list.ToArray();
         player = FindObjectOfType<FixPlayer>();
         prevColor = light.color;
+        gameOver = false;
+    }
+
+    public static bool IsGameOver
+    {
+        get { return gameOver; }
+    }
+
+    public static void GameOver()
+    {
+        gameOver = true;
     }
 
     public static FixVec3 GravitySizeVector(FixVec3 vector)
@@ -47,7 +60,9 @@ public class FixWorld : MonoBehaviour
     private void FixedUpdate()
     {
         InputCheck();
-        if (forward)
+        if (gameOver)
+            SetBackWardEffect();
+        if (forward && !gameOver)
         {
             SetForwardEffect();
             MoveAll();
@@ -56,6 +71,7 @@ public class FixWorld : MonoBehaviour
         }
         else if (backward)
         {
+            gameOver = false;
             SetBackWardEffect();
             time -= deltaTime;
             CollisionDetectionBackWard();

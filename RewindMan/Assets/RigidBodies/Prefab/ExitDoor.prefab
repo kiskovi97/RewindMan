@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 2999633618156122372}
   - component: {fileID: 2999633618156122375}
   - component: {fileID: 2999633618156122374}
-  - component: {fileID: 2999633618156122425}
+  - component: {fileID: 5643887738620857924}
+  - component: {fileID: 6868114116408092793}
   m_Layer: 0
   m_Name: ExitDoor
   m_TagString: Untagged
@@ -78,17 +79,28 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!64 &2999633618156122425
-MeshCollider:
+--- !u!65 &5643887738620857924
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2999633618156122424}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 14
-  m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+  serializedVersion: 2
+  m_Size: {x: 10.000005, y: 3.9794242, z: 10.000002}
+  m_Center: {x: 3.897849e-15, y: 1.4880748, z: 5.752628e-14}
+--- !u!114 &6868114116408092793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2999633618156122424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec6b07dc3c68a3248bb667ee3ca78caa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

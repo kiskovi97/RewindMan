@@ -614,6 +614,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1047089710316113902, guid: fcf6be551affe1348b96712f32d7c0c1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcf6be551affe1348b96712f32d7c0c1, type: 3}
 --- !u!1001 &396837310
@@ -1232,6 +1237,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1047089710316113902, guid: fcf6be551affe1348b96712f32d7c0c1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcf6be551affe1348b96712f32d7c0c1, type: 3}
 --- !u!1 &1204192501
@@ -1693,6 +1703,11 @@ PrefabInstance:
       propertyPath: EnableLog
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5919281621967302564, guid: 0de4c81c810265c4dbea7bc2e6357eff,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de4c81c810265c4dbea7bc2e6357eff, type: 3}
 --- !u!1001 &1367554690
@@ -2019,6 +2034,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1047089710316113902, guid: fcf6be551affe1348b96712f32d7c0c1,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fcf6be551affe1348b96712f32d7c0c1, type: 3}
 --- !u!1001 &1379955872
@@ -2098,6 +2118,11 @@ PrefabInstance:
       propertyPath: EnableLog
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5919281621967302564, guid: 0de4c81c810265c4dbea7bc2e6357eff,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0de4c81c810265c4dbea7bc2e6357eff, type: 3}
 --- !u!1001 &1447577395
