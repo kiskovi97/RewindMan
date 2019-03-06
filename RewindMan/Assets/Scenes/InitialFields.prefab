@@ -537,7 +537,7 @@ PrefabInstance:
     - target: {fileID: 2336202057657240331, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
         type: 3}
       propertyPath: frictionCoefficientFloat
-      value: 0.9
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2336202057657240331, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
         type: 3}

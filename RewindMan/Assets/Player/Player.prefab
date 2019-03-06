@@ -63,7 +63,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41d0588a2de45ff469c85d9d986f80b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useQ: {fileID: 0}
   model: {fileID: 7898883359112529250}
   speed: 5
 --- !u!114 &2336202057657240331
@@ -85,7 +84,7 @@ MonoBehaviour:
   time: {fileID: 2542374116085277666}
   isStatic: 0
   startVelocity: {x: 0, y: 0, z: 0}
-  frictionCoefficientFloat: 0.98
+  frictionCoefficientFloat: 0.8
   impulseLoseCoefficentFloat: 0.5
   animator: {fileID: 7898883359112529251}
 --- !u!65 &4071810428953034625

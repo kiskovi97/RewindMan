@@ -59,7 +59,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: b574064f9382ac3459aa6ebd9a7e88ef, type: 2}
+  - {fileID: 10302, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -106,9 +106,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCollided: 0
-  recordsNumber: 0
-  startVelocity: {x: 0, y: 1, z: 0}
-  isStatic: 0
   DrawVectors: 0
-  fixCollider: {fileID: 0}
+  EnableLog: 0
+  recordsNumber: 0
+  text: {fileID: 0}
+  time: {fileID: 0}
+  isStatic: 0
+  startVelocity: {x: 0, y: 1, z: 0}
+  frictionCoefficientFloat: 0.98
+  impulseLoseCoefficentFloat: 0.5
+  animator: {fileID: 0}
