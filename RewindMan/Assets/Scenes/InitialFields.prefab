@@ -220,7 +220,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 30
   m_CookieSize: 10
@@ -239,7 +239,7 @@ Light:
   m_CullingMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_Lightmapping: 4
+  m_Lightmapping: 1
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -275,7 +275,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8992691042982662921}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -9.93, y: 3.53, z: -10.23}
+  m_LocalPosition: {x: 5, y: 3.53, z: -10.23}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3203825059699317148}
@@ -353,9 +353,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   displacementMap: {fileID: 2800000, guid: 6c146b5b073305641aef0f1eea34b605, type: 3}
   Shader: {fileID: 4800000, guid: 2e7eff9f23e599a46b6aff71ac016817, type: 3}
-  intensity: 0.494
+  intensity: 0
   flipIntensity: 0
-  colorIntensity: 0.511
+  colorIntensity: 0
 --- !u!81 &8992691042982662920
 AudioListener:
   m_ObjectHideFlags: 0
