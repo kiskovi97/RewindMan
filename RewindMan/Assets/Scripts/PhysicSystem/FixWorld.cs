@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using FixedPointy;
 using System;
@@ -6,6 +7,7 @@ using System;
 public class FixWorld : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
+    public Text help;
     public Light light;
     public GlitchEffect effect;
     public float glitchIntensity = 0.2f;
@@ -61,9 +63,16 @@ public class FixWorld : MonoBehaviour
     {
         InputCheck();
         if (gameOver)
+        {
+            if (help!=null)
+                help.text = "Use Q To Reverse Time";
             SetBackWardEffect();
+        }
+           
         if (forward && !gameOver)
         {
+            if (help != null)
+                help.text = "";
             SetForwardEffect();
             MoveAll();
             CollisionDetection();
@@ -71,6 +80,8 @@ public class FixWorld : MonoBehaviour
         }
         else if (backward)
         {
+            if (help != null)
+                help.text = "";
             gameOver = false;
             SetBackWardEffect();
             time -= deltaTime;
