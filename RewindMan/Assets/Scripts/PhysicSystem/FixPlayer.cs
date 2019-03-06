@@ -33,7 +33,7 @@ public class FixPlayer : MonoBehaviour
                     model.transform.rotation = Quaternion.LookRotation(new Vector3(1, 0, 0));
                     fixObject.animator.SetFloat("Speed", 1.0f);
                 }
-              
+
             }
             else if (Input.GetKey(KeyCode.A))
             {
@@ -45,7 +45,8 @@ public class FixPlayer : MonoBehaviour
 
             }
             else fixObject.AddToSpeed(new FixVec3(0, speed * 2, 0));
-        } else
+        }
+        else
         {
             if (Input.GetKey(KeyCode.D))
             {

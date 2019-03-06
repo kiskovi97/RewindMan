@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections.Generic;
 using FixedPointy;
 using System;
@@ -6,7 +7,10 @@ using System;
 public class FixWorld : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
+    public Text help;
     public Light light;
+    public GlitchEffect effect;
+    public float glitchIntensity = 0.2f;
     public Color reverseColor;
     private Color prevColor;
     public static Fix time = Fix.Zero;
@@ -18,6 +22,7 @@ public class FixWorld : MonoBehaviour
     // Inner state
     private static volatile bool forward = true;
     private static volatile bool backward = false;
+    private static volatile bool gameOver = false;
     private FixObject[] objects;
     private FixPlayer player;
 
@@ -25,6 +30,7 @@ public class FixWorld : MonoBehaviour
     {
         gravity = FixConverter.ToFixVec3(Physics.gravity);
         deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
+        time = Fix.Zero;
     }
 
     public void Start()
@@ -35,6 +41,17 @@ public class FixWorld : MonoBehaviour
         objects = list.ToArray();
         player = FindObjectOfType<FixPlayer>();
         prevColor = light.color;
+        gameOver = false;
+    }
+
+    public static bool IsGameOver
+    {
+        get { return gameOver; }
+    }
+
+    public static void GameOver()
+    {
+        gameOver = true;
     }
 
     public static FixVec3 GravitySizeVector(FixVec3 vector)
@@ -45,27 +62,59 @@ public class FixWorld : MonoBehaviour
     private void FixedUpdate()
     {
         InputCheck();
-        if (forward)
+        if (gameOver)
         {
-            if (light != null)
-            {
-                light.color = prevColor;
-            }
+            if (help!=null)
+                help.text = "Use Q To Reverse Time";
+            SetBackWardEffect();
+        }
+           
+        if (forward && !gameOver)
+        {
+            if (help != null)
+                help.text = "";
+            SetForwardEffect();
             MoveAll();
             CollisionDetection();
             time += deltaTime;
         }
         else if (backward)
         {
-            if (light!= null)
-            {
-                light.color = reverseColor;
-            }
+            if (help != null)
+                help.text = "";
+            gameOver = false;
+            SetBackWardEffect();
             time -= deltaTime;
             CollisionDetectionBackWard();
             MoveAllBack();
         }
         timeOut = (float)time;
+    }
+
+    private void SetForwardEffect()
+    {
+        if (light != null)
+        {
+            light.color = prevColor;
+        }
+        if (effect != null)
+        {
+            effect.intensity = 0;
+            effect.colorIntensity = 0;
+        }
+    }
+
+    private void SetBackWardEffect()
+    {
+        if (light != null)
+        {
+            light.color = reverseColor;
+        }
+        if (effect != null)
+        {
+            effect.intensity = glitchIntensity;
+            effect.colorIntensity = 1f;
+        }
     }
 
     private void Update()

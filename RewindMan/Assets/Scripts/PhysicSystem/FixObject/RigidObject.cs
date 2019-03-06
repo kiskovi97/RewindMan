@@ -29,7 +29,7 @@ class RigidObject : RecordedObject, FixObject
 
         FixVec3 position = (FixConverter.ToFixVec3(transform.position));
         FixVec3 velocity = FixConverter.ToFixVec3(startVelocity);
-
+        ResetRecording();
         SetPositionAndVelocity(position, velocity);
 
         fixCollider.SetPosition(Position);
