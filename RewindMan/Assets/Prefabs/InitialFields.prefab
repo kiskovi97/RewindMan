@@ -47,7 +47,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 1
+    m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -172,7 +172,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 032c52af8c88b0c45801ff4af4117a37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  displacementMap: {fileID: 2800000, guid: 059fbf02a0d6e7a40965f398fc32db38, type: 3}
+  displacementMap: {fileID: 2800000, guid: 6c146b5b073305641aef0f1eea34b605, type: 3}
   Shader: {fileID: 4800000, guid: 2e7eff9f23e599a46b6aff71ac016817, type: 3}
   intensity: 0.494
   flipIntensity: 0
@@ -334,15 +334,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5529930441831573253, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
+    - target: {fileID: 5284673209968059848, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
         type: 3}
-      propertyPath: Draw
-      value: 0
+      propertyPath: m_LocalScale.x
+      value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5529930441831573252, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
+    - target: {fileID: 5284673209968059848, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
         type: 3}
-      propertyPath: DrawVectors
-      value: 0
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5284673209968059848, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2336202057657240331, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
         type: 3}
@@ -364,26 +369,21 @@ PrefabInstance:
       propertyPath: speed
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5284673209968059848, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5284673209968059848, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5284673209968059848, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1277646053733822897, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
         type: 3}
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+    - target: {fileID: 5529930441831573253, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
+        type: 3}
+      propertyPath: Draw
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5529930441831573252, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
+        type: 3}
+      propertyPath: DrawVectors
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5529930441831573253, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d, type: 3}
