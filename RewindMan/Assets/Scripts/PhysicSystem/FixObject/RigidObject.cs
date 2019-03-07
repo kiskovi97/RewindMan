@@ -11,6 +11,7 @@ class RigidObject : RecordedObject, FixObject
     public Vector3 startVelocity = new Vector3(0, 1, 0);
     public float frictionCoefficientFloat = 0.98f;
     public float impulseLoseCoefficentFloat = 0.5f;
+    public Animator animator;
 
     private static readonly int collideOverlap = 3;
     private static Fix minCollide = new Fix(4);
@@ -44,8 +45,6 @@ class RigidObject : RecordedObject, FixObject
     }
 
     // ---------------- FixObject Implementations -----------------
-
-    public Animator animator;
 
     public void Move()
     {

@@ -8,7 +8,7 @@ public class GameOver : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            FixWorld.GameOver();
+            FixWorld.GameOverSet();
         }
     }
 }

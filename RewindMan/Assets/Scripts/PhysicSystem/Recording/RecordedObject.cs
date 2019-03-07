@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using UnityEditor;
 using FixedPointy;
-using System.Collections.Generic;
 
 class RecordedObject : MonoBehaviour
 {
@@ -21,15 +18,10 @@ class RecordedObject : MonoBehaviour
 
     public int recordsNumber = 0;
 
-    public Text text;
-    public Text time;
-
     private void Update()
     {
         recordsNumber = recording.RecordNumber();
         transform.position = FixConverter.ToFixVec3(Position);
-        if (time != null)
-            time.text = FixWorld.time + "";
     }
 
     protected void ResetRecording()
@@ -99,8 +91,6 @@ class RecordedObject : MonoBehaviour
             Velocity = record.velocity;
             Position = record.position;
             Kinematic = record.kinematic;
-            if (text !=null)
-            text.text = record.time + " " + record.position + " " + record.kinematic;
         }
     }
 

@@ -7,22 +7,28 @@ using System;
 public class FixWorld : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
-    public Text help;
-    public Light light;
-    public GlitchEffect effect;
-    public float glitchIntensity = 0.2f;
-    public Color reverseColor;
-    private Color prevColor;
     public static Fix time = Fix.Zero;
     public static FixVec3 gravity = FixVec3.Zero;
     public static Fix deltaTime;
 
     public float timeOut = 0f;
 
+    public static bool GameOver
+    {
+        get; private set;
+    }
+
+    public static bool Forward
+    {
+        get; private set;
+    }
+
+    public static bool Backward
+    {
+        get; private set;
+    }
+
     // Inner state
-    private static volatile bool forward = true;
-    private static volatile bool backward = false;
-    private static volatile bool gameOver = false;
     private FixObject[] objects;
     private FixPlayer player;
 
@@ -40,18 +46,14 @@ public class FixWorld : MonoBehaviour
         list.AddRange(FindObjectsOfType<MovingPlatform>());
         objects = list.ToArray();
         player = FindObjectOfType<FixPlayer>();
-        prevColor = light.color;
-        gameOver = false;
+        GameOver = false;
     }
 
-    public static bool IsGameOver
-    {
-        get { return gameOver; }
-    }
 
-    public static void GameOver()
+
+    public static void GameOverSet()
     {
-        gameOver = true;
+        GameOver = true;
     }
 
     public static FixVec3 GravitySizeVector(FixVec3 vector)
@@ -62,64 +64,23 @@ public class FixWorld : MonoBehaviour
     private void FixedUpdate()
     {
         InputCheck();
-        if (gameOver)
+        if (Forward && !GameOver)
         {
-            if (help!=null)
-                help.text = "Use Q To Reverse Time";
-            SetBackWardEffect();
-        }
-           
-        if (forward && !gameOver)
-        {
-            if (help != null)
-                help.text = "";
-            SetForwardEffect();
             MoveAll();
-            CollisionDetection();
             time += deltaTime;
         }
-        else if (backward)
+        else if (Backward)
         {
-            if (help != null)
-                help.text = "";
-            gameOver = false;
-            SetBackWardEffect();
+            GameOver = false;
             time -= deltaTime;
-            CollisionDetectionBackWard();
             MoveAllBack();
         }
         timeOut = (float)time;
     }
 
-    private void SetForwardEffect()
-    {
-        if (light != null)
-        {
-            light.color = prevColor;
-        }
-        if (effect != null)
-        {
-            effect.intensity = 0;
-            effect.colorIntensity = 0;
-        }
-    }
-
-    private void SetBackWardEffect()
-    {
-        if (light != null)
-        {
-            light.color = reverseColor;
-        }
-        if (effect != null)
-        {
-            effect.intensity = glitchIntensity;
-            effect.colorIntensity = 1f;
-        }
-    }
-
     private void Update()
     {
-        if (forward)
+        if (Forward)
         {
             player.KeyCheck();
         }
@@ -129,14 +90,14 @@ public class FixWorld : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Q))
         {
-            forward = false;
-            if (time > Fix.Zero) backward = true;
-            else backward = false;
+            Forward = false;
+            if (time > Fix.Zero) Backward = true;
+            else Backward = false;
         }
         else
         {
-            forward = true;
-            backward = false;
+            Forward = true;
+            Backward = false;
         }
     }
 
@@ -145,48 +106,41 @@ public class FixWorld : MonoBehaviour
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].Move();
+
+            if (!objects[i].IsStatic())
+            {
+                List<Collision> collisions = new List<Collision>();
+                for (int j = objects.Length - 1; j >= 0; j--)
+                {
+                    if (i == j) continue;
+                    Collision collision = objects[j].GetCollision(objects[i]);
+                    if (collision != null)
+                        collisions.Add(collision);
+                }
+                objects[i].Collide(collisions.ToArray());
+            }
         }
     }
 
     private void MoveAllBack()
     {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].MoveBackwards();
-        }
-    }
-
-    private void CollisionDetection()
-    {
         for (int i = objects.Length - 1; i >= 0; i--)
         {
-            if (objects[i].IsStatic()) continue;
-            List<Collision> collisions = new List<Collision>();
-            for (int j = objects.Length - 1; j >= 0; j--)
+            if (!objects[i].IsStatic())
             {
-                if (i == j) continue;
-                Collision collision = objects[j].GetCollision(objects[i]);
-                if (collision != null)
-                    collisions.Add(collision);
+                List<Collision> collisions = new List<Collision>();
+                for (int j = objects.Length - 1; j >= 0; j--)
+                {
+                    if (i == j) continue;
+                    Collision collision = objects[j].GetCollision(objects[i]);
+                    if (collision != null)
+                        collisions.Add(collision);
+                }
+                objects[i].CollideBack(collisions.ToArray());
             }
-            objects[i].Collide(collisions.ToArray());
-        }
-    }
+            
 
-    private void CollisionDetectionBackWard()
-    {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            if (objects[i].IsStatic()) continue; if (objects[i].IsStatic()) continue;
-            List<Collision> collisions = new List<Collision>();
-            for (int j = objects.Length - 1; j >= 0; j--)
-            {
-                if (i == j) continue;
-                Collision collision = objects[j].GetCollision(objects[i]);
-                if (collision != null)
-                    collisions.Add(collision);
-            }
-            objects[i].CollideBack(collisions.ToArray());
+            objects[i].MoveBackwards();
         }
     }
 }
