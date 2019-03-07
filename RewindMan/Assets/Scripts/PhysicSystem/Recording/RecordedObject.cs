@@ -15,7 +15,6 @@ class RecordedObject : MonoBehaviour
 
     public bool EnableLog = false;
 
-
     public int recordsNumber = 0;
 
     private void Update()
@@ -36,14 +35,6 @@ class RecordedObject : MonoBehaviour
         recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
     }
 
-    protected void ChangePositionAndVelocity(FixVec3 position, FixVec3 velocity)
-    {
-        recording.Add(Velocity, FixWorld.time, Position, DrawVectors);
-        DrawLine(Position, position, Color.blue);
-        Position = position;
-        Velocity = velocity;
-    }
-
     protected void PositionCorrection(FixVec3 newPosition)
     {
         DrawLine(Position, newPosition, Color.red);
@@ -58,34 +49,19 @@ class RecordedObject : MonoBehaviour
         if (newVelocity.GetMagnitude() < FixWorld.deltaTime * FixWorld.gravity.GetMagnitude()) newVelocity = FixVec3.Zero;
     }
 
-    protected void Step()
+    protected void Step(bool back = false)
     {
-        Position += Velocity * FixWorld.deltaTime;
+        Position += Velocity * FixWorld.deltaTime * (back ? -1 : 1) ;
     }
 
-    protected void StepBack()
+    protected void Accelerate(FixVec3 sumForce, bool back = false)
     {
-        Position -= Velocity * FixWorld.deltaTime;
+        Velocity += sumForce * FixWorld.deltaTime * (back ? -1 : 1);
     }
-
-    protected void Accelerate(FixVec3 sumForce)
-    {
-        Velocity += sumForce * FixWorld.deltaTime;
-    }
-
-    protected void AccelerateBack(FixVec3 sumForce)
-    {
-        Velocity -= sumForce * FixWorld.deltaTime;
-    }
-
 
     protected void SetNow()
     {
-        SetRecord(recording.Get(FixWorld.time));
-    }
-
-    protected void SetRecord(FixRecording.Record record)
-    {
+        FixRecording.Record record = recording.Get(FixWorld.time);
         if (record != null)
         {
             Velocity = record.velocity;
@@ -105,16 +81,5 @@ class RecordedObject : MonoBehaviour
         if (!DrawVectors) return;
         Vector3 normalFloat = FixConverter.ToFixVec3(normal);
         Debug.DrawLine(transform.position, transform.position + normalFloat, color, Time.fixedDeltaTime, false);
-    }
-
-    protected void Log()
-    {
-        if (EnableLog)
-            Debug.Log(Position + " :  " + Velocity + " kinematic: " + Kinematic);
-    }
-
-    protected void Log(string m) {
-        if (EnableLog)
-            Debug.Log(m);
     }
 }

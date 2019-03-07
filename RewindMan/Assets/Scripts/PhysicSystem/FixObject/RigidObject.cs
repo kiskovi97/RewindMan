@@ -72,8 +72,8 @@ class RigidObject : RecordedObject, FixObject
         if (isStatic) return;
         if (Kinematic) return;
 
-        StepBack();
-        AccelerateBack(forces.GetSumForces());
+        Step(true);
+        Accelerate(forces.GetSumForces(), true);
         fixCollider.SetPosition(Position);
         hasCollided--;
         if (hasCollided < 0)
@@ -96,7 +96,6 @@ class RigidObject : RecordedObject, FixObject
         if (collisions.Length != 0)
         {
             hasCollided = collideOverlap;
-            ChangePositionAndVelocity(Position, Velocity);
             ReactToCollide(collisions);
         }
     }
@@ -123,6 +122,21 @@ class RigidObject : RecordedObject, FixObject
         FixCollider collider = other.Collider();
 
         if (collider == null) return null;
+
+        if (collider == fixCollider) return null;
+
+        Collision collision = fixCollider.GetCollision(collider);
+
+        if (collision != null) collision.SetObjectsValues(savedVelocity, isStatic, Position);
+
+        return collision;
+    }
+
+    public Collision GetCollision(FixCollider collider)
+    {
+        if (collider == null) return null;
+
+        if (collider == fixCollider) return null;
 
         Collision collision = fixCollider.GetCollision(collider);
 

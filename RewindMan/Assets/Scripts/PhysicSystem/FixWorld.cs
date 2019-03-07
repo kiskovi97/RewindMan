@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using System.Collections.Generic;
 using FixedPointy;
-using System;
 
 public class FixWorld : MonoBehaviour
 {
@@ -28,8 +26,19 @@ public class FixWorld : MonoBehaviour
         get; private set;
     }
 
+    public static FixVec3 GravitySizeVector(FixVec3 vector)
+    {
+        return vector.Normalize() * gravity.GetMagnitude();
+    }
+
+    public static void GameOverSet()
+    {
+        GameOver = true;
+    }
+
     // Inner state
     private FixObject[] objects;
+    private FixCollider[] colliders;
     private FixPlayer player;
 
     public void Awake()
@@ -42,23 +51,14 @@ public class FixWorld : MonoBehaviour
     public void Start()
     {
         List<FixObject> list = new List<FixObject>();
+        List<FixCollider> colliderList = new List<FixCollider>();
+        colliderList.AddRange(FindObjectsOfType<FixCollider>());
         list.AddRange(FindObjectsOfType<RigidObject>());
         list.AddRange(FindObjectsOfType<MovingPlatform>());
         objects = list.ToArray();
+        colliders = colliderList.ToArray();
         player = FindObjectOfType<FixPlayer>();
         GameOver = false;
-    }
-
-
-
-    public static void GameOverSet()
-    {
-        GameOver = true;
-    }
-
-    public static FixVec3 GravitySizeVector(FixVec3 vector)
-    {
-        return vector.Normalize() * gravity.GetMagnitude();
     }
 
     private void FixedUpdate()
@@ -112,7 +112,6 @@ public class FixWorld : MonoBehaviour
                 List<Collision> collisions = new List<Collision>();
                 for (int j = objects.Length - 1; j >= 0; j--)
                 {
-                    if (i == j) continue;
                     Collision collision = objects[j].GetCollision(objects[i]);
                     if (collision != null)
                         collisions.Add(collision);

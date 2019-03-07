@@ -13,6 +13,8 @@ public interface FixObject
     bool IsStatic();
 
     Collision GetCollision(FixObject collisions);
+
+    Collision GetCollision(FixCollider collisions);
     
     FixCollider Collider();
 }

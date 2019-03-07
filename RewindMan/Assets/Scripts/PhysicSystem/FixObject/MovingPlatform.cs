@@ -85,4 +85,9 @@ class MovingPlatform : MonoBehaviour, FixObject
 
         transform.position = FixConverter.ToFixVec3(GetPosition());
     }
+
+    public Collision GetCollision(FixCollider collisions)
+    {
+        return null;
+    }
 }
