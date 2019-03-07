@@ -9,8 +9,9 @@ public class RotatableBoxFixCollider : FixCollider
     private FixTrans3 rotateMatrix = FixTrans3.Identity;
     private FixTrans3 inverseRotateMatrix = FixTrans3.Identity;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         float x = Mathf.Abs(transform.localScale.x * scaleAdjustment.x);
         float y = Mathf.Abs(transform.localScale.y * scaleAdjustment.y);
         float z = Mathf.Abs(transform.localScale.z * scaleAdjustment.z);

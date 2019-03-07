@@ -5,9 +5,15 @@ using FixedPointy;
 public abstract class FixCollider : MonoBehaviour
 {
     public bool Draw = false;
-    public bool isStatic = false;
+    public bool isStatic = true;
     private FixVec3 position;
     private FixVec3 velocity;
+
+    protected virtual void Start()
+    {
+        velocity = FixVec3.Zero;
+        position = FixConverter.ToFixVec3(transform.position);
+    }
 
     public void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
     {

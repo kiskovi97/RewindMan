@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.20064083, g: 0.24075863, b: 0.32126114, a: 1}
+  m_IndirectSpecularColor: {r: 0.20062235, g: 0.24074957, b: 0.32125804, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1558,11 +1558,16 @@ PrefabInstance:
     - target: {fileID: 5919281621967302566, guid: 0de4c81c810265c4dbea7bc2e6357eff,
         type: 3}
       propertyPath: DrawVectors
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5919281621967302566, guid: 0de4c81c810265c4dbea7bc2e6357eff,
         type: 3}
       propertyPath: EnableLog
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919281621967302566, guid: 0de4c81c810265c4dbea7bc2e6357eff,
+        type: 3}
+      propertyPath: startVelocity.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5919281621967302564, guid: 0de4c81c810265c4dbea7bc2e6357eff,
@@ -1979,6 +1984,11 @@ PrefabInstance:
         type: 3}
       propertyPath: EnableLog
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5919281621967302566, guid: 0de4c81c810265c4dbea7bc2e6357eff,
+        type: 3}
+      propertyPath: startVelocity.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5919281621967302564, guid: 0de4c81c810265c4dbea7bc2e6357eff,
         type: 3}
@@ -2544,7 +2554,8 @@ PrefabInstance:
       propertyPath: isStatic
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8637649323744717597, guid: b7c1d3f25d451ba4ea1f4f1dd19a8150, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b7c1d3f25d451ba4ea1f4f1dd19a8150, type: 3}
 --- !u!1001 &1846445846
 PrefabInstance:
@@ -2971,6 +2982,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1160219853222205048, guid: 5c52555af4f5da043a0bd71f78019c06,
+        type: 3}
+      propertyPath: impulseLoseCoefficentFloat
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585836076508648328, guid: 5c52555af4f5da043a0bd71f78019c06,
+        type: 3}
+      propertyPath: lightSource
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7585836076508648328, guid: 5c52555af4f5da043a0bd71f78019c06,
+        type: 3}
+      propertyPath: effect
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5c52555af4f5da043a0bd71f78019c06, type: 3}

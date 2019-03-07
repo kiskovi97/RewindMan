@@ -8,8 +8,9 @@ public class CircleFixCollider : FixCollider
     private Fix radius = Fix.Zero;
     public bool DrawLines = false;
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         radius = FixConverter.ToFix(startingRadius);
     }
 

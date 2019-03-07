@@ -19,6 +19,7 @@ class MovingPlatform : MonoBehaviour, FixObject
     private void Start()
     {
         fixCollider = GetComponent<FixCollider>();
+        fixCollider.isStatic = true;
         start = (FixConverter.ToFixVec3(transform.position));
         distance = FixConverter.ToFixVec3(startDistance);
         speed = FixConverter.ToFix(startSpeed);
@@ -52,7 +53,7 @@ class MovingPlatform : MonoBehaviour, FixObject
 
         if (collider == null) return null;
 
-        Collision collision = fixCollider.GetCollision(collider);
+        Collision collision = collider.GetCollision(fixCollider);
 
         if (collision != null) collision.SetObjectsValues(velocity, IsStatic(), GetPosition());
 
@@ -70,7 +71,7 @@ class MovingPlatform : MonoBehaviour, FixObject
         angle += FixWorld.deltaTime * speed;
         FixVec3 position2 = GetPosition();
         velocity = (position - position2) * (1 / FixWorld.deltaTime);
-        fixCollider.SetPositionAndVelocity(position2, velocity);
+        fixCollider.SetPositionAndVelocity(position2, velocity * -1);
 
         transform.position = FixConverter.ToFixVec3(GetPosition());
     }

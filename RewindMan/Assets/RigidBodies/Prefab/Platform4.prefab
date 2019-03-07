@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8637649323744717600}
   - component: {fileID: 8637649323744717603}
   - component: {fileID: 8637649323744717602}
-  - component: {fileID: 8637649323744717597}
   m_Layer: 0
   m_Name: Platform4
   m_TagString: Untagged
@@ -92,24 +91,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Draw: 0
-  scaleAdjustment: {x: 1, y: 1, z: 1}
---- !u!114 &8637649323744717597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8637649323744717596}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb970cfeae67db44bb6e9ac41e9aede1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DrawVectors: 0
-  EnableLog: 0
-  recordsNumber: 0
   isStatic: 1
-  startVelocity: {x: 0, y: 1, z: 0}
-  frictionCoefficientFloat: 0.98
-  impulseLoseCoefficentFloat: 0.5
-  animator: {fileID: 0}
+  scaleAdjustment: {x: 1, y: 1, z: 1}
