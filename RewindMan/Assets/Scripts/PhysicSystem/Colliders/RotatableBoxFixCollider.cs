@@ -62,7 +62,7 @@ public class RotatableBoxFixCollider : FixCollider
         }
     }
 
-    public override Collision GetCollision(FixCollider other)
+    protected override Collision Collide(FixCollider other)
     {
         FixVec3 innerPosition = ConvertToInner(other.GetPosition());
         FixVec3 innerDirection = innerPosition;

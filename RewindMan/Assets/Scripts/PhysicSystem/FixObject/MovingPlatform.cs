@@ -23,7 +23,7 @@ class MovingPlatform : MonoBehaviour, FixObject
         distance = FixConverter.ToFixVec3(startDistance);
         speed = FixConverter.ToFix(startSpeed);
         transform.position = FixConverter.ToFixVec3(GetPosition());
-        fixCollider.SetPosition(GetPosition());
+        fixCollider.SetPositionAndVelocity(GetPosition(), velocity);
     }
 
     private FixVec3 GetPosition()
@@ -70,7 +70,7 @@ class MovingPlatform : MonoBehaviour, FixObject
         angle += FixWorld.deltaTime * speed;
         FixVec3 position2 = GetPosition();
         velocity = (position - position2) * (1 / FixWorld.deltaTime);
-        fixCollider.SetPosition(position2);
+        fixCollider.SetPositionAndVelocity(position2, velocity);
 
         transform.position = FixConverter.ToFixVec3(GetPosition());
     }
@@ -78,7 +78,7 @@ class MovingPlatform : MonoBehaviour, FixObject
     public void MoveBackwards()
     {
         FixVec3 position = GetPosition();
-        fixCollider.SetPosition(position);
+        fixCollider.SetPositionAndVelocity(position, velocity);
         angle -= FixWorld.deltaTime * speed;
         FixVec3 position2 = GetPosition();
         velocity = (position - position2) * (1 / FixWorld.deltaTime);

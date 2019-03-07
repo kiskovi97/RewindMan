@@ -33,7 +33,7 @@ class RigidObject : RecordedObject, FixObject
         ResetRecording();
         SetPositionAndVelocity(position, velocity);
 
-        fixCollider.SetPosition(Position);
+        fixCollider.SetPositionAndVelocity(Position, Velocity);
         transform.position = FixConverter.ToFixVec3(Position);
 
         frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
@@ -52,7 +52,7 @@ class RigidObject : RecordedObject, FixObject
         savedVelocity = Velocity;
         Accelerate(forces.GetSumForces());
         Step();
-        fixCollider.SetPosition(Position);
+        fixCollider.SetPositionAndVelocity(Position, Velocity);
         forces.Clear();
         hasCollided--;
         if (hasCollided < 0)
@@ -74,7 +74,7 @@ class RigidObject : RecordedObject, FixObject
 
         Step(true);
         Accelerate(forces.GetSumForces(), true);
-        fixCollider.SetPosition(Position);
+        fixCollider.SetPositionAndVelocity(Position, Velocity);
         hasCollided--;
         if (hasCollided < 0)
         {

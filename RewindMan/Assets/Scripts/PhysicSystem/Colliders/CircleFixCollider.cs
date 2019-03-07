@@ -13,7 +13,7 @@ public class CircleFixCollider : FixCollider
         radius = FixConverter.ToFix(startingRadius);
     }
 
-    public override Collision GetCollision(FixCollider other)
+    protected override Collision Collide(FixCollider other)
     {
         FixVec3 normal = (other.GetPosition() - GetPosition()).Normalize();
         FixVec3 collisionPoint = GetPosition() + (normal) * radius;

@@ -5,11 +5,14 @@ using FixedPointy;
 public abstract class FixCollider : MonoBehaviour
 {
     public bool Draw = false;
+    public bool isStatic = false;
     private FixVec3 position;
+    private FixVec3 velocity;
 
-    public void SetPosition(FixVec3 position)
+    public void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
     {
         this.position = position;
+        this.velocity = velocity;
     }
 
     public FixVec3 GetPosition()
@@ -17,7 +20,15 @@ public abstract class FixCollider : MonoBehaviour
         return position;
     }
 
-    public abstract Collision GetCollision(FixCollider other);
+    public Collision GetCollision(FixCollider other)
+    {
+        Collision collision = Collide(other);
+        if (collision != null)
+            collision.SetObjectsValues(velocity, isStatic, position);
+        return collision;
+    }
+
+    protected abstract Collision Collide(FixCollider other);
 
     public abstract bool CollidePoint(FixVec3 point);
 
