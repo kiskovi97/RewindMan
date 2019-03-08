@@ -53,11 +53,13 @@ public class FixWorldComplex : MonoBehaviour
         {
             SimulateForward();
             time += deltaTime;
+            state.time = time;
         }
         else if (Backward)
         {
             GameOver = false;
             time -= deltaTime;
+            state.time = time;
             SimulateBackward();
         }
         timeOut = recordsTime.Count + " " + lastRecord;
@@ -65,6 +67,14 @@ public class FixWorldComplex : MonoBehaviour
 
     private void InputCheck()
     {
+        if (Input.GetKey(KeyCode.D))
+        {
+            state.left = true;
+        }
+        else
+        {
+            state.left = false;
+        }
         if (Input.GetKey(KeyCode.Q))
         {
             if (Forward)
@@ -93,6 +103,8 @@ public class FixWorldComplex : MonoBehaviour
 
     private Stack<int> records = new Stack<int>();
     private Stack<Fix> recordsTime = new Stack<Fix>();
+    private InputRecord state = new InputRecord();
+    private InputRecording stateRecordings = new InputRecording();
 
     private void SimulateForward()
     {
@@ -104,6 +116,7 @@ public class FixWorldComplex : MonoBehaviour
             lastRecord = 0;
             Record();
         }
+        stateRecordings.AddState(state);
     }
 
     private void SimulateBackward()
@@ -117,16 +130,20 @@ public class FixWorldComplex : MonoBehaviour
         {
             SetFromCache();
             lastRecord--;
+            state = stateRecordings.GetState(time);
         }
     }
 
     private void ReSimulateFromPoint()
     {
+        stateRecordings.ClearFrom(time);
+
         Fix fromTime = recordsTime.Pop();
         if (recordsTime.Count == 0) recordsTime.Push(fromTime);
         SetState();
-        for (Fix i = fromTime; i < time; i += deltaTime)
+        for (Fix tmpTime = fromTime; tmpTime < time; tmpTime += deltaTime)
         {
+            state = stateRecordings.GetState(tmpTime);
             Step();
             RecordToCache();
         }
@@ -150,6 +167,7 @@ public class FixWorldComplex : MonoBehaviour
 
     private void Step()
     {
+        if (state.left) return;
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].Step();
