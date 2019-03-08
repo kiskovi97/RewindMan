@@ -4,7 +4,7 @@ using FixedPointy;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(FixCollider))]
-class RigidObject : RecordedObject, FixObject
+class RigidObject : RecordedObject, FixPhyicObject
 {
     // Inspector Initial values
     public bool isStatic = false;
@@ -117,22 +117,6 @@ class RigidObject : RecordedObject, FixObject
         return isStatic;
     }
 
-    public Collision GetCollision(FixObject other)
-    {
-        // regen: other.fixCollider.GetCollision(fixCollider)
-        FixCollider collider = other.Collider();
-
-        if (collider == null) return null;
-
-        if (collider == fixCollider) return null;
-
-        Collision collision = fixCollider.GetCollision(collider);
-
-        if (collision != null) collision.SetObjectsValues(savedVelocity, isStatic, Position);
-
-        return collision;
-    }
-
     public Collision GetCollision(FixCollider collider)
     {
         if (collider == null) return null;
@@ -142,11 +126,6 @@ class RigidObject : RecordedObject, FixObject
         Collision collision = collider.GetCollision(fixCollider);
 
         return collision;
-    }
-
-    public FixCollider Collider()
-    {
-        return fixCollider;
     }
 
     // --------------- Outside 'Forces' ------------

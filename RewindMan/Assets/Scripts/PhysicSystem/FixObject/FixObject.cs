@@ -6,15 +6,4 @@ public interface FixObject
 {
     void Move();
     void MoveBackwards();
-
-    void Collide(Collision[] collisions);
-    void CollideBack(Collision[] collisions);
-
-    bool IsStatic();
-
-    Collision GetCollision(FixObject collisions);
-
-    Collision GetCollision(FixCollider collisions);
-    
-    FixCollider Collider();
 }

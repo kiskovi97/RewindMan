@@ -37,7 +37,8 @@ public class FixWorld : MonoBehaviour
     }
 
     // Inner state
-    private FixObject[] objects;
+    private FixObject[] movingObjects;
+    private FixPhyicObject[] collideables;
     private FixCollider[] colliders;
     private FixPlayer player;
 
@@ -50,13 +51,21 @@ public class FixWorld : MonoBehaviour
 
     public void Start()
     {
-        List<FixObject> list = new List<FixObject>();
+        RigidObject[] rigidObjects = FindObjectsOfType<RigidObject>();
+        FixCollider[] fixColliders = FindObjectsOfType<FixCollider>();
+        MovingPlatform[] movingPlatforms = FindObjectsOfType<MovingPlatform>();
+        
+        List<FixObject> fixList = new List<FixObject>();
+        fixList.AddRange(rigidObjects);
+        fixList.AddRange(movingPlatforms);
+        movingObjects = fixList.ToArray();
+
+        List<FixPhyicObject> physicsList = new List<FixPhyicObject>();
+        collideables = rigidObjects;
+
         List<FixCollider> colliderList = new List<FixCollider>();
-        colliderList.AddRange(FindObjectsOfType<FixCollider>());
-        list.AddRange(FindObjectsOfType<RigidObject>());
-        list.AddRange(FindObjectsOfType<MovingPlatform>());
-        objects = list.ToArray();
-        colliders = colliderList.ToArray();
+        colliders = fixColliders;
+
         player = FindObjectOfType<FixPlayer>();
         GameOver = false;
     }
@@ -103,42 +112,40 @@ public class FixWorld : MonoBehaviour
 
     private void MoveAll()
     {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].Move();
 
-            if (!objects[i].IsStatic())
+        for (int i = 0; i < movingObjects.Length; i++)
+        {
+            movingObjects[i].Move();
+        }
+        for (int i = 0; i < collideables.Length; i++)
+        {
+            List<Collision> collisions = new List<Collision>();
+            for (int j = colliders.Length - 1; j >= 0; j--)
             {
-                List<Collision> collisions = new List<Collision>();
-                for (int j = colliders.Length - 1; j >= 0; j--)
-                {
-                    Collision collision = objects[i].GetCollision(colliders[j]);
-                    if (collision != null)
-                        collisions.Add(collision);
-                }
-                objects[i].Collide(collisions.ToArray());
+                Collision collision = collideables[i].GetCollision(colliders[j]);
+                if (collision != null)
+                    collisions.Add(collision);
             }
+            collideables[i].Collide(collisions.ToArray());
         }
     }
 
     private void MoveAllBack()
     {
-        for (int i = objects.Length - 1; i >= 0; i--)
+        for (int i = collideables.Length - 1; i >= 0; i--)
         {
-            if (!objects[i].IsStatic())
+            List<Collision> collisions = new List<Collision>();
+            for (int j = colliders.Length - 1; j >= 0; j--)
             {
-                List<Collision> collisions = new List<Collision>();
-                for (int j = colliders.Length - 1; j >= 0; j--)
-                {
-                    Collision collision = objects[i].GetCollision(colliders[j]);
-                    if (collision != null)
-                        collisions.Add(collision);
-                }
-                objects[i].CollideBack(collisions.ToArray());
+                Collision collision = collideables[i].GetCollision(colliders[j]);
+                if (collision != null)
+                    collisions.Add(collision);
             }
-            
-
-            objects[i].MoveBackwards();
+            collideables[i].CollideBack(collisions.ToArray());
+        }
+        for (int i = movingObjects.Length - 1; i >= 0; i--)
+        {
+            movingObjects[i].MoveBackwards();
         }
     }
 }

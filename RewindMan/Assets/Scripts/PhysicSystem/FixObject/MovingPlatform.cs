@@ -42,24 +42,6 @@ class MovingPlatform : MonoBehaviour, FixObject
         return;
     }
 
-    public FixCollider Collider()
-    {
-        return fixCollider;
-    }
-
-    public Collision GetCollision(FixObject other)
-    {
-        FixCollider collider = other.Collider();
-
-        if (collider == null) return null;
-
-        Collision collision = collider.GetCollision(fixCollider);
-
-        if (collision != null) collision.SetObjectsValues(velocity, IsStatic(), GetPosition());
-
-        return collision;
-    }
-
     public bool IsStatic()
     {
         return true;
