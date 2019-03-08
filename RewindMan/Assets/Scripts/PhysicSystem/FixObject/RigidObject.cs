@@ -43,6 +43,11 @@ class RigidObject : RecordedObject, FixPhyicObject
         forces.Clear();
         forces.AddForce(FixWorld.gravity);
         minCollide = FixMath.Abs(FixWorld.gravity.Y) * FixWorld.deltaTime * FixWorld.deltaTime;
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     // ---------------- FixObject Implementations -----------------
