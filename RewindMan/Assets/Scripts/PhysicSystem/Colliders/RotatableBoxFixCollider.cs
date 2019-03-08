@@ -5,6 +5,7 @@ using FixedPointy;
 public class RotatableBoxFixCollider : FixCollider
 {
     public Vector3 scaleAdjustment = new Vector3(1, 1, 1);
+
     private FixVec3 scale = FixVec3.Zero;
     private FixTrans3 rotateMatrix = FixTrans3.Identity;
     private FixTrans3 inverseRotateMatrix = FixTrans3.Identity;
@@ -21,14 +22,18 @@ public class RotatableBoxFixCollider : FixCollider
         y = Mathf.Abs((float)scale.Y / scaleAdjustment.y);
         z = Mathf.Abs((float)scale.Z / scaleAdjustment.z);
         transform.localScale = new Vector3(x,y,z);
-        DrawLine(GetPosition(), RightUp, Color.blue);
-        DrawLine(GetPosition(), RightDown, Color.blue);
-        DrawLine(GetPosition(), LeftUp, Color.blue);
-        DrawLine(GetPosition(), LeftDown, Color.blue);
         FixVec3 rotation = FixConverter.ToFixVec3BigNumber(transform.rotation.eulerAngles);
         transform.rotation = Quaternion.Euler(FixConverter.ToFixVec3(rotation));
         rotateMatrix = FixTrans3.MakeRotation(rotation);
         inverseRotateMatrix = FixTrans3.MakeRotation(rotation * -1);
+    }
+
+    private void Update()
+    {
+        DrawLineShort(RightUp, RightDown, Color.blue);
+        DrawLineShort(LeftUp, LeftDown, Color.blue);
+        DrawLineShort(LeftDown, RightDown, Color.blue);
+        DrawLineShort(RightUp, LeftUp, Color.blue);
     }
 
     private FixVec3 RightUp

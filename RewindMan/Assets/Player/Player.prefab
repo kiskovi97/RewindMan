@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5529930441831573272}
-  - component: {fileID: 2908099333533854543}
+  - component: {fileID: 1443481121936472569}
   - component: {fileID: 5529930441831573273}
   - component: {fileID: 2336202057657240331}
   - component: {fileID: 4071810428953034625}
@@ -37,7 +37,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
---- !u!114 &2908099333533854543
+--- !u!114 &1443481121936472569
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,7 +49,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 100e44af6bfa6e94387548109db22a1c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Draw: 0
+  Draw: 1
+  isStatic: 1
   scaleAdjustment: {x: 1, y: 2, z: 1}
 --- !u!114 &5529930441831573273
 MonoBehaviour:
@@ -80,8 +81,6 @@ MonoBehaviour:
   DrawVectors: 0
   EnableLog: 0
   recordsNumber: 0
-  text: {fileID: 0}
-  time: {fileID: 2542374116085277666}
   isStatic: 0
   startVelocity: {x: 0, y: 0, z: 0}
   frictionCoefficientFloat: 0.8
