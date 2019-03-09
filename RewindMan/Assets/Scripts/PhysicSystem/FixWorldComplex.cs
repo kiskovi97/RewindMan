@@ -10,6 +10,7 @@ public class FixWorldComplex : MonoBehaviour
     public static Fix deltaTime;
     public string timeOut = "";
     private FixCollider[] colliders;
+    private FixPlayerOther fixPlayer;
 
     private InputRecording stateRecordings = new InputRecording();
 
@@ -56,6 +57,7 @@ public class FixWorldComplex : MonoBehaviour
         Backward = false;
         objects = FindObjectsOfType<RigidObjectOther>();
         colliders = FindObjectsOfType<FixCollider>();
+        fixPlayer = FindObjectOfType<FixPlayerOther>();
     }
 
     private bool firstTime = true;
@@ -178,13 +180,7 @@ public class FixWorldComplex : MonoBehaviour
 
     private void Step()
     {
-        if (state.right)
-        {
-            for (int i = 0; i < objects.Length; i++)
-            {
-                objects[i].MovePosition(FixVec3.UnitX);
-            }
-        }
+        fixPlayer.KeyCheck(state);
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].Move();
