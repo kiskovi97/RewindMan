@@ -12,9 +12,7 @@ public class FixWorldComplex : MonoBehaviour
     public static Fix deltaTime;
     public string timeOut = "";
     private FixObjects fixObjects;
-
     private InputRecording stateRecordings = new InputRecording();
-
     private InputRecord state = new InputRecord();
 
     public static bool GameOver
@@ -105,12 +103,23 @@ public class FixWorldComplex : MonoBehaviour
             Backward = false;
         }
     }
+    
+    private volatile int thisFrame = 0;
+    private volatile int perFrame = 60;
+    private Stack<Fix> timeRecord = new Stack<Fix>();
 
     private void SimulateForward()
     {
         fixObjects.CacheClear();
         InputToState();
         fixObjects.Step(state);
+        thisFrame++;
+        if (perFrame == thisFrame)
+        {
+            fixObjects.Record();
+            timeRecord.Push(time);
+            thisFrame = 0;
+        }
     }
 
     private void SimulateBackward()
@@ -122,11 +131,17 @@ public class FixWorldComplex : MonoBehaviour
         InputToState(time);
         fixObjects.SetFromCache();
         stateRecordings.ClearFrom(time);
+        thisFrame--;
+        if (thisFrame < 0)
+        {
+            thisFrame = perFrame - 1;
+        }
     }
 
     private void ReSimulateFromPoint()
     {
         Fix fromTime = 0;
+        if (timeRecord.Count > 0) fromTime = timeRecord.Pop();
         fixObjects.SetState();
         Fix to = time;
         for (time = fromTime; time < to; time += deltaTime)
