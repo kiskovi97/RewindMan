@@ -15,6 +15,8 @@ class RigidObjectOther : RecordedObjectOther
     private static Fix minCollide = new Fix(4);
     private Fix frictionCoefficient;
     private Fix impulseLoseCoefficent;
+
+    // State
     private int hasCollided = 0;
 
     // Inner state 
@@ -82,9 +84,9 @@ class RigidObjectOther : RecordedObjectOther
 
     // --------------- Outside 'Forces' ------------
 
-   /* public bool MovePosition(FixVec3 speed)
+   public bool MovePosition(FixVec3 speed)
     {
-        if (hasCollided > 0)
+        //if (hasCollided > 0)
         {
             VelocityCorrection((Velocity + speed) / 2);
             return true;
@@ -101,7 +103,7 @@ class RigidObjectOther : RecordedObjectOther
             return true;
         }
         return false;
-    }*/
+    }
 
     // --------------- Inner Help Functions  -------------
 

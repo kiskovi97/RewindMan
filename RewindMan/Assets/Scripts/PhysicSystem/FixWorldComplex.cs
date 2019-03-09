@@ -13,6 +13,8 @@ public class FixWorldComplex : MonoBehaviour
 
     private InputRecording stateRecordings = new InputRecording();
 
+    private InputRecord state = new InputRecord();
+
     private RigidObjectOther[] objects;
 
     public static bool GameOver
@@ -65,15 +67,18 @@ public class FixWorldComplex : MonoBehaviour
         timeOut = time + "";
         if (simulate) return;
         simulate = true;
+
         if (firstTime)
         {
             Record();
             firstTime = false;
         }
-        InputCheck();
+
+        ReverseCheck();
         if (Forward && !GameOver)
         {
             time += deltaTime;
+            state.time = time;
             SimulateForward();
         }
         else if (Backward)
@@ -81,11 +86,13 @@ public class FixWorldComplex : MonoBehaviour
             GameOver = false;
             SimulateBackward();
             time -= deltaTime;
+            state.time = time;
         }
+
         simulate = false;
     }
 
-    private void InputCheck()
+    private void ReverseCheck()
     {
         if (Input.GetKey(KeyCode.Q))
         {
@@ -103,6 +110,7 @@ public class FixWorldComplex : MonoBehaviour
     private void SimulateForward()
     {
         CacheClear();
+        InputToState();
         Step();
     }
 
@@ -114,7 +122,9 @@ public class FixWorldComplex : MonoBehaviour
         {
             ReSimulateFromPoint();
         }
+        InputToState(time);
         SetFromCache();
+        stateRecordings.ClearFrom(time);
     }
 
     private void ReSimulateFromPoint()
@@ -125,9 +135,29 @@ public class FixWorldComplex : MonoBehaviour
         for (time = fromTime; time < to; time += deltaTime)
         {
             RecordToCache();
+            InputToState(time + deltaTime);
+            state.time = time;
             Step();
         }
-        stateRecordings.ClearFrom(to);
+    }
+
+    private void InputToState()
+    {
+        if (Input.GetKey(KeyCode.D)) state.right = true;
+        else state.right = false;
+
+        if (Input.GetKey(KeyCode.A)) state.left = true;
+        else state.left = false;
+
+        if (Input.GetKey(KeyCode.Space)) state.up = true;
+        else state.up = false;
+
+        stateRecordings.AddState(state);
+    }
+
+    private void InputToState(Fix fromTime)
+    {
+        state = stateRecordings.GetState(fromTime);
     }
 
     private void SetFromCache()
@@ -148,6 +178,13 @@ public class FixWorldComplex : MonoBehaviour
 
     private void Step()
     {
+        if (state.right)
+        {
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].MovePosition(FixVec3.UnitX);
+            }
+        }
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].Move();

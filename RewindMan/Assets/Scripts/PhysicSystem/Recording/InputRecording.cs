@@ -13,34 +13,32 @@ public class InputRecording
 
     public void AddState(InputRecord record)
     {
-        InputRecord newState = new InputRecord(record.left, record.right, record.up, record.time);
+        InputRecord newState = record.Copy();
         if (recordings.Count > 0)
         {
             InputRecord last = recordings[recordings.Count - 1];
             if ((last.left != record.left) || (last.right != record.right) || (last.up != record.up))
             {
                 recordings.Add(newState);
-                Debug.Log(record);
             }
         }
         else
         {
-            Debug.Log(record);
             recordings.Add(newState);
         }
     }
 
     public InputRecord GetState(Fix time)
     {
-        InputRecord output = new InputRecord();
-        foreach (InputRecord rec in recordings)
+        InputRecord max = new InputRecord();
+        foreach (InputRecord current in recordings)
         {
-            if (rec.time > output.time && rec.time <= time)
+            if (current.time > max.time && current.time <= time)
             {
-                output = rec;
+                max = current;
             }
         }
-        return output.Copy();
+        return max.Copy();
     }
 
     public void ClearFrom(Fix time)

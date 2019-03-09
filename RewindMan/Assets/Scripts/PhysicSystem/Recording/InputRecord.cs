@@ -28,7 +28,7 @@ public class InputRecord
 
     public override string ToString()
     {
-        return left + " time: " + time;
+        return right + " time: " + time;
     }
 
     public InputRecord Copy()
