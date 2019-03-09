@@ -5,11 +5,13 @@ using FixedPointy;
 public class FixWorldComplex : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
+    public static FixVec3 gravity = FixVec3.Zero;
     public static Fix time = Fix.Zero;
     public static Fix deltaTime;
     public string timeOut = "";
+    private FixCollider[] colliders;
 
-    private RecordedObjectOther[] objects;
+    private RigidObjectOther[] objects;
 
     public static bool GameOver
     {
@@ -31,8 +33,14 @@ public class FixWorldComplex : MonoBehaviour
         GameOver = true;
     }
 
+    public static FixVec3 GravitySizeVector(FixVec3 vector)
+    {
+        return vector.Normalize() * gravity.GetMagnitude();
+    }
+
     public void Awake()
     {
+        gravity = FixConverter.ToFixVec3(Physics.gravity);
         deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
         time = Fix.Zero;
     }
@@ -42,46 +50,37 @@ public class FixWorldComplex : MonoBehaviour
         GameOver = false;
         Forward = true;
         Backward = false;
-        objects = FindObjectsOfType<RecordedObjectOther>();
-        Record();
+        objects = FindObjectsOfType<RigidObjectOther>();
+        colliders = FindObjectsOfType<FixCollider>();
     }
+
+    private bool firstTime = true;
 
     private void FixedUpdate()
     {
+        if (firstTime)
+        {
+            Record();
+            firstTime = false;
+        }
         InputCheck();
         if (Forward && !GameOver)
         {
-            SimulateForward();
             time += deltaTime;
-            state.time = time;
+            SimulateForward();
         }
         else if (Backward)
         {
             GameOver = false;
-            time -= deltaTime;
-            state.time = time;
             SimulateBackward();
+            time -= deltaTime;
         }
-        timeOut = recordsTime.Count + " " + lastRecord;
     }
 
     private void InputCheck()
     {
-        if (Input.GetKey(KeyCode.D))
-        {
-            state.left = true;
-        }
-        else
-        {
-            state.left = false;
-        }
         if (Input.GetKey(KeyCode.Q))
         {
-            if (Forward)
-            {
-                CacheClear();
-                ReSimulateFromPoint();
-            }
             Forward = false;
             if (time > Fix.Zero) Backward = true;
             else Backward = false;
@@ -96,57 +95,37 @@ public class FixWorldComplex : MonoBehaviour
             Backward = false;
         }
     }
-
-    private int framePerRecord = 60;
-
-    private int lastRecord = 60;
-
-    private Stack<int> records = new Stack<int>();
-    private Stack<Fix> recordsTime = new Stack<Fix>();
-    private InputRecord state = new InputRecord();
+    
     private InputRecording stateRecordings = new InputRecording();
 
     private void SimulateForward()
     {
         CacheClear();
         Step();
-        lastRecord++;
-        if (framePerRecord <= lastRecord)
-        {
-            lastRecord = 0;
-            Record();
-        }
-        stateRecordings.AddState(state);
     }
 
     private void SimulateBackward()
     {
-        if (lastRecord <= 0)
+        if (objects.Length == 0) return;
+
+        if (objects[0].CacheSize() == 0)
         {
             ReSimulateFromPoint();
-            lastRecord = framePerRecord - 1;
         }
-        else
-        {
-            SetFromCache();
-            lastRecord--;
-            state = stateRecordings.GetState(time);
-        }
+        SetFromCache();
     }
 
     private void ReSimulateFromPoint()
     {
-        stateRecordings.ClearFrom(time);
-
-        Fix fromTime = recordsTime.Pop();
-        if (recordsTime.Count == 0) recordsTime.Push(fromTime);
+        Fix fromTime = 0;
         SetState();
-        for (Fix tmpTime = fromTime; tmpTime < time; tmpTime += deltaTime)
+        Fix to = time;
+        for (time = fromTime; time <= to; time += deltaTime)
         {
-            state = stateRecordings.GetState(tmpTime);
-            Step();
             RecordToCache();
+            Step();
         }
+        stateRecordings.ClearFrom(time);
     }
 
     private void SetFromCache()
@@ -167,10 +146,20 @@ public class FixWorldComplex : MonoBehaviour
 
     private void Step()
     {
-        if (state.left) return;
         for (int i = 0; i < objects.Length; i++)
         {
-            objects[i].Step();
+            objects[i].Move();
+        }
+        for (int i = 0; i < objects.Length; i++)
+        {
+            List<Collision> collisions = new List<Collision>();
+            for (int j = colliders.Length - 1; j >= 0; j--)
+            {
+                Collision collision = objects[i].GetCollision(colliders[j]);
+                if (collision != null)
+                    collisions.Add(collision);
+            }
+            objects[i].Collide(collisions.ToArray());
         }
     }
 
@@ -180,7 +169,6 @@ public class FixWorldComplex : MonoBehaviour
         {
             objects[i].Record();
         }
-        recordsTime.Push(time);
     }
 
     private void RecordToCache()
