@@ -11,6 +11,8 @@ public class FixWorldComplex : MonoBehaviour
     public string timeOut = "";
     private FixCollider[] colliders;
 
+    private InputRecording stateRecordings = new InputRecording();
+
     private RigidObjectOther[] objects;
 
     public static bool GameOver
@@ -55,9 +57,14 @@ public class FixWorldComplex : MonoBehaviour
     }
 
     private bool firstTime = true;
+    
+    private volatile bool simulate = false;
 
     private void FixedUpdate()
     {
+        timeOut = time + "";
+        if (simulate) return;
+        simulate = true;
         if (firstTime)
         {
             Record();
@@ -75,6 +82,7 @@ public class FixWorldComplex : MonoBehaviour
             SimulateBackward();
             time -= deltaTime;
         }
+        simulate = false;
     }
 
     private void InputCheck()
@@ -87,16 +95,10 @@ public class FixWorldComplex : MonoBehaviour
         }
         else
         {
-            if (Backward)
-            {
-                Record();
-            }
             Forward = true;
             Backward = false;
         }
     }
-    
-    private InputRecording stateRecordings = new InputRecording();
 
     private void SimulateForward()
     {
@@ -120,12 +122,12 @@ public class FixWorldComplex : MonoBehaviour
         Fix fromTime = 0;
         SetState();
         Fix to = time;
-        for (time = fromTime; time <= to; time += deltaTime)
+        for (time = fromTime; time < to; time += deltaTime)
         {
             RecordToCache();
             Step();
         }
-        stateRecordings.ClearFrom(time);
+        stateRecordings.ClearFrom(to);
     }
 
     private void SetFromCache()

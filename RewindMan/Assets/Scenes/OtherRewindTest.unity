@@ -213,8 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcf6b82dd7ed5f4eb64c6e110c7b0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startVelocity: {x: 0, y: 2, z: 0}
+  startVelocity: {x: 0, y: 10, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -287,7 +288,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198885980}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 8, z: 0}
+  m_LocalPosition: {x: -2, y: 8, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -517,7 +518,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543261027}
   m_LocalRotation: {x: -0, y: -0, z: -0.25881952, w: 0.96592575}
-  m_LocalPosition: {x: -1, y: -3, z: 0}
+  m_LocalPosition: {x: -2.73, y: -2, z: 0}
   m_LocalScale: {x: 4, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -650,6 +651,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 2, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -722,7 +724,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729212987}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 5, z: 0}
+  m_LocalPosition: {x: -2, y: 5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -855,6 +857,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 2, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -1133,8 +1136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcf6b82dd7ed5f4eb64c6e110c7b0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startVelocity: {x: 0, y: 0, z: 0}
+  startVelocity: {x: 0, y: 10, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -1265,6 +1269,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 2, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -1470,6 +1475,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 0, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -1664,6 +1670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 2, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -1736,7 +1743,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2048541968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 3, z: 0}
+  m_LocalPosition: {x: -2, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1776,6 +1783,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startVelocity: {x: 0, y: 2, z: 0}
   recordsNumber: 0
+  backward: 1
   isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
@@ -1848,7 +1856,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2050305206}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 11, z: 0}
+  m_LocalPosition: {x: -2, y: 11, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

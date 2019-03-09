@@ -100,6 +100,5 @@ class RecordedObjectOther : MonoBehaviour
         Record record = cache.Pop();
         Velocity = record.velocity;
         Position = record.position;
-        Debug.Log(record.time);
     }
 }
