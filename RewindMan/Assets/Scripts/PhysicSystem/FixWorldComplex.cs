@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using FixedPointy;
 
+
+[RequireComponent(typeof(FixObjects))]
 public class FixWorldComplex : MonoBehaviour
 {
     // PhysicalObjects And Or Forces need it
@@ -9,14 +11,11 @@ public class FixWorldComplex : MonoBehaviour
     public static Fix time = Fix.Zero;
     public static Fix deltaTime;
     public string timeOut = "";
-    private FixCollider[] colliders;
-    private FixPlayerOther fixPlayer;
+    private FixObjects fixObjects;
 
     private InputRecording stateRecordings = new InputRecording();
 
     private InputRecord state = new InputRecord();
-
-    private RigidObjectOther[] objects;
 
     public static bool GameOver
     {
@@ -55,9 +54,7 @@ public class FixWorldComplex : MonoBehaviour
         GameOver = false;
         Forward = true;
         Backward = false;
-        objects = FindObjectsOfType<RigidObjectOther>();
-        colliders = FindObjectsOfType<FixCollider>();
-        fixPlayer = FindObjectOfType<FixPlayerOther>();
+        fixObjects = GetComponent<FixObjects>();
     }
 
     private bool firstTime = true;
@@ -72,7 +69,7 @@ public class FixWorldComplex : MonoBehaviour
 
         if (firstTime)
         {
-            Record();
+            fixObjects.Record();
             firstTime = false;
         }
 
@@ -111,35 +108,33 @@ public class FixWorldComplex : MonoBehaviour
 
     private void SimulateForward()
     {
-        CacheClear();
+        fixObjects.CacheClear();
         InputToState();
-        Step();
+        fixObjects.Step(state);
     }
 
     private void SimulateBackward()
     {
-        if (objects.Length == 0) return;
-
-        if (objects[0].CacheSize() == 0)
+        if (fixObjects.CahceIsEmpty())
         {
             ReSimulateFromPoint();
         }
         InputToState(time);
-        SetFromCache();
+        fixObjects.SetFromCache();
         stateRecordings.ClearFrom(time);
     }
 
     private void ReSimulateFromPoint()
     {
         Fix fromTime = 0;
-        SetState();
+        fixObjects.SetState();
         Fix to = time;
         for (time = fromTime; time < to; time += deltaTime)
         {
-            RecordToCache(to - time);
+            fixObjects.RecordToCache(to - time);
             InputToState(time + deltaTime);
             state.time = time;
-            Step();
+            fixObjects.Step(state);
         }
     }
 
@@ -160,65 +155,5 @@ public class FixWorldComplex : MonoBehaviour
     private void InputToState(Fix fromTime)
     {
         state = stateRecordings.GetState(fromTime);
-    }
-
-    private void SetFromCache()
-    {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].SetFromCache();
-        }
-    }
-
-    private void CacheClear()
-    {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].CacheClear();
-        }
-    }
-
-    private void Step()
-    {
-        fixPlayer.KeyCheck(state);
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].Move();
-        }
-        for (int i = 0; i < objects.Length; i++)
-        {
-            List<Collision> collisions = new List<Collision>();
-            for (int j = colliders.Length - 1; j >= 0; j--)
-            {
-                Collision collision = objects[i].GetCollision(colliders[j]);
-                if (collision != null)
-                    collisions.Add(collision);
-            }
-            objects[i].Collide(collisions.ToArray());
-        }
-    }
-
-    private void Record()
-    {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].Record();
-        }
-    }
-
-    private void RecordToCache(Fix time)
-    {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].RecordToCache(time);
-        }
-    }
-
-    private void SetState()
-    {
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].SetLast();
-        }
     }
 }

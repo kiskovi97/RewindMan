@@ -373,8 +373,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8992691043823807876}
-  - component: {fileID: 7585836076508648328}
   - component: {fileID: 6202642316631322564}
+  - component: {fileID: 4718928658514226656}
   - component: {fileID: 3727819894018531803}
   m_Layer: 0
   m_Name: World
@@ -397,23 +397,6 @@ Transform:
   m_Father: {fileID: 8992691043979853480}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7585836076508648328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8992691043823807874}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f0dc65e93aa7d44385eaeea1ec30487, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  lightSource: {fileID: 5384333737113600976}
-  effect: {fileID: 8717463019585151226}
-  reverseColor: {r: 1, g: 1, b: 1, a: 0}
-  glitchIntensity: 0.2
-  help: {fileID: 4042661751210498454}
 --- !u!114 &6202642316631322564
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,6 +410,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeOut: 
+--- !u!114 &4718928658514226656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8992691043823807874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b1e15db4d294a94f9164d811a1ef5ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &3727819894018531803
 MonoBehaviour:
   m_ObjectHideFlags: 0
