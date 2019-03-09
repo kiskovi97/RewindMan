@@ -136,7 +136,7 @@ public class FixWorldComplex : MonoBehaviour
         Fix to = time;
         for (time = fromTime; time < to; time += deltaTime)
         {
-            RecordToCache();
+            RecordToCache(to - time);
             InputToState(time + deltaTime);
             state.time = time;
             Step();
@@ -206,11 +206,11 @@ public class FixWorldComplex : MonoBehaviour
         }
     }
 
-    private void RecordToCache()
+    private void RecordToCache(Fix time)
     {
         for (int i = 0; i < objects.Length; i++)
         {
-            objects[i].RecordToCache();
+            objects[i].RecordToCache(time);
         }
     }
 

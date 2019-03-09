@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class BackwardsEffectOther : MonoBehaviour
+public class BackwardsEffect : MonoBehaviour
 {
     public Light lightSource;
     public GlitchEffect effect;
@@ -18,20 +18,20 @@ public class BackwardsEffectOther : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (FixWorldComplex.GameOver)
+        if (FixWorld.GameOver)
         {
             if (help != null)
                 help.text = "Use Q To Reverse Time";
             SetBackWardEffect();
         }
 
-        if (FixWorldComplex.Forward && !FixWorldComplex.GameOver)
+        if (FixWorld.Forward && !FixWorld.GameOver)
         {
             if (help != null)
                 help.text = "";
             SetForwardEffect();
         }
-        else if (FixWorldComplex.Backward)
+        else if (FixWorld.Backward)
         {
             if (help != null)
                 help.text = "";

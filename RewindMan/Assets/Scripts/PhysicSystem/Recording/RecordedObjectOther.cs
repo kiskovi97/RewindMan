@@ -75,12 +75,12 @@ class RecordedObjectOther : MonoBehaviour
         if (recording.Count == 0) recording.Push(record);
     }
 
-    public void RecordToCache()
+    public void RecordToCache(Fix time)
     {
         if (cache.Count > 0)
         {
             Record rec = cache.Peek();
-            Debug.DrawLine(FixConverter.ToFixVec3(rec.position), FixConverter.ToFixVec3(Position), Color.red, 1000f);
+            Debug.DrawLine(FixConverter.ToFixVec3(rec.position), FixConverter.ToFixVec3(Position), Color.red, (float)time);
         }
         cache.Push(new Record(Velocity, FixWorldComplex.time, Position));
     }
