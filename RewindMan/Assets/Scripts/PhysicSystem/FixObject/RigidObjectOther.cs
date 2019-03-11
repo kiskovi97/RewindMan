@@ -27,7 +27,7 @@ class RigidObjectOther : RecordedObjectOther
         fixCollider = GetComponent<FixCollider>();
         ResetRecording();
 
-        state = PlayerRecord.RecordFromBase(state, 0);
+        state = RigidRecord.RecordFromBase(state, 0);
 
         fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         fixCollider.isStatic = isStatic;
@@ -102,20 +102,20 @@ class RigidObjectOther : RecordedObjectOther
     {
         if (collided)
         {
-            state = PlayerRecord.RecordFromBase(state, collideOverlap);
+            state = RigidRecord.RecordFromBase(state, collideOverlap);
         }
         else
         {
-            int hasCollided = ((PlayerRecord)state).collided;
+            int hasCollided = ((RigidRecord)state).collided;
             hasCollided--;
             if (hasCollided < 0) hasCollided = 0;
-            state = PlayerRecord.RecordFromBase(state, hasCollided);
+            state = RigidRecord.RecordFromBase(state, hasCollided);
         }
     }
 
     private bool hasCollided()
     {
-        int hasCollided = ((PlayerRecord)state).collided;
+        int hasCollided = ((RigidRecord)state).collided;
         return hasCollided > 0;
     }
 
