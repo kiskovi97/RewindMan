@@ -16,9 +16,6 @@ class RigidObjectOther : RecordedObjectOther
     private Fix frictionCoefficient;
     private Fix impulseLoseCoefficent;
 
-    // State
-    private int hasCollided = 0;
-
     // Inner state 
     private FixCollider fixCollider;
     private FixVec3 savedVelocity = FixVec3.Zero;
@@ -29,6 +26,8 @@ class RigidObjectOther : RecordedObjectOther
         base.Start();
         fixCollider = GetComponent<FixCollider>();
         ResetRecording();
+
+        state = PlayerRecord.RecordFromBase(state, 0);
 
         fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         fixCollider.isStatic = isStatic;
@@ -50,11 +49,7 @@ class RigidObjectOther : RecordedObjectOther
         Step();
         fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         forces.Clear();
-        hasCollided--;
-        if (hasCollided < 0)
-        {
-            hasCollided = 0;
-        }
+        IsColide(false);
     }
 
     public void Collide(Collision[] collisions)
@@ -62,7 +57,7 @@ class RigidObjectOther : RecordedObjectOther
         if (isStatic) return;
         if (collisions.Length != 0)
         {
-            hasCollided = collideOverlap;
+            IsColide(true);
             ReactToCollide(collisions);
         }
     }
@@ -82,7 +77,7 @@ class RigidObjectOther : RecordedObjectOther
 
    public bool MovePosition(FixVec3 speed)
     {
-        //if (hasCollided > 0)
+        if (hasCollided())
         {
             VelocityCorrection((state.velocity + speed) / 2);
             return true;
@@ -92,16 +87,37 @@ class RigidObjectOther : RecordedObjectOther
 
     public bool AddToSpeed(FixVec3 speed)
     {
-        if (hasCollided > 0)
+        if (hasCollided())
         {
             VelocityCorrection(speed);
-            hasCollided = 0;
+            IsColide(false);
             return true;
         }
         return false;
     }
 
     // --------------- Inner Help Functions  -------------
+
+    private void IsColide(bool collided)
+    {
+        if (collided)
+        {
+            state = PlayerRecord.RecordFromBase(state, collideOverlap);
+        }
+        else
+        {
+            int hasCollided = ((PlayerRecord)state).collided;
+            hasCollided--;
+            if (hasCollided < 0) hasCollided = 0;
+            state = PlayerRecord.RecordFromBase(state, hasCollided);
+        }
+    }
+
+    private bool hasCollided()
+    {
+        int hasCollided = ((PlayerRecord)state).collided;
+        return hasCollided > 0;
+    }
 
     void ReactToCollide(Collision[] collisions)
     {
