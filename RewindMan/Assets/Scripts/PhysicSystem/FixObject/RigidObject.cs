@@ -4,7 +4,7 @@ using FixedPointy;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(FixCollider))]
-class RigidObject : RecordedObject, FixPhyicObject
+public class RigidObject : RecordedObject, FixPhyicObject
 {
     // Inspector Initial values
     public bool isStatic = false;

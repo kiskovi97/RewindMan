@@ -4,7 +4,7 @@ using FixedPointy;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(FixCollider))]
-class RigidObjectOther : RecordedObjectOther
+public class RigidObjectOther : RecordedObjectOther
 {
     // Inspector Initial values
     public bool isStatic = false;
@@ -113,7 +113,7 @@ class RigidObjectOther : RecordedObjectOther
         }
     }
 
-    private bool hasCollided()
+    public bool hasCollided()
     {
         int hasCollided = ((RigidRecord)state).collided;
         return hasCollided > 0;

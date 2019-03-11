@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using FixedPointy;
 
-class RecordedObject : MonoBehaviour
+public class RecordedObject : MonoBehaviour
 {
     private FixRecording recording = new FixRecording();
 

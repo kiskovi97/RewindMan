@@ -2,7 +2,7 @@
 using FixedPointy;
 using System.Collections.Generic;
 
-class RecordedObjectOther : MonoBehaviour
+public class RecordedObjectOther : MonoBehaviour
 {
     public Vector3 startVelocity = new Vector3(0, 1, 0);
     public Record state;
