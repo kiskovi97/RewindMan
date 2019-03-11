@@ -6,7 +6,6 @@ class RecordedObjectOther : MonoBehaviour
 {
     public Vector3 startVelocity = new Vector3(0, 1, 0);
     public FixVec3 Position { get; private set; }
-
     public FixVec3 Velocity { get; private set; }
 
     public int recordsNumber = 0;

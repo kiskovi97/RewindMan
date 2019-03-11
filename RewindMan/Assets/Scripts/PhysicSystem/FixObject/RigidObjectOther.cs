@@ -133,7 +133,7 @@ class RigidObjectOther : RecordedObjectOther
         FixVec3 paralellVector = new FixVec3(-N.Y, N.X, N.Z);
         FixVec3 projectedForce = HelpFixMath.Project(Velocity, paralellVector);
         VelocityCorrection(projectedForce * frictionCoefficient);
-        forces.AddImpulse(FixWorldComplex.GravitySizeVector(N));
+        //forces.AddImpulse(FixWorldComplex.GravitySizeVector(N));
     }
 
     private void ReactDynamicCollide(Collision collision)
@@ -144,10 +144,10 @@ class RigidObjectOther : RecordedObjectOther
         // Impulse
         velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
 
-        if (Position.Y >= collision.position.Y)
+        /*if (Position.Y >= collision.position.Y)
         {
             forces.AddImpulse(FixWorldComplex.GravitySizeVector(N));
-        }
+        }*/
         VelocityCorrection(velocity);
     }
 
