@@ -28,14 +28,10 @@ class RigidObjectOther : RecordedObjectOther
     {
         base.Start();
         fixCollider = GetComponent<FixCollider>();
-
-        FixVec3 position = (FixConverter.ToFixVec3(transform.position));
         ResetRecording();
-        SetPositionAndVelocity(position, Velocity);
 
-        fixCollider.SetPositionAndVelocity(Position, Velocity);
+        fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         fixCollider.isStatic = isStatic;
-        transform.position = FixConverter.ToFixVec3(Position);
 
         frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
         impulseLoseCoefficent = FixConverter.ToFix(impulseLoseCoefficentFloat);
@@ -52,7 +48,7 @@ class RigidObjectOther : RecordedObjectOther
         if (isStatic) return;
         Accelerate(forces.GetSumForces());
         Step();
-        fixCollider.SetPositionAndVelocity(Position, Velocity);
+        fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         forces.Clear();
         hasCollided--;
         if (hasCollided < 0)
@@ -88,7 +84,7 @@ class RigidObjectOther : RecordedObjectOther
     {
         //if (hasCollided > 0)
         {
-            VelocityCorrection((Velocity + speed) / 2);
+            VelocityCorrection((state.velocity + speed) / 2);
             return true;
         }
         return false;
@@ -124,14 +120,14 @@ class RigidObjectOther : RecordedObjectOther
                 ReactStaticCollide(collisions[i]);
             }
         }
-        startVelocity = FixConverter.ToFixVec3(Velocity);
+        startVelocity = FixConverter.ToFixVec3(state.velocity);
     }
 
     private void ReactStaticCollide(Collision collision)
     {
         FixVec3 N = collision.Normal;
         FixVec3 paralellVector = new FixVec3(-N.Y, N.X, N.Z);
-        FixVec3 projectedForce = HelpFixMath.Project(Velocity, paralellVector);
+        FixVec3 projectedForce = HelpFixMath.Project(state.velocity, paralellVector);
         VelocityCorrection(projectedForce * frictionCoefficient);
         //forces.AddImpulse(FixWorldComplex.GravitySizeVector(N));
     }
@@ -140,7 +136,7 @@ class RigidObjectOther : RecordedObjectOther
     {
         FixVec3 N = collision.Normal;
         // Direction
-        FixVec3 velocity = Velocity + FixMath.Abs(2 * Velocity.Dot(N)) * N;
+        FixVec3 velocity = state.velocity + FixMath.Abs(2 * state.velocity.Dot(N)) * N;
         // Impulse
         velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
 
@@ -168,20 +164,20 @@ class RigidObjectOther : RecordedObjectOther
         FixVec3 Correction = Something.Normalize() * length;
         if (collision.isStatic)
         {
-            if (Position.Y >= collision.position.Y)
+            if (state.position.Y >= collision.position.Y)
             {
-                PositionCorrection(Position + Correction);
+                PositionCorrection(state.position + Correction);
             }
             else
             {
-                PositionCorrection(Position + collision.Overlap);
+                PositionCorrection(state.position + collision.Overlap);
             }
         }
         else
         {
-            if (Position.Y >= collision.position.Y)
+            if (state.position.Y >= collision.position.Y)
             {
-                PositionCorrection(Position + Something - Something.Normalize() * minCollide);
+                PositionCorrection(state.position + Something - Something.Normalize() * minCollide);
             }
         }
     }

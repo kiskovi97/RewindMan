@@ -5,8 +5,7 @@ using System.Collections.Generic;
 class RecordedObjectOther : MonoBehaviour
 {
     public Vector3 startVelocity = new Vector3(0, 1, 0);
-    public FixVec3 Position { get; private set; }
-    public FixVec3 Velocity { get; private set; }
+    public Record state;
 
     public int recordsNumber = 0;
 
@@ -15,15 +14,16 @@ class RecordedObjectOther : MonoBehaviour
 
     protected virtual void Start()
     {
-        Position = FixConverter.ToFixVec3(transform.position);
-        Velocity = FixConverter.ToFixVec3(startVelocity);
+        FixVec3 Position = FixConverter.ToFixVec3(transform.position);
+        FixVec3 Velocity = FixConverter.ToFixVec3(startVelocity);
+        state = new Record(Velocity, 0, Position);
     }
 
     private void Update()
     {
         recordsNumber = recording.Count;
-        transform.position = FixConverter.ToFixVec3(Position);
-        startVelocity = FixConverter.ToFixVec3(Velocity);
+        transform.position = FixConverter.ToFixVec3(state.position);
+        startVelocity = FixConverter.ToFixVec3(state.velocity);
     }
 
     protected void ResetRecording()
@@ -33,34 +33,35 @@ class RecordedObjectOther : MonoBehaviour
 
     protected void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
     {
-        Position = position;
-        Velocity = velocity;
+        state.position = position;
+        state.velocity = velocity;
     }
 
     protected void PositionCorrection(FixVec3 newPosition)
     {
-        Position = newPosition;
+        state.position = newPosition;
     }
 
     protected void VelocityCorrection(FixVec3 newVelocity)
     {
-        Velocity = newVelocity;
+        state.velocity = newVelocity;
         if (newVelocity.GetMagnitude() < FixWorldComplex.deltaTime * FixWorldComplex.gravity.GetMagnitude()) newVelocity = FixVec3.Zero;
     }
 
     protected void Accelerate(FixVec3 sumForce)
     {
-        Velocity += sumForce * FixWorldComplex.deltaTime;
+        state.velocity += sumForce * FixWorldComplex.deltaTime;
     }
 
     public void Step()
     {
-        Position += Velocity * FixWorldComplex.deltaTime;
+        state.position += state.velocity * FixWorldComplex.deltaTime;
     }
 
     public void Record()
     {
-        recording.Push(new Record(Velocity, FixWorldComplex.time, Position));
+        state.time = FixWorldComplex.time;
+        recording.Push(state.Copy());
     }
 
     public void SetLast()
@@ -68,8 +69,7 @@ class RecordedObjectOther : MonoBehaviour
         Record record = recording.Pop();
         if (record != null)
         {
-            Velocity = record.velocity;
-            Position = record.position;
+            state = record.Copy();
         }
         if (recording.Count == 0) recording.Push(record);
     }
@@ -79,9 +79,10 @@ class RecordedObjectOther : MonoBehaviour
         if (cache.Count > 0)
         {
             Record rec = cache.Peek();
-            Debug.DrawLine(FixConverter.ToFixVec3(rec.position), FixConverter.ToFixVec3(Position), Color.red, (float)time);
+            Debug.DrawLine(FixConverter.ToFixVec3(rec.position), FixConverter.ToFixVec3(state.position), Color.red, (float)time);
         }
-        cache.Push(new Record(Velocity, FixWorldComplex.time, Position));
+        state.time = FixWorldComplex.time;
+        cache.Push(state.Copy());
     }
 
     public void CacheClear()
@@ -97,7 +98,6 @@ class RecordedObjectOther : MonoBehaviour
     public void SetFromCache()
     {
         Record record = cache.Pop();
-        Velocity = record.velocity;
-        Position = record.position;
+        state = record.Copy();
     }
 }

@@ -436,7 +436,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lightSource: {fileID: 5384333737113600976}
   effect: {fileID: 8717463019585151226}
-  reverseColor: {r: 0, g: 0, b: 0, a: 0}
+  reverseColor: {r: 1, g: 1, b: 1, a: 0}
   glitchIntensity: 0.2
   help: {fileID: 4042661751210498454}
 --- !u!1 &8992691043979853481
@@ -539,6 +539,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840733307211996330, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d,
+        type: 3}
+      propertyPath: speed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9df1b2a2a6cb5ea4cb4007ec8e151d5d, type: 3}

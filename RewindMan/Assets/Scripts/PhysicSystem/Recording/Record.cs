@@ -15,12 +15,27 @@ public class Record
         this.position = position;
         this.kinematic = kinematic;
     }
+
+    public Record(Record record)
+    {
+        this.velocity = record.velocity;
+        this.time = record.time;
+        this.position = record.position;
+        this.kinematic = record.kinematic;
+    }
+
     public bool Equals(Record other)
     {
         return velocity.Equals(other.velocity) && position.Equals(other.position) && velocity.GetMagnitude() < new Fix(8);
     }
+
     public override string ToString()
     {
         return velocity.ToString();
+    }
+
+    public virtual Record Copy()
+    {
+        return new Record(this);
     }
 }
