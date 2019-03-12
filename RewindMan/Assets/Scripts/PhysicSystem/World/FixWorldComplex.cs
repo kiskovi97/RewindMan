@@ -144,6 +144,12 @@ public class FixWorldComplex : MonoBehaviour
         if (timeRecord.Count > 0) fromTime = timeRecord.Pop();
         fixObjects.SetState();
         Fix to = time;
+        if (to <= fromTime)
+        {
+            fromTime = 0;
+            if (timeRecord.Count > 0) fromTime = timeRecord.Pop();
+            fixObjects.SetState();
+        }
         for (time = fromTime; time < to; time += deltaTime)
         {
             fixObjects.RecordToCache(to - time);
