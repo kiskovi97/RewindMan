@@ -7,11 +7,13 @@ public class FixObjects : MonoBehaviour
     private FixCollider[] colliders;
     private FixPlayerOther fixPlayer;
     private RigidObjectOther[] objects;
+    private MovingObject[] movingObjects;
 
     // Use this for initialization
     void Start()
     {
         objects = FindObjectsOfType<RigidObjectOther>();
+        movingObjects = FindObjectsOfType<MovingObject>();
         colliders = FindObjectsOfType<FixCollider>();
         fixPlayer = FindObjectOfType<FixPlayerOther>();
     }
@@ -27,6 +29,10 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].SetFromCache();
         }
+        foreach (MovingObject moving in movingObjects)
+        {
+            moving.SetFromCache();
+        }
     }
 
     public void CacheClear()
@@ -34,6 +40,10 @@ public class FixObjects : MonoBehaviour
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].CacheClear();
+        }
+        foreach (MovingObject moving in movingObjects)
+        {
+            moving.CacheClear();
         }
     }
 
@@ -43,6 +53,10 @@ public class FixObjects : MonoBehaviour
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].Move();
+        }
+        foreach (MovingObject moving in movingObjects)
+        {
+            moving.Move();
         }
         for (int i = 0; i < objects.Length; i++)
         {
@@ -63,6 +77,10 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].Record();
         }
+        foreach (MovingObject moving in movingObjects)
+        {
+            moving.Record();
+        }
     }
 
     public void RecordToCache(Fix time)
@@ -71,6 +89,10 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].RecordToCache(time);
         }
+        foreach (MovingObject moving in movingObjects)
+        {
+            moving.RecordToCache(time);
+        }
     }
 
     public void SetState()
@@ -78,6 +100,10 @@ public class FixObjects : MonoBehaviour
         for (int i = 0; i < objects.Length; i++)
         {
             objects[i].SetLast();
+        }
+        foreach (MovingObject moving in movingObjects)
+        {
+            moving.SetLast();
         }
     }
 }
