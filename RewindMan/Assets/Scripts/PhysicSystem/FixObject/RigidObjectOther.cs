@@ -77,7 +77,7 @@ public class RigidObjectOther : RecordedObjectOther
 
    public bool MovePosition(FixVec3 speed)
     {
-        if (hasCollided())
+        if (HasCollided())
         {
             VelocityCorrection((state.velocity + speed) / 2);
             return true;
@@ -87,7 +87,7 @@ public class RigidObjectOther : RecordedObjectOther
 
     public bool AddToSpeed(FixVec3 speed)
     {
-        if (hasCollided())
+        if (HasCollided())
         {
             VelocityCorrection(speed);
             IsColide(false);
@@ -113,7 +113,7 @@ public class RigidObjectOther : RecordedObjectOther
         }
     }
 
-    public bool hasCollided()
+    public bool HasCollided()
     {
         int hasCollided = ((RigidRecord)state).collided;
         return hasCollided > 0;
@@ -144,8 +144,11 @@ public class RigidObjectOther : RecordedObjectOther
         FixVec3 N = collision.Normal;
         FixVec3 paralellVector = new FixVec3(-N.Y, N.X, N.Z);
         FixVec3 projectedForce = HelpFixMath.Project(state.velocity, paralellVector);
+        if (FixMath.Abs(projectedForce.Y) < FixMath.Abs(collision.savedVelocity.Y))
+        {
+            projectedForce = new FixVec3(projectedForce.X, collision.savedVelocity.Y, projectedForce.Z);
+        }
         VelocityCorrection(projectedForce * frictionCoefficient);
-        //forces.AddImpulse(FixWorldComplex.GravitySizeVector(N));
     }
 
     private void ReactDynamicCollide(Collision collision)
@@ -156,10 +159,6 @@ public class RigidObjectOther : RecordedObjectOther
         // Impulse
         velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
 
-        /*if (Position.Y >= collision.position.Y)
-        {
-            forces.AddImpulse(FixWorldComplex.GravitySizeVector(N));
-        }*/
         VelocityCorrection(velocity);
     }
 

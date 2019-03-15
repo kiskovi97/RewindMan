@@ -20,6 +20,7 @@ public class MovingObject : RecordedObjectOther
         distance = FixConverter.ToFixVec3(startDistance);
         state = MovingRecord.RecordFromBase(state, 0);
         fixCollider = GetComponent<FixCollider>();
+        fixCollider.isStatic = true;
     }
 
     public virtual void Move()
