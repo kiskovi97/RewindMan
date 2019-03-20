@@ -161,7 +161,7 @@ public class RigidObjectOther : RecordedObjectOther
 
         VelocityCorrection(velocity);
 
-        ((RigidRecord)state).prevVelocity += collision.savedVelocity;
+        //((RigidRecord)state).prevVelocity += collision.savedVelocity;
     }
 
     private void OverlapCorrection(Collision collision)
