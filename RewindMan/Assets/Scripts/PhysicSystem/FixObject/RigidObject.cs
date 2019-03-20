@@ -4,7 +4,7 @@ using FixedPointy;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(FixCollider))]
-class RigidObject : RecordedObject, FixPhyicObject
+public class RigidObject : RecordedObject, FixPhyicObject
 {
     // Inspector Initial values
     public bool isStatic = false;
@@ -43,6 +43,11 @@ class RigidObject : RecordedObject, FixPhyicObject
         forces.Clear();
         forces.AddForce(FixWorld.gravity);
         minCollide = FixMath.Abs(FixWorld.gravity.Y) * FixWorld.deltaTime * FixWorld.deltaTime;
+
+        if (animator == null)
+        {
+            animator = GetComponent<Animator>();
+        }
     }
 
     // ---------------- FixObject Implementations -----------------

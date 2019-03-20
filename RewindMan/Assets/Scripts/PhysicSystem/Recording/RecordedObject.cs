@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using FixedPointy;
 
-class RecordedObject : MonoBehaviour
+public class RecordedObject : MonoBehaviour
 {
     private FixRecording recording = new FixRecording();
 
@@ -61,7 +61,7 @@ class RecordedObject : MonoBehaviour
 
     protected void SetNow()
     {
-        FixRecording.Record record = recording.Get(FixWorld.time);
+        Record record = recording.Get(FixWorld.time);
         if (record != null)
         {
             Velocity = record.velocity;
