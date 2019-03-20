@@ -58,6 +58,11 @@ public class RecordedObjectOther : MonoBehaviour
         state.position += state.velocity * FixWorldComplex.deltaTime;
     }
 
+    public void Step(FixVec3 velocity)
+    {
+        state.position += velocity * FixWorldComplex.deltaTime;
+    }
+
     public void Record()
     {
         state.time = FixWorldComplex.time;

@@ -4,6 +4,7 @@ using FixedPointy;
 
 public class Collision
 {
+    public string tag;
     public FixVec3 Normal;
     public FixVec3 Overlap;
 
@@ -17,10 +18,11 @@ public class Collision
         this.Overlap = overlap;
     }
 
-    public void SetObjectsValues(FixVec3 savedVelocity, bool isStatic, FixVec3 position)
+    public void SetObjectsValues(FixVec3 savedVelocity, bool isStatic, FixVec3 position, string tag)
     {
         this.savedVelocity = savedVelocity;
         this.isStatic = isStatic;
         this.position = position;
+        this.tag = tag;
     }
 }

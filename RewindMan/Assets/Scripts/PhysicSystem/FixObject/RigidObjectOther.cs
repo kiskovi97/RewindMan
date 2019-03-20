@@ -27,7 +27,7 @@ public class RigidObjectOther : RecordedObjectOther
         fixCollider = GetComponent<FixCollider>();
         ResetRecording();
 
-        state = RigidRecord.RecordFromBase(state, 0);
+        state = RigidRecord.RecordFromBase(state, 0, FixVec3.Zero);
 
         fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         fixCollider.isStatic = isStatic;
@@ -47,6 +47,8 @@ public class RigidObjectOther : RecordedObjectOther
         if (isStatic) return;
         Accelerate(forces.GetSumForces());
         Step();
+        Step(((RigidRecord)state).prevVelocity);
+        ((RigidRecord)state).prevVelocity = FixVec3.Zero;
         fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         forces.Clear();
         IsColide(false);
@@ -102,14 +104,14 @@ public class RigidObjectOther : RecordedObjectOther
     {
         if (collided)
         {
-            state = RigidRecord.RecordFromBase(state, collideOverlap);
+            ((RigidRecord)state).collided = collideOverlap;
         }
         else
         {
-            int hasCollided = ((RigidRecord)state).collided;
-            hasCollided--;
-            if (hasCollided < 0) hasCollided = 0;
-            state = RigidRecord.RecordFromBase(state, hasCollided);
+            RigidRecord fullState = ((RigidRecord)state);
+            fullState.collided--;
+            if (fullState.collided < 0) fullState.collided = 0;
+            state = fullState;
         }
     }
 
@@ -144,11 +146,9 @@ public class RigidObjectOther : RecordedObjectOther
         FixVec3 N = collision.Normal;
         FixVec3 paralellVector = new FixVec3(-N.Y, N.X, N.Z);
         FixVec3 projectedForce = HelpFixMath.Project(state.velocity, paralellVector);
-        if (FixMath.Abs(projectedForce.Y) < FixMath.Abs(collision.savedVelocity.Y))
-        {
-            projectedForce = new FixVec3(projectedForce.X, collision.savedVelocity.Y, projectedForce.Z);
-        }
         VelocityCorrection(projectedForce * frictionCoefficient);
+
+        ((RigidRecord)state).prevVelocity += collision.savedVelocity;
     }
 
     private void ReactDynamicCollide(Collision collision)
@@ -160,6 +160,8 @@ public class RigidObjectOther : RecordedObjectOther
         velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
 
         VelocityCorrection(velocity);
+
+        ((RigidRecord)state).prevVelocity += collision.savedVelocity;
     }
 
     private void OverlapCorrection(Collision collision)

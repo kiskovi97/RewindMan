@@ -30,7 +30,7 @@ public abstract class FixCollider : MonoBehaviour
     {
         Collision collision = Collide(other);
         if (collision != null)
-            collision.SetObjectsValues(velocity, isStatic, position);
+            collision.SetObjectsValues(velocity, isStatic, position, tag);
         return collision;
     }
 
