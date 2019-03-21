@@ -8,16 +8,16 @@ namespace FixPhysics
     {
         private FixCollider[] colliders;
         private FixPlayer fixPlayer;
-        private RigidObject[] objects;
+        private RecordedObject[] objects;
         private CollidableObject[] collidables;
-        private MovingPlatform[] movingObjects;
 
         // Use this for initialization
         void Start()
         {
-            objects = FindObjectsOfType<RigidObject>();
+            List<RecordedObject> recordedObjects = new List<RecordedObject>();
+            recordedObjects.AddRange(FindObjectsOfType<RecordedObject>());
+            objects = recordedObjects.ToArray();
             collidables = FindObjectsOfType<CollidableObject>();
-            movingObjects = FindObjectsOfType<MovingPlatform>();
             colliders = FindObjectsOfType<FixCollider>();
             fixPlayer = FindObjectOfType<FixPlayer>();
         }
@@ -33,10 +33,6 @@ namespace FixPhysics
             {
                 objects[i].SetFromCache();
             }
-            foreach (MovingPlatform moving in movingObjects)
-            {
-                moving.SetFromCache();
-            }
         }
 
         public void CacheClear()
@@ -44,10 +40,6 @@ namespace FixPhysics
             for (int i = 0; i < objects.Length; i++)
             {
                 objects[i].CacheClear();
-            }
-            foreach (MovingPlatform moving in movingObjects)
-            {
-                moving.CacheClear();
             }
         }
 
@@ -57,10 +49,6 @@ namespace FixPhysics
             for (int i = 0; i < objects.Length; i++)
             {
                 objects[i].Move();
-            }
-            foreach (MovingPlatform moving in movingObjects)
-            {
-                moving.Move();
             }
             for (int i = 0; i < collidables.Length; i++)
             {
@@ -81,10 +69,6 @@ namespace FixPhysics
             {
                 objects[i].Record();
             }
-            foreach (MovingPlatform moving in movingObjects)
-            {
-                moving.Record();
-            }
         }
 
         public void RecordToCache(Fix time)
@@ -93,10 +77,6 @@ namespace FixPhysics
             {
                 objects[i].RecordToCache(time);
             }
-            foreach (MovingPlatform moving in movingObjects)
-            {
-                moving.RecordToCache(time);
-            }
         }
 
         public void SetState()
@@ -104,10 +84,6 @@ namespace FixPhysics
             for (int i = 0; i < objects.Length; i++)
             {
                 objects[i].SetLast();
-            }
-            foreach (MovingPlatform moving in movingObjects)
-            {
-                moving.SetLast();
             }
         }
     }

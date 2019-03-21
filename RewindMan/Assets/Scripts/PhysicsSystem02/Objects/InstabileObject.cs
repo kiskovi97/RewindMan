@@ -1,39 +1,38 @@
 ﻿using UnityEngine;
+using FixedPointy;
 using UnityEngine.UI;
 using System.Collections;
 namespace FixPhysics
 {
     [RequireComponent(typeof(CollidableObject))]
-    public class MessageBoard : MonoBehaviour
+    public class InstabileObject : RecordedObject
     {
         private CollidableObject collidable;
-        public Text text;
+        public int maxCollide = 15;
 
         // Use this for initialization
-        void Start()
+        protected override void Start()
         {
+            base.Start();
             collidable = GetComponent<CollidableObject>();
             collidable.ReactToCollide += Logger;
-            collidable.ReactNotToCollide += LoggerNothing;
+            state = InstableRecord.RecordFromBase(state,0);
+        }
+
+        public override void Move()
+        {
+            if (((InstableRecord)state).collidedCount > maxCollide) state.velocity += FixVec3.UnitY * -1;
+            Step();
+            collidable.SetPositionAndVelocity(state.position, state.velocity);
         }
 
         void Logger(Collision[] collisions)
         {
-            bool player = false;
             foreach(Collision collision in collisions)
             if (collision.tag == "Player")
             {
-                    player = true;
+                    ((InstableRecord)state).collidedCount++;
             }
-            if (player)
-                text.text = "You Were Here";
-            else
-                LoggerNothing();
-        }
-
-        void LoggerNothing()
-        {
-            text.text = "";
         }
     }
 }

@@ -24,7 +24,7 @@ namespace FixPhysics
             fixCollider.isStatic = true;
         }
 
-        public virtual void Move()
+        public override void Move()
         {
             FixVec3 position = state.position;
             Increment(FixWorld.deltaTime * speed);

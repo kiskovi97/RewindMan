@@ -38,7 +38,7 @@ namespace FixPhysics
 
         // ---------------- FixObject Implementations -----------------
 
-        public void Move()
+        public override void Move()
         {
             Accelerate(forces.GetSumForces());
             Step();
