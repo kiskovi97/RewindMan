@@ -1,67 +1,69 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-
-public class BackwardsEffectOther : MonoBehaviour
+namespace FixPhysics
 {
-    public Light lightSource;
-    public GlitchEffect effect;
-    public Color reverseColor;
-    public float glitchIntensity = 0.2f;
-    private Color prevColor;
-    public Text help;
-
-    public void Start()
+    public class BackwardsEffectOther : MonoBehaviour
     {
-        if (lightSource != null)
-            prevColor = lightSource.color;
-    }
+        public Light lightSource;
+        public GlitchEffect effect;
+        public Color reverseColor;
+        public float glitchIntensity = 0.2f;
+        private Color prevColor;
+        public Text help;
 
-    private void FixedUpdate()
-    {
-        if (FixWorldComplex.GameOver)
+        public void Start()
         {
-            if (help != null)
-                help.text = "Use Q To Reverse Time";
-            SetBackWardEffect();
+            if (lightSource != null)
+                prevColor = lightSource.color;
         }
 
-        if (FixWorldComplex.Forward && !FixWorldComplex.GameOver)
+        private void FixedUpdate()
         {
-            if (help != null)
-                help.text = "";
-            SetForwardEffect();
-        }
-        else if (FixWorldComplex.Backward)
-        {
-            if (help != null)
-                help.text = "";
-            SetBackWardEffect();
-        }
-    }
+            if (FixWorldComplex.GameOver)
+            {
+                if (help != null)
+                    help.text = "Use Q To Reverse Time";
+                SetBackWardEffect();
+            }
 
-    private void SetForwardEffect()
-    {
-        if (lightSource != null)
-        {
-            lightSource.color = prevColor;
+            if (FixWorldComplex.Forward && !FixWorldComplex.GameOver)
+            {
+                if (help != null)
+                    help.text = "";
+                SetForwardEffect();
+            }
+            else if (FixWorldComplex.Backward)
+            {
+                if (help != null)
+                    help.text = "";
+                SetBackWardEffect();
+            }
         }
-        if (effect != null)
-        {
-            effect.intensity = 0;
-            effect.colorIntensity = 0;
-        }
-    }
 
-    private void SetBackWardEffect()
-    {
-        if (lightSource != null)
+        private void SetForwardEffect()
         {
-            lightSource.color = reverseColor;
+            if (lightSource != null)
+            {
+                lightSource.color = prevColor;
+            }
+            if (effect != null)
+            {
+                effect.intensity = 0;
+                effect.colorIntensity = 0;
+            }
         }
-        if (effect != null)
+
+        private void SetBackWardEffect()
         {
-            effect.intensity = glitchIntensity;
-            effect.colorIntensity = 1f;
+            if (lightSource != null)
+            {
+                lightSource.color = reverseColor;
+            }
+            if (effect != null)
+            {
+                effect.intensity = glitchIntensity;
+                effect.colorIntensity = 1f;
+            }
         }
     }
 }

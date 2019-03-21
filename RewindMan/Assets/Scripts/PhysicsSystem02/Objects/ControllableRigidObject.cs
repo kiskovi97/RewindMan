@@ -4,7 +4,7 @@ using FixedPointy;
 
 namespace FixPhysics
 {
-    public class ControllableRigidObjectOther : RigidObjectOther
+    public class ControllableRigidObject : RigidObject
     {
 
         public bool MovePosition(FixVec3 speed)

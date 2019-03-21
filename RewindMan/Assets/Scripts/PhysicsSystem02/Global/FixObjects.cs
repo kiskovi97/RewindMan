@@ -2,108 +2,111 @@
 using System.Collections.Generic;
 using FixedPointy;
 
-public class FixObjects : MonoBehaviour
+namespace FixPhysics
 {
-    private FixCollider[] colliders;
-    private FixPlayerOther fixPlayer;
-    private RigidObjectOther[] objects;
-    private MovingPlatformOther[] movingObjects;
-
-    // Use this for initialization
-    void Start()
+    public class FixObjects : MonoBehaviour
     {
-        objects = FindObjectsOfType<RigidObjectOther>();
-        movingObjects = FindObjectsOfType<MovingPlatformOther>();
-        colliders = FindObjectsOfType<FixCollider>();
-        fixPlayer = FindObjectOfType<FixPlayerOther>();
-    }
+        private FixCollider[] colliders;
+        private FixPlayer fixPlayer;
+        private RigidObject[] objects;
+        private MovingPlatform[] movingObjects;
 
-    public bool CahceIsEmpty()
-    {
-        return objects[0].CacheSize() == 0;
-    }
+        // Use this for initialization
+        void Start()
+        {
+            objects = FindObjectsOfType<RigidObject>();
+            movingObjects = FindObjectsOfType<MovingPlatform>();
+            colliders = FindObjectsOfType<FixCollider>();
+            fixPlayer = FindObjectOfType<FixPlayer>();
+        }
 
-    public void SetFromCache()
-    {
-        for (int i = 0; i < objects.Length; i++)
+        public bool CahceIsEmpty()
         {
-            objects[i].SetFromCache();
+            return objects[0].CacheSize() == 0;
         }
-        foreach (MovingPlatformOther moving in movingObjects)
-        {
-            moving.SetFromCache();
-        }
-    }
 
-    public void CacheClear()
-    {
-        for (int i = 0; i < objects.Length; i++)
+        public void SetFromCache()
         {
-            objects[i].CacheClear();
-        }
-        foreach (MovingPlatformOther moving in movingObjects)
-        {
-            moving.CacheClear();
-        }
-    }
-
-    public void Step(InputRecord state)
-    {
-        fixPlayer.KeyCheck(state);
-        for (int i = 0; i < objects.Length; i++)
-        {
-            objects[i].Move();
-        }
-        foreach (MovingPlatformOther moving in movingObjects)
-        {
-            moving.Move();
-        }
-        for (int i = 0; i < objects.Length; i++)
-        {
-            List<Collision> collisions = new List<Collision>();
-            for (int j = colliders.Length - 1; j >= 0; j--)
+            for (int i = 0; i < objects.Length; i++)
             {
-                Collision collision = objects[i].GetCollision(colliders[j]);
-                if (collision != null)
-                    collisions.Add(collision);
+                objects[i].SetFromCache();
             }
-            objects[i].Collide(collisions.ToArray());
+            foreach (MovingPlatform moving in movingObjects)
+            {
+                moving.SetFromCache();
+            }
         }
-    }
 
-    public void Record()
-    {
-        for (int i = 0; i < objects.Length; i++)
+        public void CacheClear()
         {
-            objects[i].Record();
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].CacheClear();
+            }
+            foreach (MovingPlatform moving in movingObjects)
+            {
+                moving.CacheClear();
+            }
         }
-        foreach (MovingPlatformOther moving in movingObjects)
-        {
-            moving.Record();
-        }
-    }
 
-    public void RecordToCache(Fix time)
-    {
-        for (int i = 0; i < objects.Length; i++)
+        public void Step(InputRecord state)
         {
-            objects[i].RecordToCache(time);
+            fixPlayer.KeyCheck(state);
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].Move();
+            }
+            foreach (MovingPlatform moving in movingObjects)
+            {
+                moving.Move();
+            }
+            for (int i = 0; i < objects.Length; i++)
+            {
+                List<Collision> collisions = new List<Collision>();
+                for (int j = colliders.Length - 1; j >= 0; j--)
+                {
+                    Collision collision = objects[i].GetCollision(colliders[j]);
+                    if (collision != null)
+                        collisions.Add(collision);
+                }
+                objects[i].Collide(collisions.ToArray());
+            }
         }
-        foreach (MovingPlatformOther moving in movingObjects)
-        {
-            moving.RecordToCache(time);
-        }
-    }
 
-    public void SetState()
-    {
-        for (int i = 0; i < objects.Length; i++)
+        public void Record()
         {
-            objects[i].SetLast();
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].Record();
+            }
+            foreach (MovingPlatform moving in movingObjects)
+            {
+                moving.Record();
+            }
         }
-        foreach (MovingPlatformOther moving in movingObjects)
+
+        public void RecordToCache(Fix time)
         {
-            moving.SetLast();
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].RecordToCache(time);
+            }
+            foreach (MovingPlatform moving in movingObjects)
+            {
+                moving.RecordToCache(time);
+            }
+        }
+
+        public void SetState()
+        {
+            for (int i = 0; i < objects.Length; i++)
+            {
+                objects[i].SetLast();
+            }
+            foreach (MovingPlatform moving in movingObjects)
+            {
+                moving.SetLast();
+            }
         }
     }
 }

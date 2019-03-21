@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using FixedPointy;
-
-public interface FixObject 
+namespace FixPhysicsPrev
 {
-    void Move();
-    void MoveBackwards();
+    public interface FixObject
+    {
+        void Move();
+        void MoveBackwards();
+    }
 }
