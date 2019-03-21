@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace FixPhysics
 {
-    [RequireComponent(typeof(FixCollider))]
+    [RequireComponent(typeof(CollidableObject))]
     public class RigidObject : RecordedObject
     {
         // Inspector Initial values

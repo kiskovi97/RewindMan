@@ -62,7 +62,7 @@ namespace FixPhysics
             {
                 moving.Move();
             }
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < collidables.Length; i++)
             {
                 List<Collision> collisions = new List<Collision>();
                 for (int j = colliders.Length - 1; j >= 0; j--)

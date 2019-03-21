@@ -5,6 +5,7 @@ using FixedPointy;
 namespace FixPhysics
 {
     public delegate void ReactToCollideDelegate(Collision[] collisions);
+    public delegate void ReactNotToCollideDelegate();
 
     [RequireComponent(typeof(FixCollider))]
     public class CollidableObject : MonoBehaviour
@@ -15,19 +16,23 @@ namespace FixPhysics
         void Start()
         {
             fixCollider = GetComponent<FixCollider>();
+            ReactToCollide += DoNothing;
+            ReactNotToCollide += DoNothing;
+        }
+
+        void DoNothing()
+        {
+
+        }
+
+        void DoNothing(Collision[] collisions)
+        {
+
         }
 
         public void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
         {
             fixCollider.SetPositionAndVelocity(position, velocity);
-        }
-
-        public void Collide(Collision[] collisions)
-        {
-            if (collisions.Length != 0)
-            {
-                ReactToCollide(collisions);
-            }
         }
 
         public Collision GetCollision(FixCollider collider)
@@ -41,6 +46,18 @@ namespace FixPhysics
             return collision;
         }
 
+        public void Collide(Collision[] collisions)
+        {
+            if (collisions.Length != 0)
+            {
+                ReactToCollide(collisions);
+            } else
+            {
+                ReactNotToCollide();
+            }
+        }
+
         public event ReactToCollideDelegate ReactToCollide;
+        public event ReactNotToCollideDelegate ReactNotToCollide;
     }
 }
