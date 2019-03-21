@@ -2,55 +2,58 @@
 using System.Collections.Generic;
 using FixedPointy;
 
-public class InputRecording
+namespace FixPhysics
 {
-    List<InputRecord> recordings = new List<InputRecord>();
-
-    public void Clear()
+    public class InputRecording
     {
-        recordings.Clear();
-    }
+        List<InputRecord> recordings = new List<InputRecord>();
 
-    public void AddState(InputRecord record)
-    {
-        InputRecord newState = record.Copy();
-        if (recordings.Count > 0)
+        public void Clear()
         {
-            InputRecord last = recordings[recordings.Count - 1];
-            if ((last.left != record.left) || (last.right != record.right) || (last.up != record.up))
+            recordings.Clear();
+        }
+
+        public void AddState(InputRecord record)
+        {
+            InputRecord newState = record.Copy();
+            if (recordings.Count > 0)
+            {
+                InputRecord last = recordings[recordings.Count - 1];
+                if ((last.left != record.left) || (last.right != record.right) || (last.up != record.up))
+                {
+                    recordings.Add(newState);
+                }
+            }
+            else
             {
                 recordings.Add(newState);
             }
         }
-        else
-        {
-            recordings.Add(newState);
-        }
-    }
 
-    public InputRecord GetState(Fix time)
-    {
-        InputRecord max = new InputRecord();
-        foreach (InputRecord current in recordings)
+        public InputRecord GetState(Fix time)
         {
-            if (current.time > max.time && current.time <= time)
+            InputRecord max = new InputRecord();
+            foreach (InputRecord current in recordings)
             {
-                max = current;
+                if (current.time > max.time && current.time <= time)
+                {
+                    max = current;
+                }
             }
+            return max.Copy();
         }
-        return max.Copy();
-    }
 
-    public void ClearFrom(Fix time)
-    {
-        List<InputRecord> okayRecordings = new List<InputRecord>();
-        foreach (InputRecord rec in recordings)
+        public void ClearFrom(Fix time)
         {
-            if (rec.time <= time)
+            List<InputRecord> okayRecordings = new List<InputRecord>();
+            foreach (InputRecord rec in recordings)
             {
-                okayRecordings.Add(rec);
+                if (rec.time <= time)
+                {
+                    okayRecordings.Add(rec);
+                }
             }
+            recordings = okayRecordings;
         }
-        recordings = okayRecordings;
     }
 }

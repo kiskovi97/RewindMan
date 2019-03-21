@@ -2,26 +2,29 @@
 using System.Collections;
 using FixedPointy;
 
-public class MovingRecord : Record
+namespace FixPhysics
 {
-    public Fix angle;
-    public MovingRecord(FixVec3 velocity, Fix time, FixVec3 position, Fix angle) : base(velocity, time, position, false)
+    public class MovingRecord : Record
     {
-        this.angle = angle;
-    }
+        public Fix angle;
+        public MovingRecord(FixVec3 velocity, Fix time, FixVec3 position, Fix angle) : base(velocity, time, position, false)
+        {
+            this.angle = angle;
+        }
 
-    public override Record Copy()
-    {
-        return new MovingRecord(this);
-    }
+        public override Record Copy()
+        {
+            return new MovingRecord(this);
+        }
 
-    private MovingRecord(MovingRecord record) : base(record)
-    {
-        this.angle = record.angle;
-    }
+        private MovingRecord(MovingRecord record) : base(record)
+        {
+            this.angle = record.angle;
+        }
 
-    public static Record RecordFromBase(Record state, Fix angle)
-    {
-        return new MovingRecord(state.velocity, state.time, state.position, angle);
+        public static Record RecordFromBase(Record state, Fix angle)
+        {
+            return new MovingRecord(state.velocity, state.time, state.position, angle);
+        }
     }
 }
