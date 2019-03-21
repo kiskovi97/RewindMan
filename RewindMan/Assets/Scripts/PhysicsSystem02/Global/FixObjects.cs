@@ -7,13 +7,13 @@ public class FixObjects : MonoBehaviour
     private FixCollider[] colliders;
     private FixPlayerOther fixPlayer;
     private RigidObjectOther[] objects;
-    private MovingObject[] movingObjects;
+    private MovingPlatformOther[] movingObjects;
 
     // Use this for initialization
     void Start()
     {
         objects = FindObjectsOfType<RigidObjectOther>();
-        movingObjects = FindObjectsOfType<MovingObject>();
+        movingObjects = FindObjectsOfType<MovingPlatformOther>();
         colliders = FindObjectsOfType<FixCollider>();
         fixPlayer = FindObjectOfType<FixPlayerOther>();
     }
@@ -29,7 +29,7 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].SetFromCache();
         }
-        foreach (MovingObject moving in movingObjects)
+        foreach (MovingPlatformOther moving in movingObjects)
         {
             moving.SetFromCache();
         }
@@ -41,7 +41,7 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].CacheClear();
         }
-        foreach (MovingObject moving in movingObjects)
+        foreach (MovingPlatformOther moving in movingObjects)
         {
             moving.CacheClear();
         }
@@ -54,7 +54,7 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].Move();
         }
-        foreach (MovingObject moving in movingObjects)
+        foreach (MovingPlatformOther moving in movingObjects)
         {
             moving.Move();
         }
@@ -77,7 +77,7 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].Record();
         }
-        foreach (MovingObject moving in movingObjects)
+        foreach (MovingPlatformOther moving in movingObjects)
         {
             moving.Record();
         }
@@ -89,7 +89,7 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].RecordToCache(time);
         }
-        foreach (MovingObject moving in movingObjects)
+        foreach (MovingPlatformOther moving in movingObjects)
         {
             moving.RecordToCache(time);
         }
@@ -101,7 +101,7 @@ public class FixObjects : MonoBehaviour
         {
             objects[i].SetLast();
         }
-        foreach (MovingObject moving in movingObjects)
+        foreach (MovingPlatformOther moving in movingObjects)
         {
             moving.SetLast();
         }

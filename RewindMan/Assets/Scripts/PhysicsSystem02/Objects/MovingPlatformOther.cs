@@ -3,7 +3,7 @@ using System.Collections;
 using FixedPointy;
 
 [RequireComponent(typeof(FixCollider))]
-public class MovingObject : RecordedObjectOther
+public class MovingPlatformOther : RecordedObjectOther
 {
     public Vector3 startDistance = new Vector3(0, 1, 0);
     public float startSpeed = 2.0f;

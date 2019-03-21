@@ -3,7 +3,7 @@ using System.Collections;
 using FixedPointy;
 
 
-public class AnimationObject : MonoBehaviour
+public class AnimatedObject : MonoBehaviour
 {
     public GameObject model;
     public RigidObjectOther rigidObject;

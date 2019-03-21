@@ -375,7 +375,7 @@ GameObject:
   - component: {fileID: 8992691043823807876}
   - component: {fileID: 6202642316631322564}
   - component: {fileID: 4718928658514226656}
-  - component: {fileID: 3727819894018531803}
+  - component: {fileID: 3291939663759899197}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b1e15db4d294a94f9164d811a1ef5ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3727819894018531803
+--- !u!114 &3291939663759899197
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -431,7 +431,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8992691043823807874}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c708aed07e695a44b0e4fabd6169f20, type: 3}
+  m_Script: {fileID: 11500000, guid: 35bff5d3ded91c544ae6ba4ca9d398d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lightSource: {fileID: 5384333737113600976}
