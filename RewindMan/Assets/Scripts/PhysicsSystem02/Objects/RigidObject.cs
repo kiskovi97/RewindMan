@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace FixPhysics
 {
     [RequireComponent(typeof(FixCollider))]
-    public class RigidObject : CollidableObject
+    public class RigidObject : RecordedObject
     {
         // Inspector Initial values
         public float frictionCoefficientFloat = 0.98f;
@@ -18,6 +18,7 @@ namespace FixPhysics
         private Fix impulseLoseCoefficent;
         private FixVec3 savedVelocity = FixVec3.Zero;
         private Forces forces = new Forces();
+        private CollidableObject collidable;
 
         protected override void Start()
         {
@@ -30,18 +31,20 @@ namespace FixPhysics
             forces.Clear();
             forces.AddForce(FixWorld.gravity);
             minCollide = FixMath.Abs(FixWorld.gravity.Y) * FixWorld.deltaTime * FixWorld.deltaTime;
+            collidable = GetComponent<CollidableObject>();
+            collidable.SetPositionAndVelocity(state.position, state.velocity);
+            collidable.ReactToCollide += ReactToCollide;
         }
 
         // ---------------- FixObject Implementations -----------------
 
         public void Move()
         {
-            if (isStatic) return;
             Accelerate(forces.GetSumForces());
             Step();
             Step(((RigidRecord)state).prevVelocity);
             ((RigidRecord)state).prevVelocity = FixVec3.Zero;
-            fixCollider.SetPositionAndVelocity(state.position, state.velocity);
+            collidable.SetPositionAndVelocity(state.position, state.velocity);
             forces.Clear();
             SetOnTheFloor(false);
         }
@@ -68,7 +71,7 @@ namespace FixPhysics
             }
         }
 
-        protected override void ReactToCollide(Collision[] collisions)
+        void ReactToCollide(Collision[] collisions)
         {
             for (int i = 0; i < collisions.Length; i++)
             {

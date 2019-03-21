@@ -1,25 +1,29 @@
 ﻿using UnityEngine;
 using System.Collections;
+using FixedPointy;
+
 namespace FixPhysics
 {
+    public delegate void ReactToCollideDelegate(Collision[] collisions);
+
     [RequireComponent(typeof(FixCollider))]
-    public abstract class CollidableObject : RecordedObject
+    public class CollidableObject : MonoBehaviour
     {
         protected FixCollider fixCollider;
-        public bool isStatic = false;
 
         // Use this for initialization
-        protected override void Start()
+        void Start()
         {
-            base.Start();
             fixCollider = GetComponent<FixCollider>();
-            fixCollider.SetPositionAndVelocity(state.position, state.velocity);
-            fixCollider.isStatic = isStatic;
+        }
+
+        public void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
+        {
+            fixCollider.SetPositionAndVelocity(position, velocity);
         }
 
         public void Collide(Collision[] collisions)
         {
-            if (isStatic) return;
             if (collisions.Length != 0)
             {
                 ReactToCollide(collisions);
@@ -37,6 +41,6 @@ namespace FixPhysics
             return collision;
         }
 
-        abstract protected void ReactToCollide(Collision[] collisions);
+        public event ReactToCollideDelegate ReactToCollide;
     }
 }

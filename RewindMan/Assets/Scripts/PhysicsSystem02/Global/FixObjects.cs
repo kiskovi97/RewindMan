@@ -16,7 +16,7 @@ namespace FixPhysics
         void Start()
         {
             objects = FindObjectsOfType<RigidObject>();
-            collidables = (CollidableObject[])objects.Clone();
+            collidables = FindObjectsOfType<CollidableObject>();
             movingObjects = FindObjectsOfType<MovingPlatform>();
             colliders = FindObjectsOfType<FixCollider>();
             fixPlayer = FindObjectOfType<FixPlayer>();
