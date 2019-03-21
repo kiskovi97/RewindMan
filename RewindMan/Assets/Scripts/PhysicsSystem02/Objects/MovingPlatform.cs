@@ -27,9 +27,9 @@ namespace FixPhysics
         public virtual void Move()
         {
             FixVec3 position = state.position;
-            Increment(FixWorldComplex.deltaTime * speed);
+            Increment(FixWorld.deltaTime * speed);
             FixVec3 position2 = GetPosition();
-            state.velocity = (position2 - position) * (1 / FixWorldComplex.deltaTime);
+            state.velocity = (position2 - position) * (1 / FixWorld.deltaTime);
             state.position = position2;
             fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         }

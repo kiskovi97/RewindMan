@@ -5,7 +5,7 @@ using FixedPointy;
 namespace FixPhysics
 {
     [RequireComponent(typeof(FixObjects))]
-    public class FixWorldComplex : MonoBehaviour
+    public class FixWorld : MonoBehaviour
     {
         // PhysicalObjects And Or Forces need it
         public static FixVec3 gravity = FixVec3.Zero;

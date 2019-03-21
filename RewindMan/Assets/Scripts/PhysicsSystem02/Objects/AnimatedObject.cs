@@ -25,7 +25,7 @@ namespace FixPhysics
         // Update is called once per frame
         void Update()
         {
-            animator.SetBool("Backward", FixWorldComplex.Backward);
+            animator.SetBool("Backward", FixWorld.Backward);
             if (rigidObject != null && animator != null && model != null)
             {
                 if (rigidObject.OnTheFloor())

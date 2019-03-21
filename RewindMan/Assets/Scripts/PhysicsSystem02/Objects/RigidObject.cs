@@ -38,8 +38,8 @@ namespace FixPhysics
             impulseLoseCoefficent = FixConverter.ToFix(impulseLoseCoefficentFloat);
             forces = new Forces();
             forces.Clear();
-            forces.AddForce(FixWorldComplex.gravity);
-            minCollide = FixMath.Abs(FixWorldComplex.gravity.Y) * FixWorldComplex.deltaTime * FixWorldComplex.deltaTime;
+            forces.AddForce(FixWorld.gravity);
+            minCollide = FixMath.Abs(FixWorld.gravity.Y) * FixWorld.deltaTime * FixWorld.deltaTime;
         }
 
         // ---------------- FixObject Implementations -----------------

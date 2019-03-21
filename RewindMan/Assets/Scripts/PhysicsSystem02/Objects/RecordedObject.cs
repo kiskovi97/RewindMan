@@ -46,27 +46,27 @@ namespace FixPhysics
         protected void VelocityCorrection(FixVec3 newVelocity)
         {
             state.velocity = newVelocity;
-            if (newVelocity.GetMagnitude() < FixWorldComplex.deltaTime * FixWorldComplex.gravity.GetMagnitude()) newVelocity = FixVec3.Zero;
+            if (newVelocity.GetMagnitude() < FixWorld.deltaTime * FixWorld.gravity.GetMagnitude()) newVelocity = FixVec3.Zero;
         }
 
         protected void Accelerate(FixVec3 sumForce)
         {
-            state.velocity += sumForce * FixWorldComplex.deltaTime;
+            state.velocity += sumForce * FixWorld.deltaTime;
         }
 
         public void Step()
         {
-            state.position += state.velocity * FixWorldComplex.deltaTime;
+            state.position += state.velocity * FixWorld.deltaTime;
         }
 
         public void Step(FixVec3 velocity)
         {
-            state.position += velocity * FixWorldComplex.deltaTime;
+            state.position += velocity * FixWorld.deltaTime;
         }
 
         public void Record()
         {
-            state.time = FixWorldComplex.time;
+            state.time = FixWorld.time;
             recording.Push(state.Copy());
         }
 
@@ -87,7 +87,7 @@ namespace FixPhysics
                 Record rec = cache.Peek();
                 Debug.DrawLine(FixConverter.ToFixVec3(rec.position), FixConverter.ToFixVec3(state.position), Color.red, (float)time);
             }
-            state.time = FixWorldComplex.time;
+            state.time = FixWorld.time;
             cache.Push(state.Copy());
         }
 
