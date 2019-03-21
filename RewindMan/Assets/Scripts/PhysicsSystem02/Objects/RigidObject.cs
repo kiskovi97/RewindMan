@@ -6,10 +6,9 @@ using System.Collections.Generic;
 namespace FixPhysics
 {
     [RequireComponent(typeof(FixCollider))]
-    public class RigidObject : RecordedObject
+    public class RigidObject : CollidableObject
     {
         // Inspector Initial values
-        public bool isStatic = false;
         public float frictionCoefficientFloat = 0.98f;
         public float impulseLoseCoefficentFloat = 0.5f;
 
@@ -17,23 +16,14 @@ namespace FixPhysics
         private static Fix minCollide = new Fix(4);
         private Fix frictionCoefficient;
         private Fix impulseLoseCoefficent;
-
-        // Inner state 
-        private FixCollider fixCollider;
         private FixVec3 savedVelocity = FixVec3.Zero;
         private Forces forces = new Forces();
 
         protected override void Start()
         {
             base.Start();
-            fixCollider = GetComponent<FixCollider>();
             ResetRecording();
-
             state = RigidRecord.RecordFromBase(state, 0, FixVec3.Zero);
-
-            fixCollider.SetPositionAndVelocity(state.position, state.velocity);
-            fixCollider.isStatic = isStatic;
-
             frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
             impulseLoseCoefficent = FixConverter.ToFix(impulseLoseCoefficentFloat);
             forces = new Forces();
@@ -54,26 +44,6 @@ namespace FixPhysics
             fixCollider.SetPositionAndVelocity(state.position, state.velocity);
             forces.Clear();
             SetOnTheFloor(false);
-        }
-
-        public void Collide(Collision[] collisions)
-        {
-            if (isStatic) return;
-            if (collisions.Length != 0)
-            {
-                ReactToCollide(collisions);
-            }
-        }
-
-        public Collision GetCollision(FixCollider collider)
-        {
-            if (collider == null) return null;
-
-            if (collider == fixCollider) return null;
-
-            Collision collision = collider.GetCollision(fixCollider);
-
-            return collision;
         }
 
         public bool OnTheFloor()
@@ -98,7 +68,7 @@ namespace FixPhysics
             }
         }
 
-        void ReactToCollide(Collision[] collisions)
+        protected override void ReactToCollide(Collision[] collisions)
         {
             for (int i = 0; i < collisions.Length; i++)
             {

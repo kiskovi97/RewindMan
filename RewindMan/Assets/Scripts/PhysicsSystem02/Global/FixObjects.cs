@@ -9,12 +9,14 @@ namespace FixPhysics
         private FixCollider[] colliders;
         private FixPlayer fixPlayer;
         private RigidObject[] objects;
+        private CollidableObject[] collidables;
         private MovingPlatform[] movingObjects;
 
         // Use this for initialization
         void Start()
         {
             objects = FindObjectsOfType<RigidObject>();
+            collidables = (CollidableObject[])objects.Clone();
             movingObjects = FindObjectsOfType<MovingPlatform>();
             colliders = FindObjectsOfType<FixCollider>();
             fixPlayer = FindObjectOfType<FixPlayer>();
@@ -65,11 +67,11 @@ namespace FixPhysics
                 List<Collision> collisions = new List<Collision>();
                 for (int j = colliders.Length - 1; j >= 0; j--)
                 {
-                    Collision collision = objects[i].GetCollision(colliders[j]);
+                    Collision collision = collidables[i].GetCollision(colliders[j]);
                     if (collision != null)
                         collisions.Add(collision);
                 }
-                objects[i].Collide(collisions.ToArray());
+                collidables[i].Collide(collisions.ToArray());
             }
         }
 
