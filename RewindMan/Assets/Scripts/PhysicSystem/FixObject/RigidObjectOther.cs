@@ -51,7 +51,7 @@ public class RigidObjectOther : RecordedObjectOther
         ((RigidRecord)state).prevVelocity = FixVec3.Zero;
         fixCollider.SetPositionAndVelocity(state.position, state.velocity);
         forces.Clear();
-        IsColide(false);
+        SetOnTheFloor(false);
     }
 
     public void Collide(Collision[] collisions)
@@ -78,7 +78,7 @@ public class RigidObjectOther : RecordedObjectOther
 
    public bool MovePosition(FixVec3 speed)
     {
-        if (HasCollided())
+        if (OnTheFloor())
         {
             VelocityCorrection((state.velocity + speed) / 2);
             return true;
@@ -88,36 +88,35 @@ public class RigidObjectOther : RecordedObjectOther
 
     public bool AddToSpeed(FixVec3 speed)
     {
-        if (HasCollided())
+        if (OnTheFloor())
         {
             VelocityCorrection(speed);
-            IsColide(false);
+            SetOnTheFloor(false);
             return true;
         }
         return false;
     }
 
+    public bool OnTheFloor()
+    {
+        return ((RigidRecord)state).onTheFloor > 0;
+    }
+
     // --------------- Inner Help Functions  -------------
 
-    private void IsColide(bool collided)
+    private void SetOnTheFloor(bool collided)
     {
         if (collided)
         {
-            ((RigidRecord)state).collided = collideOverlap;
+            ((RigidRecord)state).onTheFloor = collideOverlap;
         }
         else
         {
             RigidRecord fullState = ((RigidRecord)state);
-            fullState.collided--;
-            if (fullState.collided < 0) fullState.collided = 0;
+            fullState.onTheFloor--;
+            if (fullState.onTheFloor < 0) fullState.onTheFloor = 0;
             state = fullState;
         }
-    }
-
-    public bool HasCollided()
-    {
-        int hasCollided = ((RigidRecord)state).collided;
-        return hasCollided > 0;
     }
 
     void ReactToCollide(Collision[] collisions)
@@ -131,7 +130,7 @@ public class RigidObjectOther : RecordedObjectOther
             OverlapCorrection(collisions[i]);
             if (collisions[i].Normal.Y > 0)
             {
-                IsColide(true);
+                SetOnTheFloor(true);
             }
         }
         for (int i = 0; i < collisions.Length; i++)
@@ -163,8 +162,6 @@ public class RigidObjectOther : RecordedObjectOther
         velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
 
         VelocityCorrection(velocity);
-
-        //((RigidRecord)state).prevVelocity += collision.savedVelocity;
     }
 
     private void OverlapCorrection(Collision collision)

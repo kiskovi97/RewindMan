@@ -4,11 +4,11 @@ using FixedPointy;
 
 public class RigidRecord : Record
 {
-    public int collided;
+    public int onTheFloor;
     public FixVec3 prevVelocity = FixVec3.Zero;
     public RigidRecord(FixVec3 velocity, Fix time, FixVec3 position, int collided, FixVec3 prevVelocity) : base(velocity, time, position, false)
     {
-        this.collided = collided;
+        this.onTheFloor = collided;
         this.prevVelocity = prevVelocity;
     }
 
@@ -19,7 +19,7 @@ public class RigidRecord : Record
 
     private RigidRecord(RigidRecord record) : base(record)
     {
-        this.collided = record.collided;
+        this.onTheFloor = record.onTheFloor;
         this.prevVelocity = record.prevVelocity;
     }
 

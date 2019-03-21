@@ -27,7 +27,7 @@ public class AnimationObject : MonoBehaviour
         animator.SetBool("Backward", FixWorldComplex.Backward);
         if (rigidObject != null && animator != null && model !=null)
         {
-            if (rigidObject.HasCollided())
+            if (rigidObject.OnTheFloor())
             {
                 animator.SetBool("Jump", false);
             } else
