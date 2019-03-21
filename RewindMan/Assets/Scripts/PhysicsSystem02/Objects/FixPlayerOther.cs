@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using FixedPointy;
+using FixPhysics;
 
-[RequireComponent(typeof(RigidObjectOther))]
+[RequireComponent(typeof(ControllableRigidObjectOther))]
 public class FixPlayerOther : MonoBehaviour
 {
-    private RigidObjectOther fixObject;
+    private ControllableRigidObjectOther fixObject;
 
     public int speed = 20;
 
     private void Start()
     {
-        fixObject = GetComponent<RigidObjectOther>();
+        fixObject = GetComponent<ControllableRigidObjectOther>();
         //fixObject.animator.speed = speed / 5;
     }
 

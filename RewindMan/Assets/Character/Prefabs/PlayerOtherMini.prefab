@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1443481121936472569}
   - component: {fileID: 4071810428953034625}
   - component: {fileID: 4758077410054138019}
-  - component: {fileID: 3627494267212147944}
   - component: {fileID: 1840733307211996330}
   - component: {fileID: 810088808671419542}
+  - component: {fileID: 5443934714901896237}
   m_Layer: 0
   m_Name: PlayerOtherMini
   m_TagString: Player
@@ -82,23 +82,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3627494267212147944
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5529930441831573255}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fcf6b82dd7ed5f4eb64c6e110c7b0f3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startVelocity: {x: 0, y: 0, z: 0}
-  recordsNumber: 0
-  isStatic: 0
-  frictionCoefficientFloat: 0.8
-  impulseLoseCoefficentFloat: 0.5
 --- !u!114 &1840733307211996330
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,8 +108,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   model: {fileID: 100008}
-  rigidObject: {fileID: 3627494267212147944}
+  rigidObject: {fileID: 0}
   animator: {fileID: 9500000}
+--- !u!114 &5443934714901896237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5529930441831573255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee6a13c3e18cfe547993821201dd515d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startVelocity: {x: 0, y: 0, z: 0}
+  recordsNumber: 0
+  isStatic: 0
+  frictionCoefficientFloat: 0.8
+  impulseLoseCoefficentFloat: 0.5
 --- !u!1 &8189963381385841526
 GameObject:
   m_ObjectHideFlags: 0
