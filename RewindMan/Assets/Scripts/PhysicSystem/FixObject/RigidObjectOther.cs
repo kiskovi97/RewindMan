@@ -11,7 +11,7 @@ public class RigidObjectOther : RecordedObjectOther
     public float frictionCoefficientFloat = 0.98f;
     public float impulseLoseCoefficentFloat = 0.5f;
 
-    private static readonly int collideOverlap = 3;
+    private static readonly int collideOverlap = 1;
     private static Fix minCollide = new Fix(4);
     private Fix frictionCoefficient;
     private Fix impulseLoseCoefficent;
@@ -59,7 +59,6 @@ public class RigidObjectOther : RecordedObjectOther
         if (isStatic) return;
         if (collisions.Length != 0)
         {
-            IsColide(true);
             ReactToCollide(collisions);
         }
     }
@@ -130,6 +129,10 @@ public class RigidObjectOther : RecordedObjectOther
                 ReactDynamicCollide(collisions[i]);
             }
             OverlapCorrection(collisions[i]);
+            if (collisions[i].Normal.Y > 0)
+            {
+                IsColide(true);
+            }
         }
         for (int i = 0; i < collisions.Length; i++)
         {

@@ -35,7 +35,7 @@ public class MovingObject : RecordedObjectOther
 
     private FixVec3 GetPosition()
     {
-        return start + distance * (FixMath.Sin(GetAngle() * 100) + 1);
+        return start + distance * (FixMath.Cos(GetAngle() * 100) * -1 + 1);
     }
 
     private void Increment(Fix inc)
