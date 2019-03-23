@@ -24,7 +24,13 @@ namespace FixPhysics
 
         public bool CahceIsEmpty()
         {
-            return objects[0].CacheSize() == 0;
+            int min = -1;
+            for (int i = 0; i < objects.Length; i++)
+            {
+                int actual = objects[i].CacheSize();
+                if ((actual >= 0) && (actual < min || min < 0)) min = actual;
+            }
+            return min == 0;
         }
 
         public void SetFromCache()

@@ -5,8 +5,10 @@ namespace FixPhysics
 {
     public abstract class RecordedObject : MonoBehaviour
     {
+        public bool TimeResistance = false;
         public Vector3 startVelocity = new Vector3(0, 1, 0);
         public Record state;
+        private Record savedState;
 
         public int recordsNumber = 0;
 
@@ -74,6 +76,7 @@ namespace FixPhysics
 
         public void SetLast()
         {
+            savedState = state.Copy();
             Record record = recording.Pop();
             if (record != null)
             {
@@ -84,6 +87,7 @@ namespace FixPhysics
 
         public void RecordToCache(Fix time)
         {
+            if (TimeResistance) return;
             if (cache.Count > 0)
             {
                 Record rec = cache.Peek();
@@ -100,11 +104,17 @@ namespace FixPhysics
 
         public int CacheSize()
         {
+            if (TimeResistance) return -1;
             return cache.Count;
         }
 
         public void SetFromCache()
         {
+            if (TimeResistance)
+            {
+                state = savedState;
+                return;
+            }
             Record record = cache.Pop();
             state = record.Copy();
         }
