@@ -13,7 +13,7 @@ namespace FixPhysics
         public int recordsNumber = 0;
 
         Stack<Record> cache = new Stack<Record>();
-        Stack<Record> recording = new Stack<Record>();
+        StateRecording recording = new StateRecording();
 
         protected virtual void Start()
         {
@@ -74,15 +74,14 @@ namespace FixPhysics
             recording.Push(state.Copy());
         }
 
-        public void SetLast()
+        public void SetLast(Fix time)
         {
             savedState = state.Copy();
-            Record record = recording.Pop();
+            Record record = recording.GetByTime(time);
             if (record != null)
             {
                 state = record.Copy();
             }
-            if (recording.Count == 0) recording.Push(record);
         }
 
         public void RecordToCache(Fix time)

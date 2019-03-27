@@ -12,7 +12,7 @@ namespace FixPhysics
         public static Fix time = Fix.Zero;
         public static Fix deltaTime;
         public string timeOut = "";
-        public RecordUIList recordUIList;
+        public TimeRecording timeRecording;
         private FixObjects fixObjects;
         private InputRecording stateRecordings = new InputRecording();
         private InputRecord state = new InputRecord();
@@ -109,7 +109,6 @@ namespace FixPhysics
 
         private volatile int thisFrame = 0;
         private volatile int perFrame = 60;
-        private Stack<Fix> timeRecord = new Stack<Fix>();
 
         private void SimulateForward()
         {
@@ -120,9 +119,8 @@ namespace FixPhysics
             if (perFrame == thisFrame)
             {
                 fixObjects.Record();
-                timeRecord.Push(time);
+                timeRecording.Push(time);
                 thisFrame = 0;
-                recordUIList.SetByList(timeRecord);
             }
         }
 
@@ -144,15 +142,13 @@ namespace FixPhysics
 
         private void ReSimulateFromPoint()
         {
-            Fix fromTime = 0;
-            if (timeRecord.Count > 0) fromTime = timeRecord.Pop();
-            fixObjects.SetState();
+            Fix fromTime = timeRecording.GetByTime(time);
+            fixObjects.SetState(fromTime);
             Fix to = time;
             if (to <= fromTime)
             {
-                fromTime = 0;
-                if (timeRecord.Count > 0) fromTime = timeRecord.Pop();
-                fixObjects.SetState();
+                fromTime = timeRecording.GetByTime(time);
+                fixObjects.SetState(fromTime);
             }
             for (time = fromTime; time < to; time += deltaTime)
             {
@@ -161,7 +157,6 @@ namespace FixPhysics
                 state.time = time;
                 fixObjects.Step(state);
             }
-            recordUIList.SetByList(timeRecord);
         }
 
         private void InputToState()

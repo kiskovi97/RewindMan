@@ -85,11 +85,11 @@ namespace FixPhysics
             }
         }
 
-        public void SetState()
+        public void SetState(Fix time)
         {
             for (int i = 0; i < objects.Length; i++)
             {
-                objects[i].SetLast();
+                objects[i].SetLast(time);
             }
         }
     }
