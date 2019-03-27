@@ -12,9 +12,11 @@ namespace FixPhysics
         public static Fix time = Fix.Zero;
         public static Fix deltaTime;
         public string timeOut = "";
+        public RecordUIList recordUIList;
         private FixObjects fixObjects;
         private InputRecording stateRecordings = new InputRecording();
         private InputRecord state = new InputRecord();
+
 
         public static bool GameOver
         {
@@ -120,6 +122,7 @@ namespace FixPhysics
                 fixObjects.Record();
                 timeRecord.Push(time);
                 thisFrame = 0;
+                recordUIList.SetByList(timeRecord);
             }
         }
 
@@ -158,6 +161,7 @@ namespace FixPhysics
                 state.time = time;
                 fixObjects.Step(state);
             }
+            recordUIList.SetByList(timeRecord);
         }
 
         private void InputToState()
