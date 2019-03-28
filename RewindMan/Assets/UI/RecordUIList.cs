@@ -28,7 +28,6 @@ public class RecordUIList : MonoBehaviour
             recordOj.transform.SetParent(transform);
             ui.time = record;
             ui.Update();
-            Debug.Log("Object set: " + record);
             this.records.Add(recordOj);
         }
     }

@@ -5,6 +5,7 @@ using FixedPointy;
 public abstract class FixCollider : MonoBehaviour
 {
     public bool Draw = false;
+    public bool Enabled = true;
     public bool isStatic = true;
     private FixVec3 position;
     private FixVec3 velocity;
@@ -28,6 +29,7 @@ public abstract class FixCollider : MonoBehaviour
 
     public Collision GetCollision(FixCollider other)
     {
+        if (!Enabled) return null;
         Collision collision = Collide(other);
         if (collision != null)
             collision.SetObjectsValues(velocity, isStatic, position, tag);

@@ -52,6 +52,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Draw: 0
+  Enabled: 1
   isStatic: 1
   scaleAdjustment: {x: 1, y: 2, z: 1}
 --- !u!65 &4071810428953034625
@@ -95,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c820f364c5f23840b10f7e11221a63b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  text: {fileID: 2542374116085277666}
   speed: 5
 --- !u!114 &810088808671419542
 MonoBehaviour:
@@ -123,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee6a13c3e18cfe547993821201dd515d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeResistance: 0
   startVelocity: {x: 0, y: 0, z: 0}
   recordsNumber: 0
   frictionCoefficientFloat: 0.8
@@ -255,7 +258,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &3514333354452501887
 RectTransform:
   m_ObjectHideFlags: 0

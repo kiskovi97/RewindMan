@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using FixedPointy;
 using FixPhysics;
+using System.Collections.Generic;
 
 namespace FixPhysics
 {
@@ -8,13 +10,30 @@ namespace FixPhysics
     public class FixPlayer : MonoBehaviour
     {
         private ControllableRigidObject fixObject;
+        public Text text;
+        private static Dictionary<int, bool> dictionary = new Dictionary<int, bool>();
+
+        public static void SetBool(int id, bool set)
+        {
+
+            dictionary[id] = set;
+        }
 
         public int speed = 20;
 
         private void Start()
         {
             fixObject = GetComponent<ControllableRigidObject>();
-            //fixObject.animator.speed = speed / 5;
+        }
+
+        private void Update()
+        {
+            int collected = 0; 
+            foreach (bool set in dictionary.Values)
+            {
+                if (set) collected++;
+            }
+            text.text = collected + "";
         }
 
         public void KeyCheck(InputRecord state)
