@@ -464,7 +464,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   focus: {fileID: 2795731592297201729}
   distance: {x: 0, y: 2, z: -16}
+  LeftMin: -5
   speed: 0.1
+  Max: {x: -8.5, y: 0, z: 0}
 --- !u!114 &8717463019585151226
 MonoBehaviour:
   m_ObjectHideFlags: 0
