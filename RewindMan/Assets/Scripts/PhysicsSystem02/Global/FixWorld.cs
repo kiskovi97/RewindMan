@@ -71,6 +71,7 @@ namespace FixPhysics
             if (firstTime)
             {
                 fixObjects.Record();
+                timeRecording.Push(time);
                 firstTime = false;
             }
 
@@ -149,11 +150,6 @@ namespace FixPhysics
             Fix fromTime = timeRecording.GetByTime(time);
             fixObjects.SetState(fromTime);
             Fix to = time;
-            if (to <= fromTime)
-            {
-                fromTime = timeRecording.GetByTime(time);
-                fixObjects.SetState(fromTime);
-            }
             for (time = fromTime; time < to; time += deltaTime)
             {
                 fixObjects.RecordToCache(to - time);
