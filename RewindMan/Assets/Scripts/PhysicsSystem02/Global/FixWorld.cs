@@ -102,6 +102,10 @@ namespace FixPhysics
             }
             else
             {
+                if (Backward)
+                {
+                    thisFrame = perFrame - 1;
+                }
                 Forward = true;
                 Backward = false;
             }
@@ -116,7 +120,7 @@ namespace FixPhysics
             InputToState();
             fixObjects.Step(state);
             thisFrame++;
-            if (perFrame == thisFrame)
+            if (perFrame <= thisFrame)
             {
                 fixObjects.Record();
                 timeRecording.Push(time);
