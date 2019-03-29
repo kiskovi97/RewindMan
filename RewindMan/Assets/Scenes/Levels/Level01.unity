@@ -969,6 +969,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 2.413
       objectReference: {fileID: 0}
+    - target: {fileID: 2795731592297201729, guid: 01dd08b5c72fc0842977fa3751981a6a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3
+      objectReference: {fileID: 0}
     - target: {fileID: 9113714497482808992, guid: 01dd08b5c72fc0842977fa3751981a6a,
         type: 3}
       propertyPath: Draw
@@ -1264,7 +1269,7 @@ PrefabInstance:
     - target: {fileID: 3063794002157086540, guid: 6134b2319cbfdd44b90e8e5dc34f4ad0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: -3
       objectReference: {fileID: 0}
     - target: {fileID: 3063794002157086540, guid: 6134b2319cbfdd44b90e8e5dc34f4ad0,
         type: 3}
