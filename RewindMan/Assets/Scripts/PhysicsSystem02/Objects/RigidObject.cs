@@ -121,7 +121,7 @@ namespace FixPhysics
             FixVec3 Something = collision.Overlap;
             Fix length = Something.GetMagnitude();
 
-            if (length == 0) collision.Overlap = collision.Normal;
+            //if (length == 0) collision.Overlap = collision.Normal;
             if (length > minCollide)
             {
                 length -= minCollide;

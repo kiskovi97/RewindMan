@@ -149,40 +149,38 @@ public class RotatableBoxFixCollider : FixCollider
             return false;
         }
         // Optimalization, if its in there Do Not Check Intersect
-        if (CollidePoint(pointA))
-        {
-            return true;
-        }
-        if (CollidePoint(pointB))
+        if (CollidePoint((pointA + pointB)/2))
         {
             return true;
         }
 
+        FixVec3 center = (pointA + pointB) / 2;
+
         if (HelpFixMath.DoIntersect(pointA, pointB, LeftDown, LeftUp))
         {
-            DrawLineShort(pointA, LeftDown, Color.red);
-            DrawLineShort(pointB, LeftUp, Color.red);
+            DrawLineShort(center, LeftDown, Color.red);
+            DrawLineShort(center, LeftUp, Color.red);
             return true;
         }
 
         if (HelpFixMath.DoIntersect(pointA, pointB, LeftDown, RightDown))
         {
-            DrawLineShort(pointA, LeftDown, Color.red);
-            DrawLineShort(pointB, RightDown, Color.red);
+            DrawLineShort(center, LeftDown, Color.red);
+            DrawLineShort(center, RightDown, Color.red);
             return true;
         }
 
         if (HelpFixMath.DoIntersect(pointA, pointB, RightDown, RightUp))
         {
-            DrawLineShort(pointA, RightDown, Color.red);
-            DrawLineShort(pointB, RightUp, Color.red);
+            DrawLineShort(center, RightDown, Color.red);
+            DrawLineShort(center, RightUp, Color.red);
             return true;
         }
 
         if (HelpFixMath.DoIntersect(pointA, pointB, RightUp, LeftUp))
         {
-            DrawLineShort(pointA, RightUp, Color.red);
-            DrawLineShort(pointB, LeftUp, Color.red);
+            DrawLineShort(center, RightUp, Color.red);
+            DrawLineShort(center, LeftUp, Color.red);
             return true;
         }
 
