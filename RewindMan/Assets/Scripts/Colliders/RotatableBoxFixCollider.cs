@@ -13,15 +13,15 @@ public class RotatableBoxFixCollider : FixCollider
     protected override void Start()
     {
         base.Start();
-        float x = Mathf.Abs(transform.localScale.x * scaleAdjustment.x);
-        float y = Mathf.Abs(transform.localScale.y * scaleAdjustment.y);
-        float z = Mathf.Abs(transform.localScale.z * scaleAdjustment.z);
+        Vector3 localScale = transform.lossyScale;
+        float x = Mathf.Abs(localScale.x * scaleAdjustment.x);
+        float y = Mathf.Abs(localScale.y * scaleAdjustment.y);
+        float z = Mathf.Abs(localScale.z * scaleAdjustment.z);
         scale = FixConverter.ToFixVec3(new Vector3(x, y, z));
 
         x = Mathf.Abs((float)scale.X / scaleAdjustment.x);
         y = Mathf.Abs((float)scale.Y / scaleAdjustment.y);
         z = Mathf.Abs((float)scale.Z / scaleAdjustment.z);
-        transform.localScale = new Vector3(x,y,z);
         FixVec3 rotation = FixConverter.ToFixVec3BigNumber(transform.rotation.eulerAngles);
         transform.rotation = Quaternion.Euler(FixConverter.ToFixVec3(rotation));
         rotateMatrix = FixTrans3.MakeRotation(rotation);
