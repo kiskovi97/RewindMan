@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5919281621967302564}
   - component: {fileID: 5919281621967302567}
   - component: {fileID: 2777583056517087677}
+  - component: {fileID: 8431557706924035269}
   m_Layer: 0
   m_Name: PhysicsCubeOther
   m_TagString: Untagged
@@ -92,6 +93,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Draw: 0
+  Enabled: 1
   isStatic: 1
   scaleAdjustment: {x: 1, y: 1, z: 1}
 --- !u!114 &2777583056517087677
@@ -106,8 +108,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0fcf6b82dd7ed5f4eb64c6e110c7b0f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TimeResistance: 0
   startVelocity: {x: 0, y: 0, z: 0}
   recordsNumber: 0
-  isStatic: 0
   frictionCoefficientFloat: 0.98
   impulseLoseCoefficentFloat: 0.5
+--- !u!114 &8431557706924035269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5919281621967302617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6dc809f00da837448c04dd15fa56a31, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
