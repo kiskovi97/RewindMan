@@ -78,16 +78,21 @@ namespace FixPhysics
             ReverseCheck();
             if (Forward && !GameOver)
             {
+                GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayMusic();
                 time += deltaTime;
                 state.time = time;
                 SimulateForward();
             }
             else if (Backward)
             {
+                GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayReverse();
                 GameOver = false;
                 SimulateBackward();
                 time -= deltaTime;
                 state.time = time;
+            } else
+            {
+                GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().StopMusic();
             }
 
             simulate = false;
