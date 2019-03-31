@@ -12,10 +12,14 @@ namespace FixPhysics
     {
         protected FixCollider fixCollider;
 
+        private void Awake()
+        {
+            fixCollider = GetComponent<FixCollider>();
+        }
+
         // Use this for initialization
         void Start()
         {
-            fixCollider = GetComponent<FixCollider>();
             ReactToCollide += DoNothing;
             ReactNotToCollide += DoNothing;
         }

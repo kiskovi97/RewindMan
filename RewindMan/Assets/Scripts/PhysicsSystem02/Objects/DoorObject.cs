@@ -4,10 +4,9 @@ using System.Collections;
 
 namespace FixPhysics
 {
-    [RequireComponent(typeof(CollidableObject))]
     public class DoorObject : RecordedObject
     {
-        private CollidableObject collidable;
+        public CollidableObject collidable;
         private new MeshRenderer renderer;
         public Door door;
 
@@ -15,7 +14,10 @@ namespace FixPhysics
         protected override void Start()
         {
             base.Start();
-            collidable = GetComponent<CollidableObject>();
+            if (collidable == null)
+            {
+                collidable = GetComponent<CollidableObject>();
+            }
             collidable.ReactToCollide += Collide;
             collidable.ReactNotToCollide += Free;
             state = CollactableRecord.RecordFromBase(state, false);
