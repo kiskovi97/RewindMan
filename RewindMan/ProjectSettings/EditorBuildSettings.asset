@@ -22,19 +22,19 @@ EditorBuildSettings:
     guid: 266a7df3efaac0347b923e8f24a1976a
   - enabled: 1
     path: Assets/Scenes/Levels/Level05.unity
-    guid: ca9ba57fc62dbee48951bc47e4af9cc7
+    guid: 6e1b4c1f426737c44a6decbcba130f6c
   - enabled: 1
     path: Assets/Scenes/Levels/Level06.unity
-    guid: ad548f2a244933543a8e32b8ae7636f2
+    guid: ca9ba57fc62dbee48951bc47e4af9cc7
   - enabled: 1
     path: Assets/Scenes/Levels/Level07.unity
-    guid: 21c48dc16c7d53649846af196c6c5686
+    guid: ad548f2a244933543a8e32b8ae7636f2
   - enabled: 1
     path: Assets/Scenes/Levels/Level08.unity
     guid: 5a5adf0d8461e5d4f942b4b639b69b46
   - enabled: 1
     path: Assets/Scenes/Levels/Level09.unity
-    guid: 6e1b4c1f426737c44a6decbcba130f6c
+    guid: 21c48dc16c7d53649846af196c6c5686
   - enabled: 1
     path: Assets/Scenes/CharacterPhysicsTest.unity
     guid: 2e83bcde18d12d843ad9d4c34bb798b1

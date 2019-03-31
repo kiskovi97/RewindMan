@@ -112,7 +112,7 @@ MonoBehaviour:
   TimeResistance: 0
   startVelocity: {x: 0, y: 0, z: 0}
   recordsNumber: 0
-  frictionCoefficientFloat: 0.98
+  frictionCoefficientFloat: 0.8
   impulseLoseCoefficentFloat: 0.5
 --- !u!114 &8431557706924035269
 MonoBehaviour:
