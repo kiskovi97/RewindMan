@@ -12,11 +12,12 @@ namespace FixPhysics
         public static Fix time = Fix.Zero;
         public static Fix deltaTime;
         public string timeOut = "";
+        public GameObject musicObject;
         public TimeRecording timeRecording;
         private FixObjects fixObjects;
         private InputRecording stateRecordings = new InputRecording();
         private InputRecord state = new InputRecord();
-
+        private MusicClass music;
 
         public static bool GameOver
         {
@@ -48,6 +49,12 @@ namespace FixPhysics
             gravity = FixConverter.ToFixVec3(Physics.gravity);
             deltaTime = FixConverter.ToFix(Time.fixedDeltaTime);
             time = Fix.Zero;
+            GameObject obj  = GameObject.FindGameObjectWithTag("Music");
+            if (obj == null)
+            {
+                obj = Instantiate(musicObject);
+            }
+            music = obj.GetComponent<MusicClass>();
         }
 
         public void Start()

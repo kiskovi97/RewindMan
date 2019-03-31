@@ -538,6 +538,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeOut: 
+  musicObject: {fileID: 3701711375168805915, guid: 863590a47c25ae94196249920d3f8269,
+    type: 3}
   timeRecording:
     recordUIList: {fileID: 5129351717588595141}
 --- !u!114 &4718928658514226656
