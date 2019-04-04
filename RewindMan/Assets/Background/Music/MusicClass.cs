@@ -13,7 +13,7 @@ public class MusicClass : MonoBehaviour
 
     public void PlayMusic()
     {
-        _audioSource.pitch = 1;
+        _audioSource.pitch = 0.8f;
         Play();
     }
 
@@ -24,7 +24,7 @@ public class MusicClass : MonoBehaviour
 
     public void PlayReverse()
     {
-        _audioSource.pitch = -1;
+        _audioSource.pitch = -0.8f;
         Play();
     }
 
