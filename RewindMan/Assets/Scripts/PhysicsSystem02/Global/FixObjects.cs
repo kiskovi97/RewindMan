@@ -8,14 +8,14 @@ namespace FixPhysics
     {
         private FixCollider[] colliders;
         private FixPlayer fixPlayer;
-        private RecordedObject[] objects;
+        private MovingObject[] objects;
         private CollidableObject[] collidables;
 
         // Use this for initialization
         void Start()
         {
-            List<RecordedObject> recordedObjects = new List<RecordedObject>();
-            recordedObjects.AddRange(FindObjectsOfType<RecordedObject>());
+            List<MovingObject> recordedObjects = new List<MovingObject>();
+            recordedObjects.AddRange(FindObjectsOfType<MovingObject>());
             objects = recordedObjects.ToArray();
             collidables = FindObjectsOfType<CollidableObject>();
             colliders = FindObjectsOfType<FixCollider>();

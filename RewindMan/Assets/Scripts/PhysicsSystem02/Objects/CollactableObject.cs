@@ -5,7 +5,7 @@ using System.Collections;
 namespace FixPhysics
 {
     [RequireComponent(typeof(CollidableObject))]
-    public class CollactableObject : RecordedObject
+    public class CollactableObject : MovingObject
     {
         private CollidableObject collidable;
         private new MeshRenderer renderer;

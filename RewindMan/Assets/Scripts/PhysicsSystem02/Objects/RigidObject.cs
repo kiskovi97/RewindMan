@@ -6,7 +6,7 @@ using System.Collections.Generic;
 namespace FixPhysics
 {
     [RequireComponent(typeof(CollidableObject))]
-    public class RigidObject : RecordedObject
+    public class RigidObject : MovingObject
     {
         // Inspector Initial values
         public float frictionCoefficientFloat = 0.98f;

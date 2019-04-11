@@ -5,7 +5,7 @@ using System.Collections;
 namespace FixPhysics
 {
     [RequireComponent(typeof(CollidableObject))]
-    public class InstabileObject : RecordedObject
+    public class InstabileObject : MovingObject
     {
         private CollidableObject collidable;
         public int maxCollide = 15;

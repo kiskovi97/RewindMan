@@ -3,7 +3,7 @@ using FixedPointy;
 using System.Collections.Generic;
 namespace FixPhysics
 {
-    public abstract class RecordedObject : MonoBehaviour
+    public abstract class MovingObject : MonoBehaviour
     {
         public bool TimeResistance = false;
         public Vector3 startVelocity = new Vector3(0, 1, 0);

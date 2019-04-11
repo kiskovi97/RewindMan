@@ -4,7 +4,7 @@ using System.Collections;
 
 namespace FixPhysics
 {
-    public class DoorObject : RecordedObject
+    public class DoorObject : MovingObject
     {
         public CollidableObject collidable;
         private new MeshRenderer renderer;

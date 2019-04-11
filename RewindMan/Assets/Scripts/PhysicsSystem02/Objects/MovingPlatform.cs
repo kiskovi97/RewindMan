@@ -4,7 +4,7 @@ using FixedPointy;
 namespace FixPhysics
 {
     [RequireComponent(typeof(FixCollider))]
-    public class MovingPlatform : RecordedObject
+    public class MovingPlatform : MovingObject
     {
         public Vector3 startDistance = new Vector3(0, 1, 0);
         public float startSpeed = 2.0f;
