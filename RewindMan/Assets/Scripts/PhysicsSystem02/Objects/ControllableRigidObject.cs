@@ -14,6 +14,10 @@ namespace FixPhysics
                 VelocityCorrection((state.velocity + speed) / 2);
                 return true;
             }
+            Fix addedSpeed = (speed.X) / 5 + state.velocity.X;
+            Fix XSpeed = FixMath.Abs(addedSpeed) < FixMath.Abs(speed.X) ? addedSpeed : speed.X;
+            FixVec3 relativeSpeed = new FixVec3(XSpeed, state.velocity.Y, 0);
+            VelocityCorrection(relativeSpeed);
             return false;
         }
 
@@ -25,6 +29,10 @@ namespace FixPhysics
                 SetOnTheFloor(false);
                 return true;
             }
+            Fix addedSpeed = (speed.X) / 5 + state.velocity.X;
+            Fix XSpeed = FixMath.Abs(addedSpeed) < FixMath.Abs(speed.X) ? addedSpeed : speed.X;
+            FixVec3 relativeSpeed = new FixVec3(XSpeed, state.velocity.Y, 0);
+            VelocityCorrection(relativeSpeed);
             return false;
         }
     }
