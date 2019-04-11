@@ -100,7 +100,10 @@ namespace FixPhysics
             FixVec3 N = collision.Normal;
             FixVec3 paralellVector = new FixVec3(-N.Y, N.X, N.Z);
             FixVec3 projectedForce = HelpFixMath.Project(state.velocity, paralellVector);
-            VelocityCorrection(projectedForce * frictionCoefficient);
+            if (collision.Normal.Y > 0)
+                VelocityCorrection(projectedForce * frictionCoefficient);
+            else
+                VelocityCorrection(projectedForce);
 
             ((RigidRecord)state).prevVelocity += collision.savedVelocity;
         }

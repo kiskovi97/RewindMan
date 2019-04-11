@@ -48,14 +48,15 @@ namespace FixPhysics
             {
                 if (state.right)
                 {
-                    fixObject.AddToSpeed(new FixVec3(speed, speed * 2, 0));
+                    fixObject.Jump(new FixVec3(0, speed * 2, 0));
+                    fixObject.AddToSpeed(new FixVec3(speed, 0, 0));
                 }
                 else if (state.left)
                 {
-                    fixObject.AddToSpeed(new FixVec3(-speed, speed * 2, 0));
-
+                    fixObject.Jump(new FixVec3(0, speed * 2, 0));
+                    fixObject.AddToSpeed(new FixVec3(-speed, 0, 0));
                 }
-                else fixObject.AddToSpeed(new FixVec3(0, speed * 2, 0));
+                else fixObject.Jump(new FixVec3(0, speed * 2, 0));
             }
             else
             {
