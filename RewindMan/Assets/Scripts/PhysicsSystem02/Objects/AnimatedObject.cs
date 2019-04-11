@@ -10,7 +10,7 @@ namespace FixPhysics
         public RigidObject rigidObject;
         public Animator animator;
         // Use this for initialization
-        void Start()
+        public virtual void Start()
         {
             if (rigidObject == null)
             {
@@ -23,9 +23,9 @@ namespace FixPhysics
         }
 
         // Update is called once per frame
-        void Update()
+        public virtual void Update()
         {
-            animator.SetBool("Backward", FixWorld.Backward);
+            animator.SetFloat("Time", FixWorld.Backward ? -1 : 1);
             if (rigidObject != null && animator != null && model != null)
             {
                 if (rigidObject.OnTheFloor())
