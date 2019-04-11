@@ -24,7 +24,7 @@ namespace FixPhysics
         {
             base.Start();
             ResetRecording();
-            state = RigidRecord.RecordFromBase(state, 0, FixVec3.Zero);
+            state = RigidRecord.RecordFromBase(state, 0, FixVec3.Zero, FixVec3.Zero);
             frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
             impulseLoseCoefficent = FixConverter.ToFix(impulseLoseCoefficentFloat);
             forces = new Forces();
@@ -73,6 +73,7 @@ namespace FixPhysics
 
         void ReactToCollide(Collision[] collisions)
         {
+            FixVec3 forceSum = FixVec3.Zero;
             for (int i = 0; i < collisions.Length; i++)
             {
                 if (!collisions[i].isStatic)
@@ -84,6 +85,7 @@ namespace FixPhysics
                 {
                     SetOnTheFloor(true);
                 }
+                forceSum += collisions[i].Normal;
             }
             for (int i = 0; i < collisions.Length; i++)
             {
@@ -93,6 +95,7 @@ namespace FixPhysics
                 }
             }
             startVelocity = FixConverter.ToFixVec3(state.velocity);
+            ((RigidRecord)state).forceSum = forceSum;
         }
 
         private void ReactStaticCollide(Collision collision)
