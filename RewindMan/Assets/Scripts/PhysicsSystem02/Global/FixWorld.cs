@@ -107,7 +107,7 @@ namespace FixPhysics
 
         private void ReverseCheck()
         {
-            if (Input.GetKey(KeyCode.Q))
+            if (0 != Input.GetAxisRaw("Reverse"))
             {
                 Forward = false;
                 if (time > Fix.Zero) Backward = true;
@@ -173,13 +173,14 @@ namespace FixPhysics
 
         private void InputToState()
         {
-            if (Input.GetKey(KeyCode.D)) state.right = true;
+            
+            if (0 < Input.GetAxis("Horizontal")) state.right = true;
             else state.right = false;
 
-            if (Input.GetKey(KeyCode.A)) state.left = true;
+            if (0 > Input.GetAxis("Horizontal")) state.left = true;
             else state.left = false;
 
-            if (Input.GetKey(KeyCode.Space)) state.up = true;
+            if (0 != Input.GetAxisRaw("Jump")) state.up = true;
             else state.up = false;
 
             stateRecordings.AddState(state);
