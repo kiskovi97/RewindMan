@@ -32,9 +32,9 @@ namespace FixPhysics
         public bool CahceIsEmpty()
         {
             int min = -1;
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < recordedObjects.Length; i++)
             {
-                int actual = objects[i].CacheSize();
+                int actual = recordedObjects[i].CacheSize();
                 if ((actual >= 0) && (actual < min || min < 0)) min = actual;
             }
             return min == 0;
@@ -42,17 +42,17 @@ namespace FixPhysics
 
         public void SetFromCache()
         {
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < recordedObjects.Length; i++)
             {
-                objects[i].SetFromCache();
+                recordedObjects[i].SetFromCache();
             }
         }
 
         public void CacheClear()
         {
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < recordedObjects.Length; i++)
             {
-                objects[i].CacheClear();
+                recordedObjects[i].CacheClear();
             }
         }
 
@@ -78,25 +78,25 @@ namespace FixPhysics
 
         public void Record()
         {
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < recordedObjects.Length; i++)
             {
-                objects[i].Record();
+                recordedObjects[i].Record();
             }
         }
 
         public void RecordToCache(Fix time)
         {
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < recordedObjects.Length; i++)
             {
-                objects[i].RecordToCache(time);
+                recordedObjects[i].RecordToCache(time);
             }
         }
 
         public void SetState(Fix time)
         {
-            for (int i = 0; i < objects.Length; i++)
+            for (int i = 0; i < recordedObjects.Length; i++)
             {
-                objects[i].SetLast(time);
+                recordedObjects[i].SetLast(time);
             }
         }
     }
