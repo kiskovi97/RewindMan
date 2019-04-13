@@ -302,10 +302,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeResistance: 0
-  startVelocity: {x: 0, y: 1, z: 0}
   recordsNumber: 0
   collidable: {fileID: 4386792064174817828}
   door: {fileID: 8290513209923375548}
+  lights:
+  - {fileID: 2229498602538105455}
+  - {fileID: 3174310149169801073}
 --- !u!1 &4386792064174817829
 GameObject:
   m_ObjectHideFlags: 0
@@ -553,7 +555,7 @@ Light:
   m_Type: 2
   m_Color: {r: 0.03255417, g: 1, b: 0.8879506, a: 1}
   m_Intensity: 1
-  m_Range: 10
+  m_Range: 25
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:

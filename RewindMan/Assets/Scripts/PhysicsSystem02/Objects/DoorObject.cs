@@ -9,6 +9,7 @@ namespace FixPhysics
         public CollidableObject collidable;
         private new MeshRenderer renderer;
         public Door door;
+        public new Light[] lights;
 
         // Use this for initialization
         protected virtual void Start()
@@ -23,20 +24,34 @@ namespace FixPhysics
             renderer = GetComponent<MeshRenderer>();
         }
 
+        public override void Update()
+        {
+            if (state.collided)
+            {
+                door.Open = true;
+                foreach(Light light in lights)
+                    light.enabled = true;
+            } else
+            {
+                door.Open = false;
+                foreach (Light light in lights)
+                    light.enabled = false;
+            }
+        }
+
         void Collide(Collision[] collisions)
         {
-            door.Open = false;
+            state.collided = false;
             foreach (Collision collision in collisions)
                 if (!collision.isStatic)
                 {
                     state.collided = true;
-                    door.Open = true;
                 }
         }
 
         void Free()
         {
-            door.Open = false;
+            state.collided = false;
         }
     }
 }
