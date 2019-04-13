@@ -16,7 +16,7 @@ namespace FixPhysics
         public TimeRecording timeRecording;
         private FixObjects fixObjects;
         private InputRecording stateRecordings = new InputRecording();
-        private InputRecord state = new InputRecord();
+        private InputState state = new InputState();
         private MusicClass music;
 
         public static bool GameOver
@@ -87,7 +87,6 @@ namespace FixPhysics
             {
                 GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().PlayMusic();
                 time += deltaTime;
-                state.time = time;
                 SimulateForward();
             }
             else if (Backward)
@@ -96,7 +95,6 @@ namespace FixPhysics
                 GameOver = false;
                 SimulateBackward();
                 time -= deltaTime;
-                state.time = time;
             } else
             {
                 GameObject.FindGameObjectWithTag("Music").GetComponent<MusicClass>().StopMusic();
@@ -166,7 +164,6 @@ namespace FixPhysics
             {
                 fixObjects.RecordToCache(to - time);
                 InputToState(time + deltaTime);
-                state.time = time;
                 fixObjects.Step(state);
             }
         }

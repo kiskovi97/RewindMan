@@ -9,7 +9,7 @@ namespace FixPhysics
         public override void Update()
         {
             base.Update();
-            FixVec3 forceSum = ((RigidRecord)rigidObject.state).forceSum;
+            FixVec3 forceSum = ((RigidState)rigidObject.state).forceSum;
             bool push = forceSum.X != 0;
             animator.SetBool("Push", push);
             if (push)

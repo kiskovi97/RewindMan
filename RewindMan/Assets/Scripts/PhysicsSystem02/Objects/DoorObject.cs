@@ -4,23 +4,22 @@ using System.Collections;
 
 namespace FixPhysics
 {
-    public class DoorObject : MovingObject
+    public class DoorObject : RecordedObject<CollidedState>
     {
         public CollidableObject collidable;
         private new MeshRenderer renderer;
         public Door door;
 
         // Use this for initialization
-        protected override void Start()
+        protected virtual void Start()
         {
-            base.Start();
             if (collidable == null)
             {
                 collidable = GetComponent<CollidableObject>();
             }
             collidable.ReactToCollide += Collide;
             collidable.ReactNotToCollide += Free;
-            state = CollactableRecord.RecordFromBase(state, false);
+            state = new CollidedState(false);
             renderer = GetComponent<MeshRenderer>();
         }
 
@@ -30,7 +29,7 @@ namespace FixPhysics
             foreach (Collision collision in collisions)
                 if (!collision.isStatic)
                 {
-                    ((CollactableRecord)state).collided = true;
+                    state.collided = true;
                     door.Open = true;
                 }
         }
@@ -38,10 +37,6 @@ namespace FixPhysics
         void Free()
         {
             door.Open = false;
-        }
-
-        public override void Move()
-        {
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using FixedPointy;
+using System.Linq;
 
 namespace FixPhysics
 {
@@ -9,17 +10,23 @@ namespace FixPhysics
         private FixCollider[] colliders;
         private FixPlayer fixPlayer;
         private MovingObject[] objects;
+        private IRecordedObject[] recordedObjects;
         private CollidableObject[] collidables;
 
         // Use this for initialization
         void Start()
         {
-            List<MovingObject> recordedObjects = new List<MovingObject>();
-            recordedObjects.AddRange(FindObjectsOfType<MovingObject>());
-            objects = recordedObjects.ToArray();
+            objects = FindObjectsOfType<MovingObject>();
             collidables = FindObjectsOfType<CollidableObject>();
             colliders = FindObjectsOfType<FixCollider>();
             fixPlayer = FindObjectOfType<FixPlayer>();
+            var ss = FindObjectsOfType<MonoBehaviour>().OfType<IRecordedObject>();
+            List<IRecordedObject> list = new List<IRecordedObject>();
+            foreach (IRecordedObject s in ss)
+            {
+                list.Add(s);
+            }
+            recordedObjects = list.ToArray();
         }
 
         public bool CahceIsEmpty()
@@ -49,7 +56,7 @@ namespace FixPhysics
             }
         }
 
-        public void Step(InputRecord state)
+        public void Step(InputState state)
         {
             fixPlayer.KeyCheck(state);
             for (int i = 0; i < objects.Length; i++)

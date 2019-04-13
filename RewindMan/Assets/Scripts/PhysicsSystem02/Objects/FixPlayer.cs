@@ -36,12 +36,12 @@ namespace FixPhysics
             text.text = collected + "";
         }
 
-        public void KeyCheck(InputRecord state)
+        public void KeyCheck(InputState state)
         {
             ByMovePosition(state);
         }
 
-        void ByMovePosition(InputRecord state)
+        void ByMovePosition(InputState state)
         {
             //fixObject.animator.SetFloat("Speed", 0.0f);
             if (state.up)

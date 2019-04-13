@@ -24,7 +24,7 @@ namespace FixPhysics
         {
             base.Start();
             ResetRecording();
-            state = RigidRecord.RecordFromBase(state, 0, FixVec3.Zero, FixVec3.Zero);
+            state = RigidState.RecordFromBase(state, 0, FixVec3.Zero, FixVec3.Zero);
             frictionCoefficient = FixConverter.ToFix(frictionCoefficientFloat);
             impulseLoseCoefficent = FixConverter.ToFix(impulseLoseCoefficentFloat);
             forces = new Forces();
@@ -42,8 +42,8 @@ namespace FixPhysics
         {
             Accelerate(forces.GetSumForces());
             Step();
-            Step(((RigidRecord)state).prevVelocity);
-            ((RigidRecord)state).prevVelocity = FixVec3.Zero;
+            Step(((RigidState)state).prevVelocity);
+            ((RigidState)state).prevVelocity = FixVec3.Zero;
             collidable.SetPositionAndVelocity(state.position, state.velocity);
             forces.Clear();
             SetOnTheFloor(false);
@@ -51,7 +51,7 @@ namespace FixPhysics
 
         public bool OnTheFloor()
         {
-            return ((RigidRecord)state).onTheFloor > 0;
+            return ((RigidState)state).onTheFloor > 0;
         }
 
         // --------------- Inner Help Functions  -------------
@@ -60,11 +60,11 @@ namespace FixPhysics
         {
             if (collided)
             {
-                ((RigidRecord)state).onTheFloor = collideOverlap;
+                ((RigidState)state).onTheFloor = collideOverlap;
             }
             else
             {
-                RigidRecord fullState = ((RigidRecord)state);
+                RigidState fullState = ((RigidState)state);
                 fullState.onTheFloor--;
                 if (fullState.onTheFloor < 0) fullState.onTheFloor = 0;
                 state = fullState;
@@ -95,7 +95,7 @@ namespace FixPhysics
                 }
             }
             startVelocity = FixConverter.ToFixVec3(state.velocity);
-            ((RigidRecord)state).forceSum = forceSum;
+            ((RigidState)state).forceSum = forceSum;
         }
 
         private void ReactStaticCollide(Collision collision)
@@ -108,7 +108,7 @@ namespace FixPhysics
             else
                 VelocityCorrection(projectedForce);
 
-            ((RigidRecord)state).prevVelocity += collision.savedVelocity;
+            ((RigidState)state).prevVelocity += collision.savedVelocity;
         }
 
         private void ReactDynamicCollide(Collision collision)

@@ -1,43 +1,39 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
 using FixedPointy;
-
-public class StateRecording
+namespace FixPhysics
 {
-
-    Stack<Record> records = new Stack<Record>();
-
-    public void Push(Record record)
+    public class StateRecording<T> where T : ICloneable
     {
-        records.Push(record);
-    }
-
-    public int Count
-    {
-        get
+        Stack<Record<T>> records = new Stack<Record<T>>();
+        public void Push(T record)
         {
-            return records.Count;
+            records.Push(new Record<T>(record, FixWorld.time));
         }
-    }
-
-    public void Clear()
-    {
-        records.Clear();
-    }
-
-    public Record GetByTime(Fix time)
-    {
-        Record record = records.Pop();
-        while (record.time > time)
+        public int Count
         {
-            if (records.Count == 0) break;
-            record = records.Pop();
+            get
+            {
+                return records.Count;
+            }
         }
-        if (record.time <= time)
+        public void Clear()
         {
-            records.Push(record);
-        } else if (records.Count == 0) records.Push(record);
-        return record;
+            records.Clear();
+        }
+        public T GetByTime(Fix time)
+        {
+            Record<T> record = records.Pop();
+            while (record.time > time)
+            {
+                if (records.Count == 0) break;
+                record = records.Pop();
+            }
+            if (record.time <= time)
+            {
+                records.Push(record);
+            } else if (records.Count == 0) records.Push(record);
+            return (T)record.state.Clone();
+        }
     }
 }

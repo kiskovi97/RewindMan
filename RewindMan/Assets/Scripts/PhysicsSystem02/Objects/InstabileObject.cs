@@ -16,12 +16,12 @@ namespace FixPhysics
             base.Start();
             collidable = GetComponent<CollidableObject>();
             collidable.ReactToCollide += Logger;
-            state = InstableRecord.RecordFromBase(state,0);
+            state = InstableState.RecordFromBase(state,0);
         }
 
         public override void Move()
         {
-            if (((InstableRecord)state).collidedCount > maxCollide) state.velocity += FixVec3.UnitY * -1;
+            if (((InstableState)state).collidedCount > maxCollide) state.velocity += FixVec3.UnitY * -1;
             Step();
             collidable.SetPositionAndVelocity(state.position, state.velocity);
         }
@@ -31,7 +31,7 @@ namespace FixPhysics
             foreach(Collision collision in collisions)
             if (collision.tag == "Player")
             {
-                    ((InstableRecord)state).collidedCount++;
+                    ((InstableState)state).collidedCount++;
             }
         }
     }

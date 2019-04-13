@@ -19,7 +19,7 @@ namespace FixPhysics
             speed = FixConverter.ToFix(startSpeed);
             start = state.position;
             distance = FixConverter.ToFixVec3(startDistance);
-            state = MovingRecord.RecordFromBase(state, 0);
+            state = MovingAngleState.RecordFromBase(state, 0);
             fixCollider = GetComponent<FixCollider>();
             fixCollider.isStatic = true;
         }
@@ -42,12 +42,12 @@ namespace FixPhysics
 
         private void Increment(Fix inc)
         {
-            ((MovingRecord)state).angle += inc;
+            ((MovingAngleState)state).angle += inc;
         }
 
         private Fix GetAngle()
         {
-            return ((MovingRecord)state).angle;
+            return ((MovingAngleState)state).angle;
         }
     }
 }
