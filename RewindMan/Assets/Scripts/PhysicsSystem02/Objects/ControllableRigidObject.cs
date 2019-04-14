@@ -6,7 +6,6 @@ namespace FixPhysics
 {
     public class ControllableRigidObject : RigidObject
     {
-
         public bool MovePosition(FixVec3 speed)
         {
             if (OnTheFloor())

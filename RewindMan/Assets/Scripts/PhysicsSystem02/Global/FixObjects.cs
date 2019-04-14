@@ -9,6 +9,7 @@ namespace FixPhysics
     {
         private FixCollider[] colliders;
         private FixPlayer fixPlayer;
+        private FixAI[] fixAIs;
         private MovingObject[] objects;
         private IRecordedObject[] recordedObjects;
         private CollidableObject[] collidables;
@@ -20,6 +21,7 @@ namespace FixPhysics
             collidables = FindObjectsOfType<CollidableObject>();
             colliders = FindObjectsOfType<FixCollider>();
             fixPlayer = FindObjectOfType<FixPlayer>();
+            fixAIs = FindObjectsOfType<FixAI>();
             var ss = FindObjectsOfType<MonoBehaviour>().OfType<IRecordedObject>();
             List<IRecordedObject> list = new List<IRecordedObject>();
             foreach (IRecordedObject s in ss)
@@ -59,6 +61,10 @@ namespace FixPhysics
         public void Step(InputState state)
         {
             fixPlayer.KeyCheck(state);
+            for (int i = 0; i < fixAIs.Length; i++)
+            {
+                fixAIs[i].DoThinking();
+            }
             for (int i = 0; i < objects.Length; i++)
             {
                 objects[i].Move();

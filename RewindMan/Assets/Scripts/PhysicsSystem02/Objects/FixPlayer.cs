@@ -28,7 +28,7 @@ namespace FixPhysics
 
         private void Update()
         {
-            int collected = 0; 
+            int collected = 0;
             foreach (bool set in dictionary.Values)
             {
                 if (set) collected++;
@@ -73,3 +73,4 @@ namespace FixPhysics
         }
     }
 }
+

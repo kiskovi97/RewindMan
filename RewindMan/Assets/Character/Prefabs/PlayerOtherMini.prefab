@@ -54,7 +54,7 @@ MonoBehaviour:
   Draw: 0
   Enabled: 1
   isStatic: 1
-  scaleAdjustment: {x: 1.3, y: 2, z: 1}
+  scaleAdjustment: {x: 1.1, y: 2, z: 1}
 --- !u!65 &4071810428953034625
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -66,8 +66,8 @@ BoxCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.51953626, y: 1.998883, z: 1}
-  m_Center: {x: 0.034257412, y: 0.0010331869, z: 0}
+  m_Size: {x: 0.9064538, y: 1.998883, z: 1}
+  m_Center: {x: 0.0012121499, y: 0.0010331869, z: 0}
 --- !u!54 &4758077410054138019
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -111,8 +111,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TimeResistance: 0
-  startVelocity: {x: 0, y: 0, z: 0}
   recordsNumber: 0
+  startVelocity: {x: 0, y: 0, z: 0}
   frictionCoefficientFloat: 0.8
   impulseLoseCoefficentFloat: 0.5
 --- !u!114 &7187177307440880221
