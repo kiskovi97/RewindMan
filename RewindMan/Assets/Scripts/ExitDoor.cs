@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using FixPhysics;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -18,6 +19,7 @@ public class ExitDoor : MonoBehaviour
         Debug.Log("New Level");
         if (other.tag == "Player")
         {
+            FixWorld.Exit();
             transitions.LoadSceneAsync(nextScene);
         }
     }

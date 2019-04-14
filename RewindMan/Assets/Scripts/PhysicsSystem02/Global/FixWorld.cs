@@ -18,6 +18,7 @@ namespace FixPhysics
         private InputRecording stateRecordings = new InputRecording();
         private InputState state = new InputState();
         private MusicClass music;
+        private static bool exited = false; 
 
         public static bool GameOver
         {
@@ -62,6 +63,7 @@ namespace FixPhysics
             GameOver = false;
             Forward = true;
             Backward = false;
+            exited = false;
             fixObjects = GetComponent<FixObjects>();
         }
 
@@ -69,8 +71,14 @@ namespace FixPhysics
 
         private volatile bool simulate = false;
 
+        public static void Exit()
+        {
+            exited = true;
+        }
+
         private void FixedUpdate()
         {
+            if (exited) return;
             timeOut = time + "";
             if (simulate) return;
             simulate = true;
