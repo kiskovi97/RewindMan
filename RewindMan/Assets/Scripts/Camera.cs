@@ -21,6 +21,14 @@ public class Camera : MonoBehaviour
         downMin = - Z * Mathf.Tan(Mathf.PI * 0.9f) - Max.y;
     }
 
+    public void Update()
+    {
+        if(Input.GetAxisRaw("Cancel") != 0)
+        {
+            Application.Quit();
+        }
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
