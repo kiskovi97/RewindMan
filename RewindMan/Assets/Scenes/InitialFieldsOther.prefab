@@ -463,10 +463,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 2795731592297201729}
-  distance: {x: 0, y: 2, z: -24}
+  distance: {x: 0, y: 2, z: -20}
   LeftMin: -5
   speed: 0.1
-  Max: {x: -12.5, y: 0, z: 0}
+  Max: {x: -12.5, y: 2, z: 0}
 --- !u!114 &8717463019585151226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -681,7 +681,7 @@ PrefabInstance:
     - target: {fileID: 3963553881257597708, guid: 44f19c97b350c174aa9ccb26abed0dd9,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.09599304
+      value: -0.0960083
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f19c97b350c174aa9ccb26abed0dd9, type: 3}

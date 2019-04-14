@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Camera : MonoBehaviour
 {
@@ -26,6 +27,10 @@ public class Camera : MonoBehaviour
         if(Input.GetAxisRaw("Cancel") != 0)
         {
             Application.Quit();
+        }
+        if(Input.GetAxisRaw("Restart") != 0)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
     }
 
