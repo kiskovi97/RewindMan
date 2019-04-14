@@ -463,10 +463,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   focus: {fileID: 2795731592297201729}
-  distance: {x: 0, y: 2, z: -16}
+  distance: {x: 0, y: 2, z: -24}
   LeftMin: -5
   speed: 0.1
-  Max: {x: -8.5, y: 0, z: 0}
+  Max: {x: -12.5, y: 0, z: 0}
 --- !u!114 &8717463019585151226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -678,6 +678,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3963553881257597708, guid: 44f19c97b350c174aa9ccb26abed0dd9,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -0.09599304
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44f19c97b350c174aa9ccb26abed0dd9, type: 3}
 --- !u!4 &4238622264510334187 stripped
@@ -753,15 +758,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1840733307211996330, guid: ea93cd3d00f681844a74223d0f443518,
-        type: 3}
-      propertyPath: speed
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1443481121936472569, guid: ea93cd3d00f681844a74223d0f443518,
         type: 3}
       propertyPath: isStatic
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1840733307211996330, guid: ea93cd3d00f681844a74223d0f443518,
+        type: 3}
+      propertyPath: speed
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea93cd3d00f681844a74223d0f443518, type: 3}

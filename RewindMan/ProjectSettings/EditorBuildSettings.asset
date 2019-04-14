@@ -51,6 +51,9 @@ EditorBuildSettings:
     path: Assets/Scenes/Levels/Level13.unity
     guid: d4a3c837de1b0df48bce1cbda96e1193
   - enabled: 1
+    path: Assets/Scenes/Levels/Level14.unity
+    guid: 994417c8a474bf848b65583f757cadaa
+  - enabled: 1
     path: Assets/Scenes/CharacterPhysicsTest.unity
     guid: 2e83bcde18d12d843ad9d4c34bb798b1
   m_configObjects: {}
