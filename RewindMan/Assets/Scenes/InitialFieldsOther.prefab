@@ -466,7 +466,7 @@ MonoBehaviour:
   distance: {x: 0, y: 2, z: -20}
   LeftMin: -5
   speed: 0.1
-  Max: {x: -12.5, y: 2, z: 0}
+  Max: {x: -12.5, y: -2, z: 0}
 --- !u!114 &8717463019585151226
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -758,15 +758,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1443481121936472569, guid: ea93cd3d00f681844a74223d0f443518,
-        type: 3}
-      propertyPath: isStatic
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1840733307211996330, guid: ea93cd3d00f681844a74223d0f443518,
         type: 3}
       propertyPath: speed
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1443481121936472569, guid: ea93cd3d00f681844a74223d0f443518,
+        type: 3}
+      propertyPath: isStatic
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ea93cd3d00f681844a74223d0f443518, type: 3}

@@ -18,8 +18,8 @@ public class Camera : MonoBehaviour
     private void Start()
     {
         float Z = distance.z * -1;
-        leftMin = Z * Mathf.Tan(Mathf.PI * 0.95f) - Max.x;
-        downMin = - Z * Mathf.Tan(Mathf.PI * 0.9f) - Max.y;
+        leftMin = Z * Mathf.Tan(Mathf.PI) - Max.x;
+        downMin = Max.y - Z * Mathf.Tan(Mathf.PI * 0.85f);
     }
 
     public void Update()
@@ -52,8 +52,8 @@ public class Camera : MonoBehaviour
             Quaternion next = Quaternion.LookRotation(focusPosition - transform.position);
             transform.position += go * speed;
             transform.rotation = Quaternion.RotateTowards(transform.rotation, next, speed);
+            Debug.DrawLine(new Vector3(leftMin, 0, 0), focusPosition, Color.red, Time.deltaTime, false);
+            Debug.DrawLine(new Vector3(0, downMin, 0), focusPosition, Color.red, Time.deltaTime, false);
         }
-        Debug.DrawLine(new Vector3(leftMin, 0, 0), new Vector3(Max.x, 1, 0), Color.red, Time.deltaTime, false);
-        Debug.DrawLine(new Vector3(0, downMin, 0), new Vector3(0, Max.y, 0), Color.red, Time.deltaTime, false);
     }
 }
