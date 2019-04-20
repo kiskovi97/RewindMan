@@ -8,7 +8,7 @@ namespace FixPhysics
     public class InstabileObject : MovingObject
     {
         private CollidableObject collidable;
-        public int maxCollide = 15;
+        public int maxCollide = 4;
 
         // Use this for initialization
         protected override void Start()
@@ -29,7 +29,7 @@ namespace FixPhysics
         void Logger(Collision[] collisions)
         {
             foreach(Collision collision in collisions)
-            if (collision.tag == "Player")
+            if (!collision.isStatic)
             {
                     ((InstableState)state).collidedCount++;
             }

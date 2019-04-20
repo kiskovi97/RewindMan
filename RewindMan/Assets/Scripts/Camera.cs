@@ -8,7 +8,6 @@ public class Camera : MonoBehaviour
 
     public Transform focus;
     public Vector3 distance = new Vector3(0, 5f, -20f);
-    public float LeftMin = -5f;
     public float speed = 0.05f;
     public Vector3 Max = new Vector3(0, 0, 0);
 
@@ -50,10 +49,12 @@ public class Camera : MonoBehaviour
             }
             Vector3 go = (focusPosition + distance) - transform.position;
             Quaternion next = Quaternion.LookRotation(focusPosition - transform.position);
+            float currentSpeed = speed;
+            if (go.magnitude < speed) currentSpeed = go.magnitude / 2;
             transform.position += go * speed;
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, next, speed);
-            Debug.DrawLine(new Vector3(leftMin, 0, 0), focusPosition, Color.red, Time.deltaTime, false);
-            Debug.DrawLine(new Vector3(0, downMin, 0), focusPosition, Color.red, Time.deltaTime, false);
+            //transform.rotation = Quaternion.RotateTowards(transform.rotation, next, speed);
+            //transform.rotation = Quaternion.LookRotation(focusPosition - transform.position, Vector3.up);
+            Debug.DrawLine(transform.position, new Vector3(leftMin, downMin, 0), Color.red, Time.deltaTime, false);
         }
     }
 }
