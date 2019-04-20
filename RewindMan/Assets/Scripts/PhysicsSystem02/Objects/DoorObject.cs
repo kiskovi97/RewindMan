@@ -47,11 +47,13 @@ namespace FixPhysics
                 {
                     state.collided = true;
                 }
+            Update();
         }
 
         void Free()
         {
             state.collided = false;
+            Update();
         }
     }
 }

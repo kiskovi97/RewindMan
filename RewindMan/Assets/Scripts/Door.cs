@@ -4,7 +4,17 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
-    public bool Open = false;
+    bool open;
+    public bool Open
+    {
+        get { return open; }
+
+        set {
+            open = value;
+            animator.SetBool("Open", open);
+            collider.Enabled = !open;
+        }
+    }
     Animator animator;
     new FixCollider collider;
     // Start is called before the first frame update
@@ -12,12 +22,5 @@ public class Door : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         collider = GetComponent<FixCollider>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        animator.SetBool("Open", Open);
-        collider.Enabled = !Open;
     }
 }
