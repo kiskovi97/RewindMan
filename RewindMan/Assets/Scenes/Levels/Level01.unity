@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 0
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 10
+    serializedVersion: 12
     m_Resolution: 2
     m_BakeResolution: 40
     m_AtlasSize: 1024
@@ -62,6 +62,7 @@ LightmapSettings:
     m_AOMaxDistance: 1
     m_CompAOExponent: 1
     m_CompAOExponentDirect: 0
+    m_ExtractAmbientOcclusion: 0
     m_Padding: 2
     m_LightmapParameters: {fileID: 0}
     m_LightmapsBakeMode: 1
@@ -76,10 +77,16 @@ LightmapSettings:
     m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
+    m_PVREnvironmentSampleCount: 500
+    m_PVREnvironmentReferencePointCount: 2048
+    m_PVRFilteringMode: 2
+    m_PVRDenoiserTypeDirect: 0
+    m_PVRDenoiserTypeIndirect: 0
+    m_PVRDenoiserTypeAO: 0
     m_PVRFilterTypeDirect: 0
     m_PVRFilterTypeIndirect: 0
     m_PVRFilterTypeAO: 0
-    m_PVRFilteringMode: 1
+    m_PVREnvironmentMIS: 0
     m_PVRCulling: 1
     m_PVRFilteringGaussRadiusDirect: 1
     m_PVRFilteringGaussRadiusIndirect: 5
@@ -88,6 +95,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
+    m_ExportTrainingData: 0
   m_LightingDataAsset: {fileID: 0}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -815,6 +823,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9113714497482808992, guid: 01dd08b5c72fc0842977fa3751981a6a,
+        type: 3}
+      propertyPath: Draw
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4238622265658770371, guid: 01dd08b5c72fc0842977fa3751981a6a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2795731592297201729, guid: 01dd08b5c72fc0842977fa3751981a6a,
         type: 3}
       propertyPath: m_LocalPosition.y
@@ -824,11 +842,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalPosition.x
       value: -3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9113714497482808992, guid: 01dd08b5c72fc0842977fa3751981a6a,
-        type: 3}
-      propertyPath: Draw
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8020894035977639469, guid: 01dd08b5c72fc0842977fa3751981a6a,
         type: 3}
@@ -860,6 +873,16 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: -531
       objectReference: {fileID: 0}
+    - target: {fileID: 8992691042982662924, guid: 01dd08b5c72fc0842977fa3751981a6a,
+        type: 3}
+      propertyPath: distance.z
+      value: -16
+      objectReference: {fileID: 0}
+    - target: {fileID: 8992691042982662924, guid: 01dd08b5c72fc0842977fa3751981a6a,
+        type: 3}
+      propertyPath: Max.y
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 8717463019585151226, guid: 01dd08b5c72fc0842977fa3751981a6a,
         type: 3}
       propertyPath: intensity
@@ -869,21 +892,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AnchoredPosition.y
       value: -0.10998535
-      objectReference: {fileID: 0}
-    - target: {fileID: 4238622265658770371, guid: 01dd08b5c72fc0842977fa3751981a6a,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8992691042982662924, guid: 01dd08b5c72fc0842977fa3751981a6a,
-        type: 3}
-      propertyPath: distance.z
-      value: -16
-      objectReference: {fileID: 0}
-    - target: {fileID: 8992691042982662924, guid: 01dd08b5c72fc0842977fa3751981a6a,
-        type: 3}
-      propertyPath: Max.y
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 01dd08b5c72fc0842977fa3751981a6a, type: 3}
