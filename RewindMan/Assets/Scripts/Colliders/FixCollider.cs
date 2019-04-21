@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using FixedPointy;
+using System.Threading;
 
 public abstract class FixCollider : MonoBehaviour
 {
@@ -9,11 +10,14 @@ public abstract class FixCollider : MonoBehaviour
     public bool isStatic = true;
     private FixVec3 position;
     private FixVec3 velocity;
+    private string myTag;
+    static Thread mainThread = Thread.CurrentThread;
 
     protected virtual void Start()
     {
         velocity = FixVec3.Zero;
         position = FixConverter.ToFixVec3(transform.position);
+        myTag = tag;
     }
 
     public void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
@@ -32,7 +36,7 @@ public abstract class FixCollider : MonoBehaviour
         if (!Enabled) return null;
         Collision collision = Collide(other);
         if (collision != null)
-            collision.SetObjectsValues(velocity, isStatic, position, tag);
+            collision.SetObjectsValues(velocity, isStatic, position, myTag);
         return collision;
     }
 
@@ -47,13 +51,13 @@ public abstract class FixCollider : MonoBehaviour
     // DebugLines
     protected void DrawLine(FixVec3 pointA, FixVec3 pointB, Color color)
     {
-        if (Draw)
+        if (Draw && Thread.CurrentThread == mainThread)
             Debug.DrawLine(FixConverter.ToFixVec3(pointA), FixConverter.ToFixVec3(pointB), color, 10000f, false);
     }
 
     protected void DrawLineShort(FixVec3 pointA, FixVec3 pointB, Color color)
     {
-        if (Draw)
-            Debug.DrawLine(FixConverter.ToFixVec3(pointA), FixConverter.ToFixVec3(pointB), color, Time.fixedDeltaTime, false);
+        if (Draw && Thread.CurrentThread == mainThread)
+            Debug.DrawLine(FixConverter.ToFixVec3(pointA), FixConverter.ToFixVec3(pointB), color, 0.0001f, false);
     }
 }

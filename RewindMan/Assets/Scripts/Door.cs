@@ -11,7 +11,6 @@ public class Door : MonoBehaviour
 
         set {
             open = value;
-            animator.SetBool("Open", open);
             collider.Enabled = !open;
         }
     }
@@ -22,5 +21,10 @@ public class Door : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         collider = GetComponent<FixCollider>();
+    }
+
+    private void Update()
+    {
+        animator.SetBool("Open", open);
     }
 }

@@ -26,16 +26,28 @@ namespace FixPhysics
 
         public override void Update()
         {
+            base.Update();
             if (state.collided)
             {
-                door.Open = true;
                 foreach(Light light in lights)
                     light.enabled = true;
             } else
             {
-                door.Open = false;
                 foreach (Light light in lights)
                     light.enabled = false;
+            }
+            ThreadSafeUpdate();
+        }
+
+        public void ThreadSafeUpdate()
+        {
+            if (state.collided)
+            {
+                door.Open = true;
+            }
+            else
+            {
+                door.Open = false;
             }
         }
 
@@ -47,13 +59,13 @@ namespace FixPhysics
                 {
                     state.collided = true;
                 }
-            Update();
+            ThreadSafeUpdate();
         }
 
         void Free()
         {
             state.collided = false;
-            Update();
+            ThreadSafeUpdate();
         }
     }
 }

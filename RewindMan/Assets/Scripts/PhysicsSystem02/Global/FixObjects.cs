@@ -4,6 +4,7 @@ using FixedPointy;
 using System.Linq;
 using UnityEngine.SceneManagement;
 using TMPro;
+using System.Threading.Tasks;
 
 namespace FixPhysics
 {
@@ -27,12 +28,13 @@ namespace FixPhysics
                 int objectCount = recordedObjects.Length;
                 debugText.text = SceneManager.GetActiveScene().name + "\n" +
                 "Recorded Objects: " + objectCount + "\n" +
+                "Colliders " + colliders.Length + "\n" +
                 "PreRecords / object: " + recordNumber + "\n" +
                 "Cache records / object: " + cache + "\n" +
                 "Cache + Pre Records / object: " + (recordNumber + cache) + "\n" +
                 "PreRecords: " + (objectCount * recordNumber) + "\n" +
                 "Cache records: " + (objectCount * cache) + "\n" +
-                "Cache + Pre Records: " + (objectCount * (recordNumber + cache));
+                "Cache + Pre Records: " + (objectCount * (recordNumber + cache)) + "\n";
             }
         }
 
@@ -108,6 +110,11 @@ namespace FixPhysics
             {
                 objects[i].Move();
             }
+                AsyncCollisionDetection();
+        }
+
+        void SyncCollisionDetection()
+        {
             for (int i = 0; i < collidables.Length; i++)
             {
                 List<Collision> collisions = new List<Collision>();
@@ -119,6 +126,30 @@ namespace FixPhysics
                 }
                 collidables[i].Collide(collisions.ToArray());
             }
+        }
+
+        void AsyncCollisionDetection()
+        {
+            List<Task> tasks = new List<Task>();
+            for (int i = 0; i < collidables.Length; i++)
+            {
+                CollidableObject collidable = collidables[i];
+                Task task = Task.Factory.StartNew(() => CollisionDetection(collidable));
+                tasks.Add(task);
+            }
+            Task.WaitAll(tasks.ToArray());
+        }
+
+        void CollisionDetection(CollidableObject collidable)
+        {
+            List<Collision> collisions = new List<Collision>();
+            for (int j = colliders.Length - 1; j >= 0; j--)
+            {
+                Collision collision = collidable.GetCollision(colliders[j]);
+                if (collision != null)
+                    collisions.Add(collision);
+            }
+            collidable.Collide(collisions.ToArray());
         }
 
         public void Record()
