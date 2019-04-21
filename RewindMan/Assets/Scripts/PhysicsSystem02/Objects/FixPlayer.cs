@@ -26,6 +26,11 @@ namespace FixPhysics
             fixObject = GetComponent<ControllableRigidObject>();
         }
 
+        public int getRecordNumber()
+        {
+            return fixObject.recordsNumber;
+        }
+
         private void Update()
         {
             int collected = 0;

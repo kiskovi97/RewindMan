@@ -14,6 +14,7 @@ namespace FixPhysics
         public void Push(Fix time)
         {
             timeRecord.Push(time);
+            if (recordUIList != null)
             recordUIList.SetByList(timeRecord);
         }
 
@@ -33,7 +34,8 @@ namespace FixPhysics
                     timeRecord.Push(fromTime);
                 }
             }
-            recordUIList.SetByList(timeRecord);
+            if (recordUIList != null)
+                recordUIList.SetByList(timeRecord);
             return fromTime;
         }
     }

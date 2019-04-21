@@ -2,17 +2,39 @@
 using System.Collections.Generic;
 using FixedPointy;
 using System.Linq;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 namespace FixPhysics
 {
     public class FixObjects : MonoBehaviour
     {
+        public bool DebugText = false;
+        public TextMeshProUGUI debugText;
         private FixCollider[] colliders;
         private FixPlayer fixPlayer;
         private FixAI[] fixAIs;
         private MovingObject[] objects;
         private IRecordedObject[] recordedObjects;
         private CollidableObject[] collidables;
+
+        void TextUpdate()
+        {
+            if (debugText != null)
+            {
+                int cache = CacheSize();
+                int recordNumber = fixPlayer.getRecordNumber();
+                int objectCount = recordedObjects.Length;
+                debugText.text = SceneManager.GetActiveScene().name + "\n" +
+                "Recorded Objects: " + objectCount + "\n" +
+                "PreRecords / object: " + recordNumber + "\n" +
+                "Cache records / object: " + cache + "\n" +
+                "Cache + Pre Records / object: " + (recordNumber + cache) + "\n" +
+                "PreRecords: " + (objectCount * recordNumber) + "\n" +
+                "Cache records: " + (objectCount * cache) + "\n" +
+                "Cache + Pre Records: " + (objectCount * (recordNumber + cache));
+            }
+        }
 
         // Use this for initialization
         void Start()
@@ -31,6 +53,11 @@ namespace FixPhysics
             recordedObjects = list.ToArray();
         }
 
+        private void Update()
+        {
+            TextUpdate();
+        }
+
         public bool CahceIsEmpty()
         {
             int min = -1;
@@ -40,6 +67,18 @@ namespace FixPhysics
                 if ((actual >= 0) && (actual < min || min < 0)) min = actual;
             }
             return min == 0;
+        }
+
+        private int CacheSize()
+        {
+            if (recordedObjects == null) return 0;
+            int min = -1;
+            for (int i = 0; i < recordedObjects.Length; i++)
+            {
+                int actual = recordedObjects[i].CacheSize();
+                if ((actual >= 0) && (actual < min || min < 0)) min = actual;
+            }
+            return min;
         }
 
         public void SetFromCache()
