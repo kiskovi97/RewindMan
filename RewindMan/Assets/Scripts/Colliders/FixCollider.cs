@@ -8,6 +8,8 @@ public abstract class FixCollider : MonoBehaviour
     public bool Draw = false;
     public bool Enabled = true;
     public bool isStatic = true;
+    public float massIn = 1f;
+    public Fix mass = 1;
     private FixVec3 position;
     private FixVec3 velocity;
     private string myTag;
@@ -18,6 +20,7 @@ public abstract class FixCollider : MonoBehaviour
         velocity = FixVec3.Zero;
         position = FixConverter.ToFixVec3(transform.position);
         myTag = tag;
+        mass = FixConverter.ToFix(massIn);
     }
 
     public void SetPositionAndVelocity(FixVec3 position, FixVec3 velocity)
@@ -36,7 +39,7 @@ public abstract class FixCollider : MonoBehaviour
         if (!Enabled) return null;
         Collision collision = Collide(other);
         if (collision != null)
-            collision.SetObjectsValues(velocity, isStatic, position, myTag);
+            collision.SetObjectsValues(velocity, isStatic, position, myTag, mass);
         return collision;
     }
 

@@ -115,11 +115,15 @@ namespace FixPhysics
         {
             FixVec3 N = collision.Normal;
             // Direction
-            FixVec3 velocity = state.velocity + FixMath.Abs(2 * state.velocity.Dot(N)) * N;
-            // Impulse
-            velocity = ((velocity + collision.savedVelocity) / 2) * impulseLoseCoefficent;
+            FixVec3 velocity = state.velocity; // + FixMath.Abs(2 * state.velocity.Dot(N)) * N;
 
-            VelocityCorrection(velocity);
+            Fix mass = collidable.GetMass();
+            Fix otherMass = collision.mass;
+            if (collision.Normal.Y < 0) otherMass = 0;
+            // Impulse
+            velocity = ((velocity * mass + collision.savedVelocity * otherMass) / (mass + otherMass));
+
+            VelocityCorrection(velocity * impulseLoseCoefficent + state.velocity * (1-impulseLoseCoefficent));
         }
 
         private void OverlapCorrection(Collision collision)

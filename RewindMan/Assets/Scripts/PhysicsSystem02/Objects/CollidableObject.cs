@@ -17,6 +17,11 @@ namespace FixPhysics
             fixCollider = GetComponent<FixCollider>();
         }
 
+        public Fix GetMass()
+        {
+            return fixCollider.mass;
+        }
+
         // Use this for initialization
         void Start()
         {
